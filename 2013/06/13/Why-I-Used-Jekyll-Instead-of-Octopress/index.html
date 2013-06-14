@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Why I used Jekyll instead of Octopress</title>
+    <title>Why I used Jekyll-bootstrap instead of Octopress</title>
     
     <meta name="author" content="Name Lastname">
 
@@ -37,7 +37,7 @@
     <div class="navbar">
       <div class="navbar-inner">
         <div class="container-narrow">
-          <a class="brand" href="/">Salmon says...</a>
+          <a class="brand" href="/">Salmon Blog</a>
           <ul class="nav">
             
             
@@ -106,7 +106,7 @@
       <div class="content">
         
 <div class="page-header">
-  <h1>Why I used Jekyll instead of Octopress </h1>
+  <h1>Why I used Jekyll-bootstrap instead of Octopress </h1>
 </div>
 
 <div class="row-fluid post-full">
@@ -117,6 +117,8 @@
     <div class="content">
       <p>I saw the beautiful blog made by my friend and I was amazed. However I faced a lot of problems when I installed both Jekyll and Octopress. Below is some examples:</p>
 
+<h4 id='problem_1'>Problem 1</h4>
+
 <pre><code>Building native extensions.  This could take a while...
 ERROR:  Error installing jekyll:
 ERROR: Failed to build gem native extension.
@@ -126,20 +128,38 @@ ERROR: Failed to build gem native extension.
 from /usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require&#39;
 from extconf.rb:1:in `&lt;main&gt;&#39;</code></pre>
 
-<p>Solution: sudo apt-get install ruby1.9.1-dev</p>
+<h4 id='solution_1'>Solution 1</h4>
+
+<pre><code>sudo apt-get install ruby1.9.1-dev</code></pre>
+
+<h4 id='problem_2'>Problem 2</h4>
 
 <pre><code>Bundler::GemfileNotFound</code></pre>
 
-<p>Solution: find the Gemfile by command: locate Gemfile cd into the directory</p>
+<h4 id='solution_2'>Solution 2</h4>
+
+<p>find the Gemfile by command:</p>
+
+<pre><code>locate Gemfile</code></pre>
+
+<p>cd into the directory</p>
+
+<h4 id='problem_3'>Problem 3</h4>
 
 <pre><code>rake aborted!
 You have already activated rake 0.9.6, but your Gemfile requires rake 0.9.2.2.</code></pre>
 
-<p>Solution: run command $ bundle exec rake install Apply to all the incidents when rake is aborted.</p>
+<h4 id='solution_3'>Solution 3</h4>
 
-<p>Then the final boss came and I was unable to configure the rake such that it can point to my github local repo. Sad&#8230;</p>
+<p>run command</p>
 
-<p>Now I switch to <code>Jekyll Bootstrap</code>. Hopefully it is a better solution. Hopefully it was not because I was not technical enough.</p>
+<pre><code>$ bundle exec rake install</code></pre>
+
+<p>Apply to all the incidents when rake is aborted.</p>
+
+<p>Finally the big boss came and I was unable to configure the rake such that it can point to my github local repo. Sad&#8230;</p>
+
+<p>Now I switch to <code>Jekyll Bootstrap</code>. Hopefully it is a better solution. Hopefully it was not because I was noob.</p>
     </div>
 
     

@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0">
 <channel>
-        <title>Salmon says...</title>
-        <description>Salmon says... - Name Lastname</description>
+        <title>Salmon Blog</title>
+        <description>Salmon Blog - Name Lastname</description>
         <link>http://username.github.io</link>
         <link>http://username.github.io</link>
-        <lastBuildDate>2013-06-14T00:10:13+08:00</lastBuildDate>
-        <pubDate>2013-06-14T00:10:13+08:00</pubDate>
+        <lastBuildDate>2013-06-14T23:14:57+08:00</lastBuildDate>
+        <pubDate>2013-06-14T23:14:57+08:00</pubDate>
         <ttl>1800</ttl>
 
 
         <item>
-                <title>Why I used Jekyll instead of Octopress</title>
+                <title>Why I used Jekyll-bootstrap instead of Octopress</title>
                 <description>&lt;p&gt;I saw the beautiful blog made by my friend and I was amazed. However I faced a lot of problems when I installed both Jekyll and Octopress. Below is some examples:&lt;/p&gt;
+
+&lt;h4 id='problem_1'&gt;Problem 1&lt;/h4&gt;
 
 &lt;pre&gt;&lt;code&gt;Building native extensions.  This could take a while...
 ERROR:  Error installing jekyll:
@@ -23,20 +25,38 @@ ERROR: Failed to build gem native extension.
 from /usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require&amp;#39;
 from extconf.rb:1:in `&amp;lt;main&amp;gt;&amp;#39;&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Solution: sudo apt-get install ruby1.9.1-dev&lt;/p&gt;
+&lt;h4 id='solution_1'&gt;Solution 1&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo apt-get install ruby1.9.1-dev&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id='problem_2'&gt;Problem 2&lt;/h4&gt;
 
 &lt;pre&gt;&lt;code&gt;Bundler::GemfileNotFound&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Solution: find the Gemfile by command: locate Gemfile cd into the directory&lt;/p&gt;
+&lt;h4 id='solution_2'&gt;Solution 2&lt;/h4&gt;
+
+&lt;p&gt;find the Gemfile by command:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;locate Gemfile&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;cd into the directory&lt;/p&gt;
+
+&lt;h4 id='problem_3'&gt;Problem 3&lt;/h4&gt;
 
 &lt;pre&gt;&lt;code&gt;rake aborted!
 You have already activated rake 0.9.6, but your Gemfile requires rake 0.9.2.2.&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Solution: run command $ bundle exec rake install Apply to all the incidents when rake is aborted.&lt;/p&gt;
+&lt;h4 id='solution_3'&gt;Solution 3&lt;/h4&gt;
 
-&lt;p&gt;Then the final boss came and I was unable to configure the rake such that it can point to my github local repo. Sad&amp;#8230;&lt;/p&gt;
+&lt;p&gt;run command&lt;/p&gt;
 
-&lt;p&gt;Now I switch to &lt;code&gt;Jekyll Bootstrap&lt;/code&gt;. Hopefully it is a better solution. Hopefully it was not because I was not technical enough.&lt;/p&gt;</description>
+&lt;pre&gt;&lt;code&gt;$ bundle exec rake install&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Apply to all the incidents when rake is aborted.&lt;/p&gt;
+
+&lt;p&gt;Finally the big boss came and I was unable to configure the rake such that it can point to my github local repo. Sad&amp;#8230;&lt;/p&gt;
+
+&lt;p&gt;Now I switch to &lt;code&gt;Jekyll Bootstrap&lt;/code&gt;. Hopefully it is a better solution. Hopefully it was not because I was noob.&lt;/p&gt;</description>
                 <link>http://username.github.io/2013/06/13/Why-I-Used-Jekyll-Instead-of-Octopress</link>
                 <guid>http://username.github.io/2013/06/13/Why-I-Used-Jekyll-Instead-of-Octopress</guid>
                 <pubDate>2013-06-13T00:00:00+08:00</pubDate>
