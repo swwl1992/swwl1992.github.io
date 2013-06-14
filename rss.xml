@@ -5,14 +5,14 @@
         <description>Salmon Blog - Name Lastname</description>
         <link>http://username.github.io</link>
         <link>http://username.github.io</link>
-        <lastBuildDate>2013-06-14T23:14:57+08:00</lastBuildDate>
-        <pubDate>2013-06-14T23:14:57+08:00</pubDate>
+        <lastBuildDate>2013-06-14T23:19:58+08:00</lastBuildDate>
+        <pubDate>2013-06-14T23:19:58+08:00</pubDate>
         <ttl>1800</ttl>
 
 
         <item>
                 <title>Why I used Jekyll-bootstrap instead of Octopress</title>
-                <description>&lt;p&gt;I saw the beautiful blog made by my friend and I was amazed. However I faced a lot of problems when I installed both Jekyll and Octopress. Below is some examples:&lt;/p&gt;
+                <description>&lt;p&gt;I saw the beautiful blog made by my friend and I was amazed. However I faced a lot of problems when I installed both Jekyll and Octopress. Below are some examples:&lt;/p&gt;
 
 &lt;h4 id='problem_1'&gt;Problem 1&lt;/h4&gt;
 
