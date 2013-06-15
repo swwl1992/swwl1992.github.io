@@ -4,11 +4,11 @@
  <title>Salmon Blog</title>
  <link href="http://username.github.io/" rel="self"/>
  <link href="http://username.github.io"/>
- <updated>2013-06-14T23:19:58+08:00</updated>
+ <updated>2013-06-16T01:46:49+08:00</updated>
  <id>http://username.github.io</id>
  <author>
-   <name>Name Lastname</name>
-   <email>blah@email.test</email>
+   <name>Simon Wan Wenli</name>
+   <email>private</email>
  </author>
 
  
@@ -17,7 +17,9 @@
    <link href="http://username.github.io/2013/06/13/Why-I-Used-Jekyll-Instead-of-Octopress"/>
    <updated>2013-06-13T00:00:00+08:00</updated>
    <id>http://username.github.io/2013/06/13/Why-I-Used-Jekyll-Instead-of-Octopress</id>
-   <content type="html">&lt;p&gt;I saw the beautiful blog made by my friend and I was amazed. However I faced a lot of problems when I installed both Jekyll and Octopress. Below are some examples:&lt;/p&gt;
+   <content type="html">&lt;p&gt;I was amazed by the beautiful blog made by my friend. He suggested me use &lt;code&gt;Octopress&lt;/code&gt; or &lt;code&gt;Jekyll&lt;/code&gt;. However I faced a lot of problems when I tried to install both of them.&lt;/p&gt;
+
+&lt;p&gt;Below are some examples:&lt;/p&gt;
 
 &lt;h4 id='problem_1'&gt;Problem 1&lt;/h4&gt;
 

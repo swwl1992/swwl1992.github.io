@@ -2,17 +2,19 @@
 <rss version="2.0">
 <channel>
         <title>Salmon Blog</title>
-        <description>Salmon Blog - Name Lastname</description>
+        <description>Salmon Blog - Simon Wan Wenli</description>
         <link>http://username.github.io</link>
         <link>http://username.github.io</link>
-        <lastBuildDate>2013-06-14T23:19:58+08:00</lastBuildDate>
-        <pubDate>2013-06-14T23:19:58+08:00</pubDate>
+        <lastBuildDate>2013-06-16T01:46:49+08:00</lastBuildDate>
+        <pubDate>2013-06-16T01:46:49+08:00</pubDate>
         <ttl>1800</ttl>
 
 
         <item>
                 <title>Why I used Jekyll-bootstrap instead of Octopress</title>
-                <description>&lt;p&gt;I saw the beautiful blog made by my friend and I was amazed. However I faced a lot of problems when I installed both Jekyll and Octopress. Below are some examples:&lt;/p&gt;
+                <description>&lt;p&gt;I was amazed by the beautiful blog made by my friend. He suggested me use &lt;code&gt;Octopress&lt;/code&gt; or &lt;code&gt;Jekyll&lt;/code&gt;. However I faced a lot of problems when I tried to install both of them.&lt;/p&gt;
+
+&lt;p&gt;Below are some examples:&lt;/p&gt;
 
 &lt;h4 id='problem_1'&gt;Problem 1&lt;/h4&gt;
 
