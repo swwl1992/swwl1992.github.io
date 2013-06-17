@@ -8,5 +8,5 @@ http://username.github.io/sitemap.txt
 http://username.github.io/tags.html
 http://username.github.io/atom.xml
 
-http://username.github.io/2013/06/13/Why-I-Used-Jekyll-Instead-of-Octopress
-http://username.github.io/lessons/2011/12/29/jekyll-introduction
+http://username.github.io/it/2013/06/13/Why-I-Used-Jekyll-Instead-of-Octopress
+http://username.github.io/it/2011/12/29/jekyll-introduction

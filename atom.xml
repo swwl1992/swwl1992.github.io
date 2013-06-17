@@ -4,7 +4,7 @@
  <title>Salmon Blog</title>
  <link href="http://username.github.io/" rel="self"/>
  <link href="http://username.github.io"/>
- <updated>2013-06-16T23:34:34+08:00</updated>
+ <updated>2013-06-17T21:12:01+08:00</updated>
  <id>http://username.github.io</id>
  <author>
    <name>Simon Wan Wenli</name>
@@ -14,9 +14,9 @@
  
  <entry>
    <title>Why I used Jekyll-bootstrap instead of Octopress</title>
-   <link href="http://username.github.io/2013/06/13/Why-I-Used-Jekyll-Instead-of-Octopress"/>
+   <link href="http://username.github.io/it/2013/06/13/Why-I-Used-Jekyll-Instead-of-Octopress"/>
    <updated>2013-06-13T00:00:00+08:00</updated>
-   <id>http://username.github.io/2013/06/13/Why-I-Used-Jekyll-Instead-of-Octopress</id>
+   <id>http://username.github.io/it/2013/06/13/Why-I-Used-Jekyll-Instead-of-Octopress</id>
    <content type="html">&lt;p&gt;I was amazed by the beautiful blog made by my friend. He suggested me use &lt;code&gt;Octopress&lt;/code&gt; or &lt;code&gt;Jekyll&lt;/code&gt;. However I faced a lot of problems when I tried to install both of them.&lt;/p&gt;
 
 &lt;p&gt;Below are some examples:&lt;/p&gt;
@@ -68,9 +68,9 @@ You have already activated rake 0.9.6, but your Gemfile requires rake 0.9.2.2.&l
  
  <entry>
    <title>Jekyll Introduction</title>
-   <link href="http://username.github.io/lessons/2011/12/29/jekyll-introduction"/>
+   <link href="http://username.github.io/it/2011/12/29/jekyll-introduction"/>
    <updated>2011-12-29T00:00:00+08:00</updated>
-   <id>http://username.github.io/lessons/2011/12/29/jekyll-introduction</id>
+   <id>http://username.github.io/it/2011/12/29/jekyll-introduction</id>
    <content type="html">&lt;p&gt;This Jekyll introduction will outline specifically what Jekyll is and why you would want to use it. Directly following the intro we&amp;#8217;ll learn exactly &lt;em&gt;how&lt;/em&gt; Jekyll does what it does.&lt;/p&gt;
 
 &lt;h2 id='overview'&gt;Overview&lt;/h2&gt;
