@@ -5,10 +5,18 @@
         <description>Salmon Blog - Ilnew Naw Nomis</description>
         <link>http://username.github.io</link>
         <link>http://username.github.io</link>
-        <lastBuildDate>2013-06-19T21:50:37+08:00</lastBuildDate>
-        <pubDate>2013-06-19T21:50:37+08:00</pubDate>
+        <lastBuildDate>2013-06-19T22:21:19+08:00</lastBuildDate>
+        <pubDate>2013-06-19T22:21:19+08:00</pubDate>
         <ttl>1800</ttl>
 
+
+        <item>
+                <title>Bootstrap, bootstrap everywhere</title>
+                <description>&lt;img class='img-rounded' src='/assets/img/bootstrap-everywhere.jpg' /&gt;</description>
+                <link>http://username.github.io/tech/2013/06/19/Bootstrap-Everywhere</link>
+                <guid>http://username.github.io/tech/2013/06/19/Bootstrap-Everywhere</guid>
+                <pubDate>2013-06-19T00:00:00+08:00</pubDate>
+        </item>
 
         <item>
                 <title>Why I used Jekyll-bootstrap instead of Octopress</title>
