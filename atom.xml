@@ -4,7 +4,7 @@
  <title>Salmon Blog</title>
  <link href="http://username.github.io/" rel="self"/>
  <link href="http://username.github.io"/>
- <updated>2013-06-19T22:21:19+08:00</updated>
+ <updated>2013-06-21T22:13:40+08:00</updated>
  <id>http://username.github.io</id>
  <author>
    <name>Ilnew Naw Nomis</name>
@@ -17,7 +17,11 @@
    <link href="http://username.github.io/tech/2013/06/19/Bootstrap-Everywhere"/>
    <updated>2013-06-19T00:00:00+08:00</updated>
    <id>http://username.github.io/tech/2013/06/19/Bootstrap-Everywhere</id>
-   <content type="html">&lt;img class='img-rounded' src='/assets/img/bootstrap-everywhere.jpg' /&gt;</content>
+   <content type="html">&lt;p&gt;In layman&amp;#8217;s terms, bootstrap is a CSS framework which is designed to make web development easier. At the same time, it makes the websites look similar. If the framework is used without any customization, the produced websites will look almost in the same style.&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt='image load failure' src='/assets/img/bootstrap-everywhere.jpg' /&gt;&lt;/p&gt;
+
+&lt;p&gt;Anyway, I do not say twitter bootstrap is bad. Even this blog uses this framework. Imagine if I built the CSS from scratch, perhaps I have not finished writing it.&lt;/p&gt;</content>
  </entry>
  
  <entry>
