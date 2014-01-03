@@ -44,7 +44,12 @@
 <div>
 <h3>Introduction</h3>
 
-<h3>Ocaml type system</h3>
+<p>When asked the differences between the Ocaml&#39;s type system and Java&#39;s,
+I realized that I did not understand them well.
+Therefore, I did some research about these two type systems and
+posted the result as this blog.</p>
+
+<h3>Ocaml Type System</h3>
 
 <p>The ML languages are statically and strictly typed.
 In addition, every expression has exactly one type.
@@ -83,7 +88,7 @@ here are some rules about type checking.</p>
 <li>When an expression is evaluated, one of the four things may happen:
 
 <ul>
-<li>it may evaluate to a <code>value</code> of the same type as the expression,</li>
+<li>it may evaluate to a value of the same type as the expression,</li>
 <li>it may raise an exception,</li>
 <li>it may not terminate,</li>
 <li>it may exit.</li>
@@ -102,7 +107,101 @@ Below let us see some examples of how Ocaml type system works:</p>
 <span class="lineno">4</span>       <span class="mi">1</span><span class="o">.</span><span class="mi">3</span>
 </code></pre></div>
 
+<p>When compiling the code,
+the compilor would tell you there is a type error on line 4,
+characters 3-6. This is because the type checker requires that
+both branches of the conditional statement have the same type
+no matter how the test turns out.
+Since the expressions <code>1</code> and <code>1.3</code> have different types,
+the type checker generates an error.</p>
+
+<h3>A Strong Static Language: Java</h3>
+
+<p>Java is considered one of the most static languages,
+but it implemented a comprehensive reflection API which
+allows you to change classes at run time,
+thus resembling more dynamic languages.
+This feature enables Java Virtue Machine (JVM)
+to support very dynamic languages such as Groovy.</p>
+
+<p>Java needs everything to be defined so that
+you know all the time what type of object you have and
+whether you call them properly.
+In addition,
+Java does not allow code outside of a class.
+It has been a major reason why people complain that
+Java forces you to write too much boilerplate.</p>
+
+<p>The popularity of Java and its strong adherence to strong typing
+made a huge impact on the programming landscape.
+Strong typing advocates lauded Java for fixing the cracks in C++.
+But many programmers found Java overly prescriptive and rigid.
+They wanted a fast way to write code without all of the extra definition of Java.
+As a result, strong dynamic typing languages,
+such as JavaScript, Python and Ruby, are becoming more and more popular
+in recent years.</p>
+
 <h3>What are their differences?</h3>
+
+<p>Firstly, Ocaml and Java are both to static and strong typing language.
+They both have primitive, array and class types.
+(The standard ML language does not support class types but 
+Objective-caml does.)
+However Java and Ocaml do have some differences in their type systems.
+Ocaml is a functional language and
+a function can be passed as a argument,
+commonly known as higher order functions.
+The type of a function is defined by both its input and output type.
+For example in the chunck of code below,</p>
+
+<div class="highlight"><pre><code class="ocaml"><span class="lineno">1</span>   <span class="k">let</span> <span class="n">square</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="o">;</span>
+<span class="lineno">2</span>   <span class="k">val</span> <span class="n">square</span> <span class="o">:</span> <span class="kt">int</span> <span class="o">-&gt;</span> <span class="kt">int</span> <span class="o">=</span> <span class="o">&lt;</span><span class="k">fun</span><span class="o">&gt;</span>
+</code></pre></div>
+
+<p><code>square</code> is a function that takes an integer and returns an integer.
+Most importantly,
+square can be passed to another function as an input.
+However it is not done as natural in Java.
+In Java it is usually done by wrapping the function within an interface
+as below:</p>
+
+<div class="highlight"><pre><code class="java"><span class="lineno">1</span>   <span class="kd">public</span> <span class="kt">int</span> <span class="nf">methodToPass</span><span class="o">()</span> <span class="o">{</span>
+<span class="lineno">2</span>       <span class="c1">// do something</span>
+<span class="lineno">3</span>   <span class="o">}</span>
+<span class="lineno">4</span> 
+<span class="lineno">5</span>   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">dansMethod</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="n">Callable</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">myFunc</span><span class="o">)</span> <span class="o">{</span>
+<span class="lineno">6</span>       <span class="c1">// do something</span>
+<span class="lineno">7</span>   <span class="o">}</span>
+</code></pre></div>
+
+<p>then use a inner class to call the method <code>methodToPass</code> as shown below:</p>
+
+<div class="highlight"><pre><code class="java"><span class="lineno">1</span>   <span class="n">dansMethod</span><span class="o">(</span><span class="mi">100</span><span class="o">,</span> <span class="k">new</span> <span class="n">Callable</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;()</span> <span class="o">{</span>
+<span class="lineno">2</span>       <span class="kd">public</span> <span class="n">Integer</span> <span class="nf">call</span><span class="o">()</span> <span class="o">{</span>
+<span class="lineno">3</span>           <span class="k">return</span> <span class="nf">methodToPass</span><span class="o">();</span>
+<span class="lineno">4</span>       <span class="o">}</span>
+<span class="lineno">5</span>   <span class="o">});</span>
+</code></pre></div>
+
+<p>Next, pattern matching is something unique to Ocaml compared to Java.
+A similar feature (not exactly the same) in Java is <code>switch</code> statement.</p>
+
+<div class="highlight"><pre><code class="ocaml"><span class="lineno">1</span>   <span class="k">let</span> <span class="k">rec</span> <span class="n">sigma</span> <span class="n">f</span> <span class="o">=</span> <span class="k">function</span>
+<span class="lineno">2</span>       <span class="o">|</span> <span class="bp">[]</span> <span class="o">-&gt;</span> <span class="mi">0</span>
+<span class="lineno">3</span>       <span class="o">|</span> <span class="n">x</span> <span class="o">::</span> <span class="n">l</span> <span class="o">-&gt;</span> <span class="n">f</span> <span class="n">x</span> <span class="o">+</span> <span class="n">sigma</span> <span class="n">f</span> <span class="n">l</span><span class="o">;;</span>
+<span class="lineno">4</span>   <span class="k">val</span> <span class="n">sigma</span> <span class="o">:</span> <span class="o">(</span><span class="k">&#39;</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">int</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="k">&#39;</span><span class="n">a</span> <span class="kt">list</span> <span class="o">-&gt;</span> <span class="kt">int</span> <span class="o">=</span> <span class="o">&lt;</span><span class="k">fun</span><span class="o">&gt;</span>    
+</code></pre></div>
+
+<h3>Conclusion</h3>
+
+<p>In summary,
+the type system of Java has lots of similarities compared to Ocaml.
+Still Java is one of the dominant and most popular programming languages.
+Please allow me to end this blog post with this simple hello world program
+in Ocaml.</p>
+
+<div class="highlight"><pre><code class="ocaml"><span class="lineno">1</span>   <span class="n">print_string</span> <span class="s2">&quot;hello world!&quot;</span>
+</code></pre></div>
 
 </div>
 </div>
