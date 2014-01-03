@@ -1,6 +1,5 @@
-###Salmon says
-==================
-Latest update:
+##Salmon says
 
-03 Jan 2014: Completely new format
-27 Dec 2013: New post
+Latest update:
+* 03 Jan 2014: Completely new format
+* 27 Dec 2013: New post
