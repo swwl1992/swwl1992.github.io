@@ -1,6 +1,5 @@
-###swwl1992.github.io
-==================
-Something to add in:
-* Nav bar on the right (about me, recommended, useful links)
-* Some format change on the posts
-* If possible, change the theme and color scheme.
+##Salmon says
+
+Latest update:
+* 03 Jan 2014: Completely new format
+* 27 Dec 2013: New post
