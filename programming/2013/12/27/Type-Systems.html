@@ -18,6 +18,16 @@
 					<h2>Becoming sushi is not my destiny.</h2>
 					</div>
 				</div>
+                <nav>
+                    <div id="menu_container">
+                        <ul id="nav" class="sf-menu">
+                            <li><a href="/">Home</a></li>
+                            <li><a href="http://apps.wanwenli.com">Salmon Apps</a></li>
+                            <li><a href="/categories.html">Categories</a></li>
+                            <li><a href="http://github.com/swwl1992">Me in Github</a></li>
+                        </ul>
+                    </div>
+                </nav>
 			</header>
 			<div id="site_content">
 				<div id="sidebar_container">
@@ -143,14 +153,16 @@ in recent years.</p>
 
 <h3>What are their differences?</h3>
 
-<p>Firstly, Ocaml and Java are both to static and strong typing language.
+<p>Anyway,
+there is no stronger or weaker type system between these two systems.
+Ocaml and Java are both to static and strong typing languages.
 They both have primitive, array and class types.
 (The standard ML language does not support class types but 
 Objective-caml does.)
 However Java and Ocaml do have some differences in their type systems.
 Ocaml is a functional language and
 a function can be passed as a argument,
-commonly known as higher order functions.
+known as higher order functions.
 The type of a function is defined by both its input and output type.
 For example in the chunck of code below,</p>
 
@@ -162,8 +174,8 @@ For example in the chunck of code below,</p>
 Most importantly,
 square can be passed to another function as an input.
 However it is not done as natural in Java.
-In Java it is usually done by wrapping the function within an interface
-as below:</p>
+In Java higher order function is usually done by
+wrapping the function within an interface as below:</p>
 
 <div class="highlight"><pre><code class="java"><span class="lineno">1</span>   <span class="kd">public</span> <span class="kt">int</span> <span class="nf">methodToPass</span><span class="o">()</span> <span class="o">{</span>
 <span class="lineno">2</span>       <span class="c1">// do something</span>
@@ -184,24 +196,20 @@ as below:</p>
 </code></pre></div>
 
 <p>Next, pattern matching is something unique to Ocaml compared to Java.
-A similar feature in Java is perhaps <code>switch</code> statement.</p>
+A similar feature in Java is perhaps <code>switch</code> statement.
+However it does not have many things to do with type system.</p>
 
 <div class="highlight"><pre><code class="ocaml"><span class="lineno">1</span>   <span class="k">let</span> <span class="k">rec</span> <span class="n">sigma</span> <span class="n">f</span> <span class="o">=</span> <span class="k">function</span>
 <span class="lineno">2</span>       <span class="o">|</span> <span class="bp">[]</span> <span class="o">-&gt;</span> <span class="mi">0</span>
 <span class="lineno">3</span>       <span class="o">|</span> <span class="n">x</span> <span class="o">::</span> <span class="n">l</span> <span class="o">-&gt;</span> <span class="n">f</span> <span class="n">x</span> <span class="o">+</span> <span class="n">sigma</span> <span class="n">f</span> <span class="n">l</span><span class="o">;;</span>
-<span class="lineno">4</span>   <span class="k">val</span> <span class="n">sigma</span> <span class="o">:</span> <span class="o">(</span><span class="k">&#39;</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">int</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="k">&#39;</span><span class="n">a</span> <span class="kt">list</span> <span class="o">-&gt;</span> <span class="kt">int</span> <span class="o">=</span> <span class="o">&lt;</span><span class="k">fun</span><span class="o">&gt;</span>    
+<span class="lineno">4</span>   <span class="k">val</span> <span class="n">sigma</span> <span class="o">:</span> <span class="o">(</span><span class="k">&#39;</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">int</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="k">&#39;</span><span class="n">a</span> <span class="kt">list</span> <span class="o">-&gt;</span> <span class="kt">int</span> <span class="o">=</span> <span class="o">&lt;</span><span class="k">fun</span><span class="o">&gt;</span>
 </code></pre></div>
 
 <h3>Conclusion</h3>
 
 <p>In summary,
 the type system of Java has lots of similarities compared to Ocaml.
-Still Java is one of the dominant and most popular programming languages.
-Please allow me to end this blog post with this simple hello world program
-in Ocaml.</p>
-
-<div class="highlight"><pre><code class="ocaml"><span class="lineno">1</span>   <span class="n">print_string</span> <span class="s2">&quot;hello world!&quot;</span>
-</code></pre></div>
+Still Java is one of the dominant and most popular programming languages.</p>
 
 </div>
 <div id="disqus_thread"></div>
@@ -222,11 +230,16 @@ in Ocaml.</p>
 			</div>				
 		</div>
 		<footer>
-			<p>&copy;
-			2014
-			<a rel="author" href="https://plus.google.com/104922911598414075400?rel=author">Simon Wan Wenli</a>
+			<p>
+                <a href="/">Home</a>
+                &nbsp;|&nbsp;<a href="http://apps.wanwenli.com">Salmon Apps</a>
+                &nbsp;|&nbsp;<a href="/categories.html">Categories</a>
+                &nbsp;|&nbsp;<a href="http://github.com/swwl1992">Me in Github</a>
 			</p>
-			<p>Copyright &copy; CSS3_two | <a href="http://www.css3templates.co.uk">design from css3templates.co.uk</a></p>
+			<p>Copyright &copy;  
+			    <a rel="author" href="https://plus.google.com/104922911598414075400?rel=author">Simon Wan Wenli</a>
+			&nbsp;2014
+            &nbsp;| Design from <a href="http://www.css3templates.co.uk">css3templates.co.uk</a></p>
 		</footer>
 	</body>
 </html>
