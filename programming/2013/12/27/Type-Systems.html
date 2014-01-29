@@ -205,6 +205,31 @@ However it does not have many things to do with type system.</p>
 <span class="lineno">4</span>   <span class="k">val</span> <span class="n">sigma</span> <span class="o">:</span> <span class="o">(</span><span class="k">&#39;</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">int</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="k">&#39;</span><span class="n">a</span> <span class="kt">list</span> <span class="o">-&gt;</span> <span class="kt">int</span> <span class="o">=</span> <span class="o">&lt;</span><span class="k">fun</span><span class="o">&gt;</span>
 </code></pre></div>
 
+<p>Last but not the least,
+type inference is a major difference between Ocaml and Java type systems.
+Most conventional static typing languages require programmers to restate the types of expressions.
+For example,
+the following Java code instantiates a method to increment an integer by 1.</p>
+
+<div class="highlight"><pre><code class="java"><span class="lineno">1</span> <span class="kt">int</span> <span class="nf">succ</span> <span class="o">(</span><span class="kt">int</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
+<span class="lineno">2</span>     <span class="k">return</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
+<span class="lineno">3</span> <span class="o">}</span>
+</code></pre></div>
+
+<p>In OCaml, all programs can be written such that the types they use are competely inferred, i.e.
+it is never necessary to explicitly define and declare types in OCaml.
+However, defining important types in a program is a good way to leverage static type checking by providing machine-checked documentation,
+improving error reporting and tightening the type system to catch more errors.</p>
+
+<p>The above Java code can be re-written as</p>
+
+<div class="highlight"><pre><code class="ocaml"><span class="lineno">1</span> <span class="k">let</span> <span class="n">succ</span> <span class="n">n</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;;</span>
+<span class="lineno">2</span> <span class="k">val</span> <span class="n">succ</span> <span class="o">:</span> <span class="kt">int</span> <span class="o">-&gt;</span> <span class="kt">int</span> <span class="o">=</span> <span class="o">&lt;</span><span class="k">fun</span><span class="o">&gt;</span>
+</code></pre></div>
+
+<p>OCaml infers that the function maps integers onto integers even though no types were declared.
+The inference was based upon the use of the integer operator + and the integer literal 1.</p>
+
 <h3>Conclusion</h3>
 
 <p>In summary,
