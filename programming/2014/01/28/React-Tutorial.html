@@ -51,7 +51,7 @@ To report an issue in the post,
 contact me through my Github account.
 Thank you for your feedbacks.</p>
 
-<h3>Using React package</h3>
+<h5>Using React package</h5>
 
 <p>For compilation</p>
 <div class="highlight"><pre><code class="text language-text" data-lang="text">ocamlfind ocamlopt -o clock -linkpkg \
@@ -62,7 +62,7 @@ Thank you for your feedbacks.</p>
 #require &quot;react&quot;;;
 open React;;
 </code></pre></div>
-<h3>Module <a href="http://erratique.ch/software/react/doc/React.E.html">React.E</a></h3>
+<h5>Module <a href="http://erratique.ch/software/react/doc/React.E.html">React.E</a></h5>
 
 <div class="highlight"><pre><code class="ocaml"><span class="k">val</span> <span class="n">once</span> <span class="o">:</span> <span class="k">&#39;</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="o">-&gt;</span> <span class="k">&#39;</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span>
 </code></pre></div>
@@ -270,7 +270,7 @@ the occurrences of e&#39; are then used until there is a new occurrence on ee, e
 
 <p>fix ef allows to refer to the value an event had an infinitesimal amount of time before.</p>
 
-<h3>Module <a href="http://erratique.ch/software/react/doc/React.S.html">React.S</a></h3>
+<h5>Module <a href="http://erratique.ch/software/react/doc/React.S.html">React.S</a></h5>
 
 <div class="highlight"><pre><code class="ocaml"><span class="k">val</span> <span class="n">hold</span> <span class="o">:</span> <span class="o">?</span><span class="n">eq</span><span class="o">:(</span><span class="k">&#39;</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">&#39;</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">bool</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="k">&#39;</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">&#39;</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="o">-&gt;</span> <span class="k">&#39;</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">signal</span>
 </code></pre></div>
@@ -303,7 +303,7 @@ For examples, l2 takes a function with two arguments as its input.</p>
 <span class="k">val</span> <span class="n">fl</span> <span class="o">:</span> <span class="kt">int</span> <span class="nn">React</span><span class="p">.</span><span class="n">signal</span> <span class="o">-&gt;</span> <span class="kt">int</span> <span class="nn">React</span><span class="p">.</span><span class="n">signal</span> <span class="o">-&gt;</span> <span class="kt">int</span> <span class="nn">React</span><span class="p">.</span><span class="n">signal</span> <span class="o">=</span> <span class="o">&lt;</span><span class="k">fun</span><span class="o">&gt;</span>
 </code></pre></div>
 
-<h3>Some other examples</h3>
+<h5>Some other examples</h5>
 
 <ul>
 <li><a href="https://github.com/dbuenzli/react/blob/master/test/clock.ml">Clock.ml</a></li>
