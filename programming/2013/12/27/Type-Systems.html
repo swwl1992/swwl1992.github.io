@@ -31,14 +31,14 @@
                         <div class="content"><h3>Differences between type systems of Ocaml & Java</h3>
 <b>27 Dec 2013</b>
 <div id="article">
-<h5>Introduction</h5>
+<h5 id="introduction">Introduction</h5>
 
-<p>When asked the differences between the Ocaml&#39;s type system and Java&#39;s,
+<p>When asked the differences between the Ocaml’s type system and Java’s,
 I realized that I did not understand them well.
 Therefore, I did some research about these two type systems and
 posted the result as this blog.</p>
 
-<h5>Ocaml Type System</h5>
+<h5 id="ocaml-type-system">Ocaml Type System</h5>
 
 <p>The ML languages are statically and strictly typed.
 In addition, every expression has exactly one type.
@@ -46,7 +46,7 @@ In contrast, C is a weakly-typed language:
 values of one type can usually coerced to a value of any other type,
 whether the coercion makes sense or not.</p>
 
-<p>What is &quot;safety&quot;?
+<p>What is “safety”?
 There is a formal definition based on the operational semantics of
 the programming language,
 but an approximte definition is that a valid program will never fault
@@ -57,7 +57,7 @@ passes the type checker can never produce a machine fault.
 Another functional language,
 Lisp which is dynamically and strictly typed,
 guarantees its safety by checking for validity at run time.
-One of the consequences is that ML has no <code>nil</code> or <code>NULL</code> values.
+One of the consequences is that ML has no <code class="highlighter-rouge">nil</code> or <code class="highlighter-rouge">NULL</code> values.
 These values would potentially cause mechine errors if used
 where a value is expected.</p>
 
@@ -73,39 +73,43 @@ At the meantime,
 here are some rules about type checking.</p>
 
 <ul>
-<li>Every expression has exactly one type.</li>
-<li>When an expression is evaluated, one of the four things may happen:
-
-<ul>
-<li>it may evaluate to a value of the same type as the expression,</li>
-<li>it may raise an exception,</li>
-<li>it may not terminate,</li>
-<li>it may exit.</li>
-</ul></li>
+  <li>Every expression has exactly one type.</li>
+  <li>When an expression is evaluated, one of the four things may happen:
+    <ul>
+      <li>it may evaluate to a value of the same type as the expression,</li>
+      <li>it may raise an exception,</li>
+      <li>it may not terminate,</li>
+      <li>it may exit.</li>
+    </ul>
+  </li>
 </ul>
 
 <p>One of the important points in Ocaml is that
-there are no &quot;pure commands&quot;.
-Every assignment produce a value
-- although the value has the trivial <code>unit</code> type.
-Below let us see some examples of how Ocaml type system works:</p>
+there are no “pure commands”.
+Every assignment produce a value</p>
+<ul>
+  <li>although the value has the trivial <code class="highlighter-rouge">unit</code> type.
+Below let us see some examples of how Ocaml type system works:</li>
+</ul>
 
-<div class="highlight"><pre><code class="ocaml"><span class="lineno">1</span>   <span class="k">if</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="k">then</span>
-<span class="lineno">2</span>       <span class="mi">1</span>
-<span class="lineno">3</span>   <span class="k">else</span>
-<span class="lineno">4</span>       <span class="mi">1</span><span class="o">.</span><span class="mi">3</span>
-</code></pre></div>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4</pre></td><td class="code"><pre>	<span class="k">if</span> <span class="mi">1</span> <span class="p">&lt;</span> <span class="mi">2</span> <span class="k">then</span>
+		<span class="mi">1</span>
+	<span class="k">else</span>
+		<span class="mi">1</span><span class="p">.</span><span class="mi">3</span><span class="w">
+</span></pre></td></tr></tbody></table></code></pre></figure>
 
 <p>When compiling the code,
 the compilor would tell you there is a type error on line 4,
 characters 3-6. This is because the type checker requires that
 both branches of the conditional statement have the same type
 no matter how the test turns out.
-Since the expressions <code>1</code> and <code>1.3</code> have different types,
+Since the expressions <code class="highlighter-rouge">1</code> and <code class="highlighter-rouge">1.3</code> have different types,
 the type checker generates an error.</p>
 
-<h5>A Strong Static Language: Java</h5>
-
+<h5 id="a-strong-static-language-java">A Strong Static Language: Java</h5>
 <p>Java is considered one of the most static languages,
 but it implemented a comprehensive reflection API which
 allows you to change classes at run time,
@@ -130,8 +134,7 @@ As a result, strong dynamic typing languages,
 such as JavaScript, Python and Ruby, are becoming more and more popular
 in recent years.</p>
 
-<h5>What are their differences?</h5>
-
+<h5 id="what-are-their-differences">What are their differences?</h5>
 <p>Anyway,
 there is no stronger or weaker type system between these two systems.
 Ocaml and Java are both to static and strong typing languages.
@@ -145,44 +148,58 @@ known as higher order functions.
 The type of a function is defined by both its input and output type.
 For example in the chunck of code below,</p>
 
-<div class="highlight"><pre><code class="ocaml"><span class="lineno">1</span>   <span class="k">let</span> <span class="n">square</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="o">;</span>
-<span class="lineno">2</span>   <span class="k">val</span> <span class="n">square</span> <span class="o">:</span> <span class="kt">int</span> <span class="o">-&gt;</span> <span class="kt">int</span> <span class="o">=</span> <span class="o">&lt;</span><span class="k">fun</span><span class="o">&gt;</span>
-</code></pre></div>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2</pre></td><td class="code"><pre>	<span class="k">let</span> <span class="n">square</span> <span class="n">x</span> <span class="p">=</span> <span class="n">x</span> <span class="p">*</span> <span class="n">x</span><span class="p">;</span>
+	<span class="k">val</span> <span class="n">square</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">-&gt;</span> <span class="kt">int</span> <span class="p">=</span> <span class="p">&lt;</span><span class="k">fun</span><span class="p">&gt;</span><span class="w">
+</span></pre></td></tr></tbody></table></code></pre></figure>
 
-<p><code>square</code> is a function that takes an integer and returns an integer.
+<p><code class="highlighter-rouge">square</code> is a function that takes an integer and returns an integer.
 Most importantly,
 square can be passed to another function as an input.
 However it is not done as natural in Java.
 In Java higher order function is usually done by
 wrapping the function within an interface as below:</p>
 
-<div class="highlight"><pre><code class="java"><span class="lineno">1</span>   <span class="kd">public</span> <span class="kt">int</span> <span class="nf">methodToPass</span><span class="o">()</span> <span class="o">{</span>
-<span class="lineno">2</span>       <span class="c1">// do something</span>
-<span class="lineno">3</span>   <span class="o">}</span>
-<span class="lineno">4</span> 
-<span class="lineno">5</span>   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">dansMethod</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="n">Callable</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">myFunc</span><span class="o">)</span> <span class="o">{</span>
-<span class="lineno">6</span>       <span class="c1">// do something</span>
-<span class="lineno">7</span>   <span class="o">}</span>
-</code></pre></div>
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7</pre></td><td class="code"><pre>  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">methodToPass</span><span class="o">()</span> <span class="o">{</span>
+		<span class="c1">// do something</span>
+	<span class="o">}</span>
 
-<p>then use a inner class to call the method <code>methodToPass</code> as shown below:</p>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">dansMethod</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="n">Callable</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">myFunc</span><span class="o">)</span> <span class="o">{</span>
+		<span class="c1">// do something</span>
+	<span class="o">}</span><span class="w">
+</span></pre></td></tr></tbody></table></code></pre></figure>
 
-<div class="highlight"><pre><code class="java"><span class="lineno">1</span>   <span class="n">dansMethod</span><span class="o">(</span><span class="mi">100</span><span class="o">,</span> <span class="k">new</span> <span class="n">Callable</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;()</span> <span class="o">{</span>
-<span class="lineno">2</span>       <span class="kd">public</span> <span class="n">Integer</span> <span class="nf">call</span><span class="o">()</span> <span class="o">{</span>
-<span class="lineno">3</span>           <span class="k">return</span> <span class="nf">methodToPass</span><span class="o">();</span>
-<span class="lineno">4</span>       <span class="o">}</span>
-<span class="lineno">5</span>   <span class="o">});</span>
-</code></pre></div>
+<p>then use a inner class to call the method <code class="highlighter-rouge">methodToPass</code> as shown below:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5</pre></td><td class="code"><pre>  <span class="n">dansMethod</span><span class="o">(</span><span class="mi">100</span><span class="o">,</span> <span class="k">new</span> <span class="n">Callable</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;()</span> <span class="o">{</span>
+		<span class="kd">public</span> <span class="n">Integer</span> <span class="nf">call</span><span class="o">()</span> <span class="o">{</span>
+			<span class="k">return</span> <span class="nf">methodToPass</span><span class="o">();</span>
+		<span class="o">}</span>
+	<span class="o">});</span><span class="w">
+</span></pre></td></tr></tbody></table></code></pre></figure>
 
 <p>Next, pattern matching is something unique to Ocaml compared to Java.
-A similar feature in Java is perhaps <code>switch</code> statement.
+A similar feature in Java is perhaps <code class="highlighter-rouge">switch</code> statement.
 However it does not have many things to do with type system.</p>
 
-<div class="highlight"><pre><code class="ocaml"><span class="lineno">1</span>   <span class="k">let</span> <span class="k">rec</span> <span class="n">sigma</span> <span class="n">f</span> <span class="o">=</span> <span class="k">function</span>
-<span class="lineno">2</span>       <span class="o">|</span> <span class="bp">[]</span> <span class="o">-&gt;</span> <span class="mi">0</span>
-<span class="lineno">3</span>       <span class="o">|</span> <span class="n">x</span> <span class="o">::</span> <span class="n">l</span> <span class="o">-&gt;</span> <span class="n">f</span> <span class="n">x</span> <span class="o">+</span> <span class="n">sigma</span> <span class="n">f</span> <span class="n">l</span><span class="o">;;</span>
-<span class="lineno">4</span>   <span class="k">val</span> <span class="n">sigma</span> <span class="o">:</span> <span class="o">(</span><span class="k">&#39;</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">int</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="k">&#39;</span><span class="n">a</span> <span class="kt">list</span> <span class="o">-&gt;</span> <span class="kt">int</span> <span class="o">=</span> <span class="o">&lt;</span><span class="k">fun</span><span class="o">&gt;</span>
-</code></pre></div>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4</pre></td><td class="code"><pre>	<span class="k">let</span> <span class="k">rec</span> <span class="n">sigma</span> <span class="n">f</span> <span class="p">=</span> <span class="k">function</span>
+		<span class="p">|</span> <span class="bp">[]</span> <span class="p">-&gt;</span> <span class="mi">0</span>
+		<span class="p">|</span> <span class="n">x</span> <span class="p">::</span> <span class="n">l</span> <span class="p">-&gt;</span> <span class="n">f</span> <span class="n">x</span> <span class="o">+</span> <span class="n">sigma</span> <span class="n">f</span> <span class="n">l</span><span class="p">;;</span>
+	<span class="k">val</span> <span class="n">sigma</span> <span class="p">:</span> <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="p">-&gt;</span> <span class="kt">int</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="kt">list</span> <span class="p">-&gt;</span> <span class="kt">int</span> <span class="p">=</span> <span class="p">&lt;</span><span class="k">fun</span><span class="p">&gt;</span><span class="w">
+</span></pre></td></tr></tbody></table></code></pre></figure>
 
 <p>Last but not the least,
 type inference is a major difference between Ocaml and Java type systems.
@@ -190,10 +207,12 @@ Most conventional static typing languages require programmers to restate the typ
 For example,
 the following Java code instantiates a method to increment an integer by 1.</p>
 
-<div class="highlight"><pre><code class="java"><span class="lineno">1</span> <span class="kt">int</span> <span class="nf">succ</span> <span class="o">(</span><span class="kt">int</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
-<span class="lineno">2</span>     <span class="k">return</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
-<span class="lineno">3</span> <span class="o">}</span>
-</code></pre></div>
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3</pre></td><td class="code"><pre><span class="kt">int</span> <span class="nf">succ</span> <span class="o">(</span><span class="kt">int</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
+<span class="o">}</span><span class="w">
+</span></pre></td></tr></tbody></table></code></pre></figure>
 
 <p>In OCaml, all programs can be written such that the types they use are competely inferred, i.e.
 it is never necessary to explicitly define and declare types in OCaml.
@@ -202,14 +221,15 @@ improving error reporting and tightening the type system to catch more errors.</
 
 <p>The above Java code can be re-written as</p>
 
-<div class="highlight"><pre><code class="ocaml"><span class="lineno">1</span> <span class="k">let</span> <span class="n">succ</span> <span class="n">n</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;;</span>
-<span class="lineno">2</span> <span class="k">val</span> <span class="n">succ</span> <span class="o">:</span> <span class="kt">int</span> <span class="o">-&gt;</span> <span class="kt">int</span> <span class="o">=</span> <span class="o">&lt;</span><span class="k">fun</span><span class="o">&gt;</span>
-</code></pre></div>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2</pre></td><td class="code"><pre><span class="k">let</span> <span class="n">succ</span> <span class="n">n</span> <span class="p">=</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;;</span>
+<span class="k">val</span> <span class="n">succ</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">-&gt;</span> <span class="kt">int</span> <span class="p">=</span> <span class="p">&lt;</span><span class="k">fun</span><span class="p">&gt;</span><span class="w">
+</span></pre></td></tr></tbody></table></code></pre></figure>
 
 <p>OCaml infers that the function maps integers onto integers even though no types were declared.
 The inference was based upon the use of the integer operator + and the integer literal 1.</p>
 
-<h5>Conclusion</h5>
+<h5 id="conclusion">Conclusion</h5>
 
 <p>In summary,
 the type system of Java has lots of similarities compared to Ocaml.
@@ -263,7 +283,7 @@ Still Java is one of the dominant and most popular programming languages.</p>
 			</div>
             <div class="footer-copyright">
 			    <div class="container"> <p>Copyright &copy; <b>Simon Wan Wenli</b>
-                    &nbsp;2015
+                    &nbsp;2016
                     &nbsp;| Design from <a class="grey-text text-lighten-3" href="http://materializecss.com/"><b>Materialize</b></a></p>
                 </div>
             </div>

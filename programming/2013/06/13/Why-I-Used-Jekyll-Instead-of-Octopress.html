@@ -32,49 +32,65 @@
 <b>13 Jun 2013</b>
 <div id="article">
 <p>I was amazed by the beautiful blog made by my friend. 
-He suggested me use <code>Octopress</code> or <code>Jekyll</code>.
-However I faced a lot of problems when I tried to install both of them. </p>
+He suggested me use <code class="highlighter-rouge">Octopress</code> or <code class="highlighter-rouge">Jekyll</code>.
+However I faced a lot of problems when I tried to install both of them.</p>
 
 <p>Below are some examples:</p>
 
-<h5>Problem 1</h5>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">Building native extensions.  This could take a while...
+<p>#####Problem 1</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Building native extensions.  This could take a while...
 ERROR:  Error installing jekyll:
 ERROR: Failed to build gem native extension.
 
 /usr/bin/ruby1.9.1 extconf.rb
-/usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require&#39;: cannot load such file -- mkmf (LoadError)
-from /usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require&#39;
-from extconf.rb:1:in `&lt;main&gt;&#39;
-</code></pre></div>
-<h5>Solution 1</h5>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">sudo apt-get install ruby1.9.1-dev
-</code></pre></div>
-<h5>Problem 2</h5>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">Bundler::GemfileNotFound
-</code></pre></div>
-<h5>Solution 2</h5>
+/usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require': cannot load such file -- mkmf (LoadError)
+from /usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require'
+from extconf.rb:1:in `&lt;main&gt;'
+</code></pre>
+</div>
 
-<p>find the Gemfile by command:</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">locate Gemfile
-</code></pre></div>
+<p>#####Solution 1</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install ruby1.9.1-dev
+</code></pre>
+</div>
+
+<p>#####Problem 2</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Bundler::GemfileNotFound
+</code></pre>
+</div>
+
+<p>#####Solution 2
+find the Gemfile by command:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>locate Gemfile
+</code></pre>
+</div>
+
 <p>cd into the directory</p>
 
-<h5>Problem 3</h5>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">rake aborted!
-You have already activated rake 0.9.6, but your Gemfile requires rake 0.9.2.2.
-</code></pre></div>
-<h5>Solution 3</h5>
+<p>#####Problem 3</p>
 
-<p>run command</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">$ bundle exec rake install
-</code></pre></div>
+<div class="highlighter-rouge"><pre class="highlight"><code>rake aborted!
+You have already activated rake 0.9.6, but your Gemfile requires rake 0.9.2.2.
+</code></pre>
+</div>
+
+<p>#####Solution 3
+run command</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ bundle exec rake install
+</code></pre>
+</div>
+
 <p>Apply to all the incidents when rake is aborted.</p>
 
 <p>Finally the big boss came and I was unable to configure the rake such that it can 
-point to my github local repo. Sad...</p>
+point to my github local repo. Sad…</p>
 
-<p>Now I switch to <code>Jekyll Bootstrap</code>. Hopefully it is a better solution. 
+<p>Now I switch to <code class="highlighter-rouge">Jekyll Bootstrap</code>. Hopefully it is a better solution. 
 Hopefully it was not because I was noob.</p>
 
 </div>
@@ -125,7 +141,7 @@ Hopefully it was not because I was noob.</p>
 			</div>
             <div class="footer-copyright">
 			    <div class="container"> <p>Copyright &copy; <b>Simon Wan Wenli</b>
-                    &nbsp;2015
+                    &nbsp;2016
                     &nbsp;| Design from <a class="grey-text text-lighten-3" href="http://materializecss.com/"><b>Materialize</b></a></p>
                 </div>
             </div>

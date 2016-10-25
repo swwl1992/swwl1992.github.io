@@ -31,8 +31,7 @@
                         <div class="content"><h3>Advice for STM R&D Assignments</h3>
 <b>28 Dec 2014</b>
 <div id="article">
-<h5>Introduction &amp; Disclaimer</h5>
-
+<h5 id="introduction--disclaimer">Introduction &amp; Disclaimer</h5>
 <p>STM (Starter Mission) is the training program for
 new employees of
 <a href="http://www.worksap.com/">Works Applications Co., Ltd.</a>
@@ -45,10 +44,10 @@ to program and deliver your systems more effectively.</p>
 It has some basic requirements as below:</p>
 
 <ul>
-<li>There are two roles in the system: manager and employees.</li>
-<li>Managers should see applications of leaves from employees.</li>
-<li>Managers is able to approve or reject an application.</li>
-<li>The system may have other features such as departments.</li>
+  <li>There are two roles in the system: manager and employees.</li>
+  <li>Managers should see applications of leaves from employees.</li>
+  <li>Managers is able to approve or reject an application.</li>
+  <li>The system may have other features such as departments.</li>
 </ul>
 
 <p>But the main feature is the application of leaves.</p>
@@ -59,8 +58,7 @@ It never guarantees your success in STM.
 The author is not responsible for any failure
 because of taking the advice in this article.</p>
 
-<h5>Maintain a good quality of source code</h5>
-
+<h5 id="maintain-a-good-quality-of-source-code">Maintain a good quality of source code</h5>
 <p>Perhaps you have not programmed for months before STM and
 you want to pass STM as soon as possible.
 However these are not excuses to sacrifice your
@@ -68,17 +66,17 @@ code quality for faster development.
 Believe me that you will probably spend more time
 due to poor code quality.</p>
 
-<h5>Think about the five principles</h5>
+<h5 id="think-about-the-five-principles">Think about the five principles</h5>
 
 <p>You may have heard of the SOLID principles,
 which are</p>
 
 <ul>
-<li><a href="http://en.wikipedia.org/wiki/Single_responsibility_principle">Single responsibility</a></li>
-<li><a href="http://en.wikipedia.org/wiki/Open/closed_principle">Open/closed</a></li>
-<li><a href="http://en.wikipedia.org/wiki/Liskov_substitution_principle">Liskov substitution</a></li>
-<li><a href="http://en.wikipedia.org/wiki/Interface_segregation_principle">Interface segregation</a></li>
-<li><a href="http://en.wikipedia.org/wiki/Dependency_inversion_principle">Dependency inversion</a></li>
+  <li><a href="http://en.wikipedia.org/wiki/Single_responsibility_principle">Single responsibility</a></li>
+  <li><a href="http://en.wikipedia.org/wiki/Open/closed_principle">Open/closed</a></li>
+  <li><a href="http://en.wikipedia.org/wiki/Liskov_substitution_principle">Liskov substitution</a></li>
+  <li><a href="http://en.wikipedia.org/wiki/Interface_segregation_principle">Interface segregation</a></li>
+  <li><a href="http://en.wikipedia.org/wiki/Dependency_inversion_principle">Dependency inversion</a></li>
 </ul>
 
 <p>The first two principles helped me a lot
@@ -86,8 +84,8 @@ during the design of my own system.
 Ask yourself when writing a class or method:</p>
 
 <ul>
-<li>Does it perform a single task for one responsibility?</li>
-<li>Is it closed for modification and open for extension?</li>
+  <li>Does it perform a single task for one responsibility?</li>
+  <li>Is it closed for modification and open for extension?</li>
 </ul>
 
 <p>For example,
@@ -99,7 +97,7 @@ Another example is to implement public method cautiously.</p>
 <p>Remember: if you strictly follow single responsibility principle,
 open/closed principle would be natural for you as well.</p>
 
-<h5>Controller - the key part between view and model</h5>
+<h5 id="controller---the-key-part-between-view-and-model">Controller - the key part between view and model</h5>
 
 <p>Each controller should be responsible for only one feature.
 It should not be defined by roles in the system.
@@ -111,28 +109,24 @@ of exactly one feature, e.g., <em>UserController</em>.</p>
 input validation and page redirection methods
 should be separated from controllers as well.</p>
 
-<h5>Build up UI from components</h5>
-
+<h5 id="build-up-ui-from-components">Build up UI from components</h5>
 <p>Break down one page into different components and reuse them.
 It saves you lots of time and greatly improves the maintainability of your UI.
 <a href="http://www.tutorialspoint.com/jsf/jsf_facelets_tags.htm">This</a>
 simple tutorial will help you decompose your UI.</p>
 
-<h5>SQL builder (optional)</h5>
-
+<h5 id="sql-builder-optional">SQL builder (optional)</h5>
 <p>Write a SQL builder (wrapper) to generate SQL strings.
 It does not save you lots of time,
 but it improves maintainability of your SQL.</p>
 
-<h5>Dictionary generator (optional)</h5>
-
+<h5 id="dictionary-generator-optional">Dictionary generator (optional)</h5>
 <p>If you need to implement a dictionary feature,
 consider writing a program to automatically generate dictionary insertion SQL.</p>
 
-<h5>Intuitive system design</h5>
+<h5 id="intuitive-system-design">Intuitive system design</h5>
 
-<h5>What is a merit?</h5>
-
+<h5 id="what-is-a-merit">What is a merit?</h5>
 <p>You need to be very clear on this principle since the beginning of STM:</p>
 
 <p>Not every feature is a merit.</p>
@@ -148,30 +142,29 @@ ensure the stability of the system and operations.</p>
 always ask yourself these questions:</p>
 
 <ul>
-<li>What merits does it bring to the user?</li>
-<li>What are the benefits of using my system compared to using just paper and pen?</li>
-<li>What makes my client want to buy my system?</li>
+  <li>What merits does it bring to the user?</li>
+  <li>What are the benefits of using my system compared to using just paper and pen?</li>
+  <li>What makes my client want to buy my system?</li>
 </ul>
 
 <p>Take the leave-application system for example:</p>
 
 <ul>
-<li>Does it really help the manager to maintain the leaves of his employees?</li>
-<li>Does it ease the process of applying and maintaining leaves?</li>
-<li>What is the advantage of my system over writing leaves on paper?</li>
+  <li>Does it really help the manager to maintain the leaves of his employees?</li>
+  <li>Does it ease the process of applying and maintaining leaves?</li>
+  <li>What is the advantage of my system over writing leaves on paper?</li>
 </ul>
 
-<h5>Is the UI intuitive to use?</h5>
-
+<h5 id="is-the-ui-intuitive-to-use">Is the UI intuitive to use?</h5>
 <p>Since you have stared at your system for a very long time,
 you should be very familiar with it.
 But the customer who use your system may not be.
 Ask yourself these questions on each page (view):</p>
 
 <ul>
-<li>Is the user able to see the information presented in a clear and organized manner?</li>
-<li>Does the user know what he is doing and what to do next from the UI?</li>
-<li>Does the design and flow of my system effectively reduces clicks and page navigations?</li>
+  <li>Is the user able to see the information presented in a clear and organized manner?</li>
+  <li>Does the user know what he is doing and what to do next from the UI?</li>
+  <li>Does the design and flow of my system effectively reduces clicks and page navigations?</li>
 </ul>
 
 <p>If your answer is negative or not sure,
@@ -188,8 +181,7 @@ Do not purposefully choose fanciful (and complicated) UI component
 just because it looks nice.
 Simplicity has its value.</p>
 
-<h5>Robust testing using test cases</h5>
-
+<h5 id="robust-testing-using-test-cases">Robust testing using test cases</h5>
 <p>Your system is expected to be without bug
 because nobody wants to buy a buggy product.</p>
 
@@ -202,8 +194,7 @@ run unit test for Util classes.</p>
 
 <p>Learn to use debug mode instead of printing messages into console.</p>
 
-<h5>Clear catalog: show how your system flows</h5>
-
+<h5 id="clear-catalog-show-how-your-system-flows">Clear catalog: show how your system flows</h5>
 <p>My personal suggestion for your catalog is to
 write use cases to demonstrate at least one complete flow of your system.</p>
 
@@ -215,8 +206,7 @@ employee takes the leave -&gt;
 employee returns to work later than expected -&gt;
 manager updates the employee`s leave record</p>
 
-<h5>Conclusion</h5>
-
+<h5 id="conclusion">Conclusion</h5>
 <p>STM is not meant to fail you.
 It is designed to equip you with
 essential knowledge and skills for future work.
@@ -272,7 +262,7 @@ I wish you all the best.</p>
 			</div>
             <div class="footer-copyright">
 			    <div class="container"> <p>Copyright &copy; <b>Simon Wan Wenli</b>
-                    &nbsp;2015
+                    &nbsp;2016
                     &nbsp;| Design from <a class="grey-text text-lighten-3" href="http://materializecss.com/"><b>Materialize</b></a></p>
                 </div>
             </div>
