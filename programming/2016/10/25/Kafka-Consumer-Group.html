@@ -44,7 +44,7 @@ This article will share a few issues and discoveries about consumer group.</p>
 looking at its data structure within ZooKeeper,
 which is illustrated below.</p>
 
-<p><img src="/img/consumer-group-zk.png" alt="Your browser does not support img" /></p>
+<p><img src="/img/consumer-group-zk.png" alt="Your browser does not support img" class="responsive-img" /></p>
 
 <p>You may see each consumer group as a separated world in terms of message consumption.
 Each consuemr group maintains its own consumer ID’s,
@@ -75,7 +75,7 @@ and shown below.</p>
 <p>If you go into <code class="highlighter-rouge">/owners</code> directory and check the owner of a partition,
 you should find a very similar value to consumer ID.
 The owner of a topic-partition is defined in the form of <code class="highlighter-rouge">[consumerId]-[threadId]</code> in which <code class="highlighter-rouge">threadId</code> is used
-because one partition is meant to be consumed by at most one thread.
+because one partition is meant to be consumed by exactly one thread.
 In many cases, the <code class="highlighter-rouge">threadId</code> is equal to the partition number which
 the consumer thread owns.</p>
 
@@ -83,7 +83,9 @@ the consumer thread owns.</p>
 if each partition inside it is owned by exactly one consumer thread.
 You may use the instructions from <a href="https://cwiki.apache.org/confluence/display/KAFKA/System+Tools#SystemTools-VerifyConsumerRebalance">this link</a>
 to verify the result of consumer rebalance.
-This tool should work well because I have fixed a bug in <code class="highlighter-rouge">VerifyConsumerRebalance.scala</code> in a <a href="https://github.com/apache/kafka/pull/1612">pull request</a>.</p>
+This tool should work well because I have fixed a bug in <code class="highlighter-rouge">VerifyConsumerRebalance.scala</code> in <a href="https://github.com/apache/kafka/pull/1612">this pull request</a>.</p>
+
+<h4 id="group-coordinator-coordinated-rebalance">Group coordinator (coordinated rebalance)</h4>
 
 <h4 id="broadcast">Broadcast</h4>
 
@@ -156,6 +158,14 @@ However, it implies that the offset information
 will be permantly deleted from ZooKeeper.
 Do it only when you are 100% sure that
 the target group will never be reused.</p>
+
+<p>From version 0.9.0 onward,
+<code class="highlighter-rouge">ConsumerGroupCommand.scala</code> includes a feature to remove consumer groups.
+Nevertheless, it prohibits the removal of <strong>active</strong> consumer group by
+checking the number of children under consuemr registry dicrectory
+(i.e., <code class="highlighter-rouge">/consumers/[group_name]/ids</code>).
+When you remove a consumer group by a ZooKeeper client,
+you should take notice of active consumers as well.</p>
 
 </div>
 <div id="disqus_thread"></div>

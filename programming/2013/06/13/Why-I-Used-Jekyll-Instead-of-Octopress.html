@@ -31,13 +31,13 @@
                         <div class="content"><h3>Why I used Jekyll-bootstrap instead of Octopress</h3>
 <b>13 Jun 2013</b>
 <div id="article">
-<p>I was amazed by the beautiful blog made by my friend. 
+<p>I was amazed by the beautiful blog made by my friend.
 He suggested me use <code class="highlighter-rouge">Octopress</code> or <code class="highlighter-rouge">Jekyll</code>.
 However I faced a lot of problems when I tried to install both of them.</p>
 
 <p>Below are some examples:</p>
 
-<p>#####Problem 1</p>
+<h5 id="problem-1">Problem 1</h5>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>Building native extensions.  This could take a while...
 ERROR:  Error installing jekyll:
@@ -50,20 +50,20 @@ from extconf.rb:1:in `&lt;main&gt;'
 </code></pre>
 </div>
 
-<p>#####Solution 1</p>
+<h5 id="solution-1">Solution 1</h5>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install ruby1.9.1-dev
 </code></pre>
 </div>
 
-<p>#####Problem 2</p>
+<h5 id="problem-2">Problem 2</h5>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>Bundler::GemfileNotFound
 </code></pre>
 </div>
 
-<p>#####Solution 2
-find the Gemfile by command:</p>
+<h5 id="solution-2">Solution 2</h5>
+<p>find the Gemfile by command:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>locate Gemfile
 </code></pre>
@@ -71,15 +71,15 @@ find the Gemfile by command:</p>
 
 <p>cd into the directory</p>
 
-<p>#####Problem 3</p>
+<h5 id="problem-3">Problem 3</h5>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>rake aborted!
 You have already activated rake 0.9.6, but your Gemfile requires rake 0.9.2.2.
 </code></pre>
 </div>
 
-<p>#####Solution 3
-run command</p>
+<h5 id="solution-3">Solution 3</h5>
+<p>run command</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>$ bundle exec rake install
 </code></pre>
@@ -87,10 +87,10 @@ run command</p>
 
 <p>Apply to all the incidents when rake is aborted.</p>
 
-<p>Finally the big boss came and I was unable to configure the rake such that it can 
+<p>Finally the big boss came and I was unable to configure the rake such that it can
 point to my github local repo. Sad…</p>
 
-<p>Now I switch to <code class="highlighter-rouge">Jekyll Bootstrap</code>. Hopefully it is a better solution. 
+<p>Now I switch to <code class="highlighter-rouge">Jekyll Bootstrap</code>. Hopefully it is a better solution.
 Hopefully it was not because I was noob.</p>
 
 </div>
