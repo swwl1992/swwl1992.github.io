@@ -32,6 +32,7 @@
 <b>28 Dec 2014</b>
 <div id="article">
 <h5 id="introduction--disclaimer">Introduction &amp; Disclaimer</h5>
+
 <p>STM (Starter Mission) is the training program for
 new employees of
 <a href="http://www.worksap.com/">Works Applications Co., Ltd.</a>
@@ -107,29 +108,33 @@ of exactly one feature, e.g., <em>UserController</em>.</p>
 
 <p>In addition,
 input validation and page redirection methods
-should be separated from controllers as well.</p>
+should be separated from controllers as well.
+Some people believe that the input validation logic should be bounded to each entity,
+such that the data inside an entity is consistent wherever it is used.</p>
 
 <h5 id="build-up-ui-from-components">Build up UI from components</h5>
+
 <p>Break down one page into different components and reuse them.
 It saves you lots of time and greatly improves the maintainability of your UI.
 <a href="http://www.tutorialspoint.com/jsf/jsf_facelets_tags.htm">This</a>
 simple tutorial will help you decompose your UI.</p>
 
 <h5 id="sql-builder-optional">SQL builder (optional)</h5>
+
 <p>Write a SQL builder (wrapper) to generate SQL strings.
 It does not save you lots of time,
 but it improves maintainability of your SQL.</p>
 
 <h5 id="dictionary-generator-optional">Dictionary generator (optional)</h5>
+
 <p>If you need to implement a dictionary feature,
 consider writing a program to automatically generate dictionary insertion SQL.</p>
 
-<h5 id="intuitive-system-design">Intuitive system design</h5>
-
 <h5 id="what-is-a-merit">What is a merit?</h5>
+
 <p>You need to be very clear on this principle since the beginning of STM:</p>
 
-<p>Not every feature is a merit.</p>
+<p><strong>Not every feature is a merit.</strong></p>
 
 <p>Some features are necessary for daily business operation.
 Merits are always related to benefits.
@@ -156,6 +161,7 @@ always ask yourself these questions:</p>
 </ul>
 
 <h5 id="is-the-ui-intuitive-to-use">Is the UI intuitive to use?</h5>
+
 <p>Since you have stared at your system for a very long time,
 you should be very familiar with it.
 But the customer who use your system may not be.
@@ -182,7 +188,8 @@ just because it looks nice.
 Simplicity has its value.</p>
 
 <h5 id="robust-testing-using-test-cases">Robust testing using test cases</h5>
-<p>Your system is expected to be without bug
+
+<p>Your system is expected to be bug free
 because nobody wants to buy a buggy product.</p>
 
 <p>Write down test cases to systematically test your system.
@@ -195,6 +202,7 @@ run unit test for Util classes.</p>
 <p>Learn to use debug mode instead of printing messages into console.</p>
 
 <h5 id="clear-catalog-show-how-your-system-flows">Clear catalog: show how your system flows</h5>
+
 <p>My personal suggestion for your catalog is to
 write use cases to demonstrate at least one complete flow of your system.</p>
 
@@ -206,7 +214,8 @@ employee takes the leave -&gt;
 employee returns to work later than expected -&gt;
 manager updates the employee`s leave record</p>
 
-<h5 id="conclusion">Conclusion</h5>
+<h5 id="summary">Summary</h5>
+
 <p>STM is not meant to fail you.
 It is designed to equip you with
 essential knowledge and skills for future work.
