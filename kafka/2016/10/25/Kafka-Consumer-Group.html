@@ -95,13 +95,13 @@ I also have thought about it and then wrote this blog.</p>
 you just need to put each consumer in different consumer groups,
 such that the offset of each consumer is different.</p>
 
-<p>Once I read some articles online which suggest use <code class="highlighter-rouge">UUID</code> within
+<p>Once I read some online posts which suggest use <code class="highlighter-rouge">UUID</code> within
 a consumer group, for example <a href="http://stackoverflow.com/questions/30647544/kafka-multiple-consumers-for-a-partition">this question</a> from stackoverflow and
 it has received more than 5 upvotes.
 Unfortunately I <strong>strongly discourage</strong> such usage.</p>
 
 <p>Firstly and most importantly, consumer groups are stored as persistent nodes in ZooKeeper.
-Often consumers need to be shutdown and started,
+Often consumers need to be shutdown and restarted,
 which may not be frequent in commercial environments
 but is expected to be quite frequent in develop, test and staging phases.
 As time goes by a huge number of consumer groups nodes
@@ -141,7 +141,16 @@ brokers do not scan all consumer groups.</p>
 Its value is generated at runtime and unpredictable.
 If you wish to describe a consumer group or check its offsets,
 you will face problems on finding the exact value of it.
-A workaround is to <em>log</em> its value somewhere.</p>
+A workaround is to <em>log</em> its value somewhere
+and use it to query the offsets later.</p>
+
+<p>Scalibility of consumers is another problem to be faced
+when using <code class="highlighter-rouge">UUID</code> in consumer groups.
+Consumers within the same group are rebalanced by either ZooKeeper
+or group coordinator.
+If each consumer has a unique consumer group,
+there is no chance for a topic to have more than one consumer
+and the privilege of parallel processing is lost ever since.</p>
 
 <p>Last but not the least,
 group names with <code class="highlighter-rouge">UUID</code> in them is brand new every time.
@@ -218,7 +227,7 @@ please take notice of active consumers as well.</p>
 			</div>
             <div class="footer-copyright">
 			    <div class="container"> <p>Copyright &copy; <b>Simon Wan Wenli</b>
-                    &nbsp;2016
+                    &nbsp;2017
                     &nbsp;| Design from <a class="grey-text text-lighten-3" href="http://materializecss.com/"><b>Materialize</b></a></p>
                 </div>
             </div>
