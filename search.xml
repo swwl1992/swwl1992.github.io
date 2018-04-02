@@ -1,0 +1,1148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+    <entry>
+      <title>Spark executor and cores rethought</title>
+      <url>/spark/2018/04/02/spark-executor-cores.html</url>
+      <content type="text">
+</content>
+      <categories>
+        
+          <category> spark </category>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title>Offset topic and consumer group coordinator of Kafka</title>
+      <url>/kafka/2016/11/04/Kafka-Group-Coordinator.html</url>
+      <content type="text">This article is to discuss two subjects
+that are not frequently or clearly covered by official document or
+online sources.
+
+Offset topic (the __consumer_offsets topic)
+
+It is the only mysterious topic in Kafka log
+and it cannot be deleted by using
+TopicCommand.
+Unfortunately there is no dedicated official documentation
+to explain this internal topic.
+The closest source I can find is
+this set of slides.
+I strongly recommend reading it if you wish to understand
+how this internal topic works.
+
+In short,
+__consumer_offsets is used to store offsets of consumers
+which was previously stored only in ZooKeeper before version 0.8.1.1.
+At the latest version of 0.8.X serious, i.e. 0.8.2.2,
+the storage location of offsets can be configured by
+offsets.storage whose value can be either kafka or zookeeper.
+If it is kafka,
+consumers are still able to commit offsets to ZooKeeper
+by enabling dual.commit.enabled.
+However since version 0.9,
+consumer offsets have been designed to be stored on brokers only.
+
+The partition key of the messages in __consumer_offsets
+was handled in
+OffsetManager
+at version 0.8.X
+and has been named as OffsetKey in
+GroupMetadataManager
+since version 0.9.0.
+It contains three pieces of information: groupId, topic and partition number,
+and the key is serialized/de-serialized according to a schema called
+OFFSET_COMMIT_KEY_SCHEMA.
+The usage of schema is primarily for backward compatibility.
+Unlike the behavior of
+DefaultPartitioner,
+the partition number inside __consumer_offsets is not
+determined by the hash value of partition key
+but only determined by the hash value of consumer group,
+which is as simple as
+Utils.abs(groupId.hashCode) % numPartitions
+
+
+Here the numPartitions is configured by the value of
+offsets.topic.num.partitions in broker configs
+and is 50 by default.
+This algorithm will be re-introduced later
+in the part of consumer group coordination.
+
+The values of offset messages which is named
+OffsetMetadata
+have two versions.
+At version 0.8.X, the value contains offset, metadata (often empty)
+and a timestamp
+while the timestamp had been split into commit and expire timestamps
+since version 0.9.0.
+Console consumers are able to consume messages from internal topics
+and print them out nicely.
+A sample command has been shown below:
+
+./kafka-simple-consumer-shell.sh --topic __consumer_offsets \
+--partition 49 \
+--broker-list localhost:9092 \
+--formatter &quot;kafka.server.OffsetManager\$OffsetsMessageFormatter&quot;
+
+
+By the way, absolute(&quot;testGroup&quot;.hashCode() % 50) = 49
+which is the reason why partition 49 was specified.
+It prints out:
+
+[testGroup,testTopic-development,0]::OffsetAndMetadata[11,NO_METADATA,1478243992053]
+[testGroup,testTopic-development,0]::OffsetAndMetadata[12,NO_METADATA,1478243992086]
+[testGroup,testTopic-development,0]::OffsetAndMetadata[13,NO_METADATA,1478243992096]
+[testGroup,testTopic-development,0]::OffsetAndMetadata[14,NO_METADATA,1478243992110]
+
+
+
+However this is not the end of story,
+because __consumer_offsets is also used by group coordinator
+to store group metadata!
+The following section discusses another new feature
+introduced since version 0.9.0.
+
+Group coordinator (coordinated rebalance)
+
+This section is my humble and shallow understanding about
+broker coordinator of consumer groups.
+Correct me if I ever miss something or make any mistake.
+
+The introduction of coordinator, according to the
+official wiki of Kafka,
+is to solve the split brain problem
+which is a well known problem in a distributed system.
+</content>
+      <categories>
+        
+          <category> kafka </category>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title>Thoughts on Consumer Group of Apache Kafka</title>
+      <url>/kafka/2016/10/25/Kafka-Consumer-Group.html</url>
+      <content type="text">Introduction
+
+The concept of consumer group is intriguring.
+According to the
+official documentation of Kafka,
+one of its main objectives is to achieve message multicast and broadcast.
+Often it is not an easy concept to grasp at the very beginning.
+This article will share a few issues and discoveries about consumer group.
+
+A good way to start understanding consumer group is
+looking at its data structure within ZooKeeper,
+which is illustrated below.
+
+
+
+You may see each consumer group as a separated world in terms of message consumption.
+Each consuemr group maintains its own consumer ID’s,
+partition owners and offsets.
+
+Rebalance
+
+Consumer rebalance happens when consumers join or leave a consumer group or
+when the topics within a consumer group have new partitions.
+
+Consumer ID uniquely identitfies a consumer.
+It is generated automatically when a consumer is launched.
+The source code of its generation is defined in ZookeeperConsumerConnector
+and shown below.
+
+var consumerUuid : String = null
+config.consumerId match {
+  case Some(consumerId) // for testing only
+  =&amp;gt; consumerUuid = consumerId
+  case None // generate unique consumerId automatically
+  =&amp;gt; val uuid = UUID.randomUUID()
+  consumerUuid = &quot;%s-%d-%s&quot;.format(
+    InetAddress.getLocalHost.getHostName, System.currentTimeMillis,
+    uuid.getMostSignificantBits().toHexString.substring(0,8))
+}
+config.groupId + &quot;_&quot; + consumerUuid
+
+If you go into /owners directory and check the owner of a partition,
+you should find a very similar value to consumer ID.
+The owner of a topic-partition is defined in the form of [consumerId]-[threadId] in which threadId is used
+because one partition is meant to be consumed by exactly one thread.
+In many cases, the threadId is equal to the partition number which
+the consumer thread owns.
+
+A consumer group is well balanced
+if each partition inside it is owned by exactly one consumer thread.
+You may use the instructions from this link
+to verify the result of consumer rebalance.
+This tool should work well because I have fixed a bug in VerifyConsumerRebalance.scala in this pull request.
+
+Since version 0.9.0,
+Kafka has used brokers to coordinate the rebalance process of consumers.
+I also have thought about it and then wrote this blog.
+
+Broadcast
+
+Broadcast by Kafka is relatively cheap:
+you just need to put each consumer in different consumer groups,
+such that the offset of each consumer is different.
+
+Once I read some articles online which suggest use UUID within
+a consumer group, for example this question from stackoverflow and
+it has received more than 5 upvotes.
+Unfortunately I strongly discourage such usage.
+
+Firstly and most importantly, consumer groups are stored as persistent nodes in ZooKeeper.
+Often consumers need to be shutdown and started,
+which may not be frequent in commercial environments
+but is expected to be quite frequent in develop, test and staging phases.
+As time goes by a huge number of consumer groups nodes
+shall be accumulated in /consumers node and
+most of them are not in use.
+A direct result is
+it is almost impossible to list out all the consumer groups.
+ZooKeeper client throws runtime exception because the buffer overflows due to
+the overwhelming amount of child nodes.
+The error message is something like:
+
+IOException Packet &amp;lt;len12343123123&amp;gt; is out of range
+
+
+
+Even you configure the jute.maxbuffer parameter as some blogs suggest,
+the chance of receiving a response
+before your patience runs out is extremely low.
+I have encountered a situation where /consumers has more than 90,000
+child nodes and was unable to list up consumer groups ever since.
+Another direct result is that some features of ConsumerGroupCommand
+(used in kafka-consumer-groups.sh)
+will fail because internally it lists out all consumer groups.
+
+However, the huge number of consumer groups should not be a problem
+for the normal operation of Kafka,
+because the brokers do not need to know all the groups.
+Even though from version 0.9 onward,
+consumer rebalance is coordinated by brokers,
+brokers do not scan groups when deciding which broker coordinates
+which subset of them.
+They only manage those consumer which join or leave them.
+As far as what I have read from GroupCoordinator,
+brokers do not scan all consumer groups.
+
+Next, UUID is hardly queryable.
+Its value is generated at runtime and unpredictable.
+If you wish to describe a consumer group or check its offsets,
+you will face problems on finding the exact value of it.
+A workaround is to log its value somewhere.
+
+Last but not the least,
+group names with UUID in them is brand new every time.
+Upon the creation of a new consumer group,
+the value of offsets is determined by offset reset,
+in other words the setting of auto.offset.reset.
+No matter the value is smallest or largest,
+the consumer either consumes many messages repeatedly or
+skip some messages.
+
+Delete a group
+
+Deleting a consumer group from ZooKeeper is
+as easy as one single instruction.
+However, it implies that the offset information
+will be permantly deleted from ZooKeeper.
+Do it only when you are 100% sure that
+the target group will never be reused.
+
+From version 0.9.0 onward,
+ConsumerGroupCommand
+introduces a feature to remove consumer groups.
+Nevertheless, it prohibits the removal of active consumer group by
+checking the number of children under consuemr registry dicrectory
+(i.e., /consumers/[group_name]/ids).
+When you wish to remove a consumer group by a ZooKeeper client,
+please take notice of active consumers as well.
+</content>
+      <categories>
+        
+          <category> kafka </category>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title>Advice for STM R&amp;D Assignments</title>
+      <url>/programming/2014/12/28/STM-RD-Advice.html</url>
+      <content type="text">Introduction &amp;amp; Disclaimer
+
+STM (Starter Mission) is the training program for
+new employees of
+Works Applications Co., Ltd.
+Each employee is  required to implement
+several information systems.
+Here are some practical guidelines for you
+to program and deliver your systems more effectively.
+
+Here we use a simple leave-application system as an illustration.
+It has some basic requirements as below:
+
+
+  There are two roles in the system: manager and employees.
+  Managers should see applications of leaves from employees.
+  Managers is able to approve or reject an application.
+  The system may have other features such as departments.
+
+
+But the main feature is the application of leaves.
+
+Disclaimer:
+this article does not provide solutions to any assignment in STM.
+It never guarantees your success in STM.
+The author is not responsible for any failure
+because of taking the advice in this article.
+
+Maintain a good quality of source code
+Perhaps you have not programmed for months before STM and
+you want to pass STM as soon as possible.
+However these are not excuses to sacrifice your
+code quality for faster development.
+Believe me that you will probably spend more time
+due to poor code quality.
+
+Think about the five principles
+
+You may have heard of the SOLID principles,
+which are
+
+
+  Single responsibility
+  Open/closed
+  Liskov substitution
+  Interface segregation
+  Dependency inversion
+
+
+The first two principles helped me a lot
+during the design of my own system.
+Ask yourself when writing a class or method:
+
+
+  Does it perform a single task for one responsibility?
+  Is it closed for modification and open for extension?
+
+
+For example,
+combining adding and updating methods into one method called
+apply() is not a good idea.
+They had better be separated.
+Another example is to implement public method cautiously.
+
+Remember: if you strictly follow single responsibility principle,
+open/closed principle would be natural for you as well.
+
+Controller - the key part between view and model
+
+Each controller should be responsible for only one feature.
+It should not be defined by roles in the system.
+One controller should be responsible for CRUD
+(create, read, update and delete)
+of exactly one feature, e.g., UserController.
+
+In addition,
+input validation and page redirection methods
+should be separated from controllers as well.
+Some people believe that the input validation logic should be bounded to each entity,
+such that the data inside an entity is consistent wherever it is used.
+
+Build up UI from components
+
+Break down one page into different components and reuse them.
+It saves you lots of time and greatly improves the maintainability of your UI.
+This
+simple tutorial will help you decompose your UI.
+
+SQL builder (optional)
+
+Write a SQL builder (wrapper) to generate SQL strings.
+It does not save you lots of time,
+but it improves maintainability of your SQL.
+
+Dictionary generator (optional)
+
+If you need to implement a dictionary feature,
+consider writing a program to automatically generate dictionary insertion SQL.
+
+What is a merit?
+
+You need to be very clear on this principle since the beginning of STM:
+
+Not every feature is a merit.
+
+Some features are necessary for daily business operation.
+Merits are always related to benefits.
+They are those features that generate revenue,
+improve efficiency,
+enhance security,
+ensure the stability of the system and operations.
+
+Therefore when you write a catalog or implement a feature,
+always ask yourself these questions:
+
+
+  What merits does it bring to the user?
+  What are the benefits of using my system compared to using just paper and pen?
+  What makes my client want to buy my system?
+
+
+Take the leave-application system for example:
+
+
+  Does it really help the manager to maintain the leaves of his employees?
+  Does it ease the process of applying and maintaining leaves?
+  What is the advantage of my system over writing leaves on paper?
+
+
+Is the UI intuitive to use?
+
+Since you have stared at your system for a very long time,
+you should be very familiar with it.
+But the customer who use your system may not be.
+Ask yourself these questions on each page (view):
+
+
+  Is the user able to see the information presented in a clear and organized manner?
+  Does the user know what he is doing and what to do next from the UI?
+  Does the design and flow of my system effectively reduces clicks and page navigations?
+
+
+If your answer is negative or not sure,
+consider improving your UI.
+The user should be able to use your system by
+reading as few instructions as possible.
+
+For example, consider using a
+wizard
+if there is a flow.
+Give warning or confirmation before irrecoverable operations,
+such as deletion and payment.
+Do not purposefully choose fanciful (and complicated) UI component
+just because it looks nice.
+Simplicity has its value.
+
+Robust testing using test cases
+
+Your system is expected to be bug free
+because nobody wants to buy a buggy product.
+
+Write down test cases to systematically test your system.
+Do not just randomly click around on the screen and
+wish bugs will pop out by themselves.
+
+If possible, automate the test, for example:
+run unit test for Util classes.
+
+Learn to use debug mode instead of printing messages into console.
+
+Clear catalog: show how your system flows
+
+My personal suggestion for your catalog is to
+write use cases to demonstrate at least one complete flow of your system.
+
+For example, your catalog should present the following work flow:
+manager creates an employee profile -&amp;gt;
+employee applies for a leave -&amp;gt;
+manager approves that application -&amp;gt;
+employee takes the leave -&amp;gt;
+employee returns to work later than expected -&amp;gt;
+manager updates the employee`s leave record
+
+Summary
+
+STM is not meant to fail you.
+It is designed to equip you with
+essential knowledge and skills for future work.
+Please fully use the time and resources during STM and
+it will surely benefit you in the days to come.
+I wish you all the best.
+</content>
+      <categories>
+        
+          <category> programming </category>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title>It has been two years</title>
+      <url>/life/2014/02/03/TwoYears.html</url>
+      <content type="text">It has been two years since I joined github.
+
+
+
+Since then my life has stepped into AD (After Development) from
+BC (Before Coding).
+</content>
+      <categories>
+        
+          <category> life </category>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title>Ocaml React package tutorial</title>
+      <url>/programming/2014/01/28/React-Tutorial.html</url>
+      <content type="text">React is an Ocaml package made for reactive programming
+using Ocaml.
+The objective of this post is to illustrate and explain some examples of the React API.
+Therefore the basic concepts of React, such as Signals, Events and side effects, will not be repeated here.
+Below are some prerequisites for reading this post.
+
+
+  Ocaml (version 4.00.1 or above)
+  OPAM (Ocaml PAckage Manager)
+  React (installation via OPAM)
+  React Introduction
+
+
+Most of the examples used in this post are inspired by
+test cases
+of React project.
+To report an issue in the post,
+contact me through my Github account.
+Thank you for your feedbacks.
+
+Using React package
+For compilation
+
+ocamlfind ocamlopt -o clock -linkpkg \
+    -package react clock.ml
+
+
+
+For Ocaml Toplevel
+
+#use &quot;topfind&quot;;;
+#require &quot;react&quot;;;
+open React;;
+
+
+
+Module React.E
+
+val once : 'a React.event -&amp;gt; 'a React.event
+
+once e is e with only its next occurence.
+Any occurence after time t will not affect e.
+
+1
+2
+3
+4
+5open React (* omitted in the examples below *)
+let w, send_w = E.create ()
+let x = E.once w
+let pr_x = E.map print_int x
+let () = List.iter send_w [0; 1; 2; 3]
+
+
+The output would be only 0.
+All the values after the first occurence are omitted.
+
+val drop_once : 'a React.event -&amp;gt; 'a React.event
+
+drop_once e is e without its next occurrence.
+Similarly, if we change the third line of the example above,
+the output would be 123.
+The reason is because the NEXT occurrence of e is omitted.
+
+val app : ('a -&amp;gt; 'b) React.event -&amp;gt; 'a React.event -&amp;gt; 'b React.event
+
+app ef e occurs when both ef and e occur simultaneously.
+
+let f x y = x + y
+let w, send_w = E.create ()
+let x = E.map (fun w -&amp;gt; f w) w
+let y = E.drop_once w
+let z = E.app x y
+let pr_z = E.map print_int z
+List.iter send_w [0; 1; 2; 3]
+
+The output would be 246.
+As explained before,
+drop_once makes y only take updates from the second occurrence onwards.
+Variable z takes the value of x when both x and y are updated.
+
+val map : ('a -&amp;gt; 'b) -&amp;gt; 'a React.event -&amp;gt; 'b React.event
+
+map f e applies f to e’s occurrences.
+
+val stamp : 'b React.event -&amp;gt; 'a -&amp;gt; 'a React.event
+
+stamp e v is map (fun _ -&amp;gt; v) e.
+It fixes the occurrence of e to v.
+
+val filter : ('a -&amp;gt; bool) -&amp;gt; 'a React.event -&amp;gt; 'a React.event
+
+filter p e are e’s occurrences that satisfy p.
+
+val fmap : ('a -&amp;gt; 'b option) -&amp;gt; 'a React.event -&amp;gt; 'b React.event
+
+fmap fm e are occurrences of e filtered and mapped by fm.
+
+let v, send_v = E.create ()
+let x = E.stamp v 1 (* x: 1111 *)
+let y = E.filter (fun n -&amp;gt; n mod 2 = 0) v (* y: 02 *)
+let z = E.fmap (fun n -&amp;gt; if n = 0 then Some 1 else None) v (* z: 1 *)
+List.iter send_v [0; 1; 2; 3]
+
+val diff : ('a -&amp;gt; 'a -&amp;gt; 'b) -&amp;gt; 'a React.event -&amp;gt; 'b React.event
+
+diff f e occurs whenever e occurs except on the next occurence.
+In another words,
+it is triggered since the second the occurrence.
+Occurences are f v v’ where v is e’s current occurrence and v’ the previous one.
+
+val changes : ?eq:('a -&amp;gt; 'a -&amp;gt; bool) -&amp;gt; 'a React.event -&amp;gt; 'a React.event
+
+changes eq e is the occurrences of e with occurences equal to the previous one dropped.
+Equality is tested with eq (defaults to structural equality).
+The behavior is similar to Signals.
+
+let x, send_x = E.create ()
+let y = E.diff ( - ) x
+let z = E.changes x
+List.iter send_x [0; 0; 3; 4; 4]
+
+The occurrences of y are 0310 (difference between current and previous one),
+while those of z are 034 (only changes are recorded).
+
+val dismiss : 'b React.event -&amp;gt; 'a React.event -&amp;gt; 'a React.event
+
+dismiss c e is the occurences of e except the ones when c occurs.
+
+let x, send_x = E.create ()
+let y = E.fmap (fun x -&amp;gt; if x mod 2 = 0 then Some x else None) x
+let z = E.dismiss y x
+List.iter send_x [1; 2; 3; 4; 5; 6]
+
+The occurrences of y are 246 (even numbers).
+Occurrences of z are 135.
+When y has occurrence, z will not have any occurrence.
+
+val until : 'a React.event -&amp;gt; 'b React.event -&amp;gt; 'b React.event
+
+until c e is e’s occurences until c occurs.
+
+let x, send_x = E.create ()
+let stop = E.filter (fun s -&amp;gt; s = &quot;c&quot;) x
+let y = E.until stop x
+let pr_y = E.map print_string y
+List.iter send_x [&quot;a&quot;; &quot;b&quot;; &quot;c&quot;; &quot;d&quot;; &quot;e&quot;]
+
+The output is ab.
+All the occurrences after stop event are dropped,
+although stop has no more new updates.
+
+val accum : ('a -&amp;gt; 'a) React.event -&amp;gt; 'a -&amp;gt; 'a React.event
+
+accum ef i accumulates a value, starting with i,
+using e’s functional occurrences.
+It takes the previous occurrence, applies to the function and evaluates
+the result as the current occurrence.
+
+let f, send_f = E.create ()
+let a = E.accum f 0
+let pr_a = E.map print_int a
+List.iter send_f [( + ) 2; ( - ) 1; ( * ) 2];
+(* Output is 2 -1 -2 *)
+
+val fold : ('a -&amp;gt; 'b -&amp;gt; 'a) -&amp;gt; 'a -&amp;gt; 'b React.event -&amp;gt; 'a React.event
+
+fold f i e accumulates the occurrences of e with f starting with i.
+The behavior of fold is similar to List.fold_left.
+
+let x, send_x = E.create ()
+let y = E.fold ( * ) 1 x
+let pr_y = E.map print_int y
+List.iter send_x [1; 2; 3; 4]
+
+The output would be 1 2 6 24.
+
+val select : 'a React.event list -&amp;gt; 'a React.event
+
+select el is the occurrences of every event in el.
+If more than one event occurs simultaneously the leftmost is taken and the others are lost.
+
+let w, send_w = E.create ()
+let x, send_x = E.create ()
+let y = E.map succ w
+let z = E.map succ y (* z and y are considered simultaneous *)
+let t = E.select [w; x] (* t: 0 1 2 3 4 *)
+let sy = E.select [y; z] (* sy: 1 3 4 5 *)
+let sz = E.select [z; y] (* sz: 2 4 5 6 *)
+send_w 0;
+send_x 1;
+List.iter send_w [2; 3; 4]
+
+The expected occurrences of all variables are written in the comments.
+To know more about simultaneous events, read
+this.
+
+val merge : ('a -&amp;gt; 'b -&amp;gt; 'a) -&amp;gt; 'a -&amp;gt; 'b React.event list -&amp;gt; 'a React.event
+
+merge f a el merges the simultaneous occurrences of every event in el using f and the accumulator a.
+You may refer to the previous API to check the meaning of simultaneous events.
+
+let w, send_w = E.create ()
+let x, send_x = E.create ()
+let y = E.map succ w (* y is a simultaneous event w.r.t. w *)
+let z = E.merge (fun acc v -&amp;gt; v::acc) [] [w; x; y]
+send_w 1;
+send_x 4;
+send_w 2;
+
+The occurrences of z are [2; 1], [4], [3; 2].
+Hint: fun acc v -&amp;gt; v::acc pushes every v to the accumulator acc.
+
+val switch : 'a React.event -&amp;gt; 'a React.event React.event -&amp;gt; 'a React.event
+
+switch e ee is e’s occurrences until there is an occurrence e’ on ee,
+the occurrences of e’ are then used until there is a new occurrence on ee, etc.
+
+val fix : ('a React.event -&amp;gt; 'a React.event * 'b) -&amp;gt; 'b
+
+fix ef allows to refer to the value an event had an infinitesimal amount of time before.
+
+Module React.S
+
+val hold : ?eq:('a -&amp;gt; 'a -&amp;gt; bool) -&amp;gt; 'a -&amp;gt; 'a React.event -&amp;gt; 'a React.signal
+
+hold i e has the value of e’s last occurrence or i if there was not any.
+
+1
+2
+3
+4let x, send_x = E.create ()
+let a = S.hold 0 x
+let pr_a = S.map print_int a
+List.iter send_x [1; 2; 3; 3; 3; 4; 4; 4]
+
+
+A 0 will printed out at line 3 because x has no occurrences by then.
+Then 1234 will be printed.
+Note that only updates that change the value of a signal are printed.
+
+Many API are similar to those in React.E.
+Therefore this tutorial jumps straight to Lifting combinators.
+Lifting transforms a regular function to make it act on signals.
+For examples, l2 takes a function with two arguments as its input.
+
+val l2 : ?eq:('c -&amp;gt; 'c -&amp;gt; bool) -&amp;gt;
+    ('a -&amp;gt; 'b -&amp;gt; 'c) -&amp;gt; 'a React.signal -&amp;gt; 'b React.signal -&amp;gt; 'c React.signal
+
+Example:
+
+let f x y = x mod y
+let fl = S.l2 f
+val fl : int React.signal -&amp;gt; int React.signal -&amp;gt; int React.signal = &amp;lt;fun&amp;gt;
+
+Some other examples
+
+  Clock.ml
+  Breakout.ml
+  Oreo project Ocaml Reactive programming used on Web authored by me
+
+
+
+
+
+</content>
+      <categories>
+        
+          <category> programming </category>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title>Differences between type systems of Ocaml &amp; Java</title>
+      <url>/programming/2013/12/27/Type-Systems.html</url>
+      <content type="text">Introduction
+
+When asked the differences between the Ocaml’s type system and Java’s,
+I realized that I did not understand them well.
+Therefore, I did some research about these two type systems and
+posted the result as this blog.
+
+Ocaml Type System
+
+The ML languages are statically and strictly typed.
+In addition, every expression has exactly one type.
+In contrast, C is a weakly-typed language:
+values of one type can usually coerced to a value of any other type,
+whether the coercion makes sense or not.
+
+What is “safety”?
+There is a formal definition based on the operational semantics of
+the programming language,
+but an approximte definition is that a valid program will never fault
+because of an invalid machine operation.
+All memory access will be valid.
+ML guarantees safety by proving that every program that
+passes the type checker can never produce a machine fault.
+Another functional language,
+Lisp which is dynamically and strictly typed,
+guarantees its safety by checking for validity at run time.
+One of the consequences is that ML has no nil or NULL values.
+These values would potentially cause mechine errors if used
+where a value is expected.
+
+An Ocaml programmer may initially spend a lot of time getting the Ocaml
+type checker to accept his programs.
+But eventually
+he will find the type checker is one of his best friends.
+It helps a programmer figure out
+where errors may be lurking in programs.
+If a change is made, the type checker will track down the parts that
+are affected.
+At the meantime,
+here are some rules about type checking.
+
+
+  Every expression has exactly one type.
+  When an expression is evaluated, one of the four things may happen:
+    
+      it may evaluate to a value of the same type as the expression,
+      it may raise an exception,
+      it may not terminate,
+      it may exit.
+    
+  
+
+
+One of the important points in Ocaml is that
+there are no “pure commands”.
+Every assignment produce a value
+
+  although the value has the trivial unit type.
+Below let us see some examples of how Ocaml type system works:
+
+
+1
+2
+3
+4	if 1 &amp;lt; 2 then
+		1
+	else
+		1.3
+
+
+When compiling the code,
+the compilor would tell you there is a type error on line 4,
+characters 3-6. This is because the type checker requires that
+both branches of the conditional statement have the same type
+no matter how the test turns out.
+Since the expressions 1 and 1.3 have different types,
+the type checker generates an error.
+
+A Strong Static Language: Java
+Java is considered one of the most static languages,
+but it implemented a comprehensive reflection API which
+allows you to change classes at run time,
+thus resembling more dynamic languages.
+This feature enables Java Virtue Machine (JVM)
+to support very dynamic languages such as Groovy.
+
+Java needs everything to be defined so that
+you know all the time what type of object you have and
+whether you call them properly.
+In addition,
+Java does not allow code outside of a class.
+It has been a major reason why people complain that
+Java forces you to write too much boilerplate.
+
+The popularity of Java and its strong adherence to strong typing
+made a huge impact on the programming landscape.
+Strong typing advocates lauded Java for fixing the cracks in C++.
+But many programmers found Java overly prescriptive and rigid.
+They wanted a fast way to write code without all of the extra definition of Java.
+As a result, strong dynamic typing languages,
+such as JavaScript, Python and Ruby, are becoming more and more popular
+in recent years.
+
+What are their differences?
+Anyway,
+there is no stronger or weaker type system between these two systems.
+Ocaml and Java are both to static and strong typing languages.
+They both have primitive, array and class types.
+(The standard ML language does not support class types but 
+Objective-caml does.)
+However Java and Ocaml do have some differences in their type systems.
+Ocaml is a functional language and
+a function can be passed as a argument,
+known as higher order functions.
+The type of a function is defined by both its input and output type.
+For example in the chunck of code below,
+
+1
+2	let square x = x * x;
+	val square : int -&amp;gt; int = &amp;lt;fun&amp;gt;
+
+
+square is a function that takes an integer and returns an integer.
+Most importantly,
+square can be passed to another function as an input.
+However it is not done as natural in Java.
+In Java higher order function is usually done by
+wrapping the function within an interface as below:
+
+1
+2
+3
+4
+5
+6
+7  public int methodToPass() {
+		// do something
+	}
+
+	public void dansMethod(int i, Callable&amp;lt;Integer&amp;gt; myFunc) {
+		// do something
+	}
+
+
+then use a inner class to call the method methodToPass as shown below:
+
+1
+2
+3
+4
+5  dansMethod(100, new Callable&amp;lt;Integer&amp;gt;() {
+		public Integer call() {
+			return methodToPass();
+		}
+	});
+
+
+Next, pattern matching is something unique to Ocaml compared to Java.
+A similar feature in Java is perhaps switch statement.
+However it does not have many things to do with type system.
+
+1
+2
+3
+4	let rec sigma f = function
+		| [] -&amp;gt; 0
+		| x :: l -&amp;gt; f x + sigma f l;;
+	val sigma : ('a -&amp;gt; int) -&amp;gt; 'a list -&amp;gt; int = &amp;lt;fun&amp;gt;
+
+
+Last but not the least,
+type inference is a major difference between Ocaml and Java type systems.
+Most conventional static typing languages require programmers to restate the types of expressions.
+For example,
+the following Java code instantiates a method to increment an integer by 1.
+
+1
+2
+3int succ (int n) {
+    return n + 1;
+}
+
+
+In OCaml, all programs can be written such that the types they use are competely inferred, i.e.
+it is never necessary to explicitly define and declare types in OCaml.
+However, defining important types in a program is a good way to leverage static type checking by providing machine-checked documentation,
+improving error reporting and tightening the type system to catch more errors.
+
+The above Java code can be re-written as
+
+1
+2let succ n = n + 1;;
+val succ : int -&amp;gt; int = &amp;lt;fun&amp;gt;
+
+
+OCaml infers that the function maps integers onto integers even though no types were declared.
+The inference was based upon the use of the integer operator + and the integer literal 1.
+
+Conclusion
+
+In summary,
+the type system of Java has lots of similarities compared to Ocaml.
+Still Java is one of the dominant and most popular programming languages.
+</content>
+      <categories>
+        
+          <category> programming </category>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title>Welcome to Jekyll</title>
+      <url>/programming/2013/07/17/welcome-to-jekyll.html</url>
+      <content type="text">You’ll find this post in your _posts directory - edit this post and re-build (or run with the -w switch) to see your changes!
+To add new posts, simply add a file in the _posts directory that follows the convention: YYYY-MM-DD-name-of-post.ext.
+
+Jekyll also offers powerful support for code snippets:
+
+def print_hi(name)
+  puts &quot;Hi, #{name}&quot;
+end
+print_hi('Tom')
+#=&amp;gt; prints 'Hi, Tom' to STDOUT.
+
+Check out the Jekyll docs for more info on how to get the most out of Jekyll. File all bugs/feature requests at Jekyll’s GitHub repo.
+
+</content>
+      <categories>
+        
+          <category> programming </category>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title>Bootstrap, bootstrap everywhere</title>
+      <url>/programming/2013/06/19/Bootstrap-Everywhere.html</url>
+      <content type="text">In layman’s terms,
+bootstrap is a CSS and Javascript framework designed to
+make web development easier.
+At the same time, it makes the websites look similar.
+If the framework is used without any customization,
+the produced websites will look almost in the same style.
+
+
+
+Anyway, I do not say twitter bootstrap is bad.
+Even this blog uses this framework.
+Imagine if I built the CSS from scratch, perhaps I would have not finished
+writing it.
+
+Appended on 10-Jan-2014:
+
+Since the new release of the website,
+the CSS of this website has given up bootstrap framework.
+</content>
+      <categories>
+        
+          <category> programming </category>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title>Why I used Jekyll-bootstrap instead of Octopress</title>
+      <url>/programming/2013/06/13/Why-I-Used-Jekyll-Instead-of-Octopress.html</url>
+      <content type="text">I was amazed by the beautiful blog made by my friend.
+He suggested me use Octopress or Jekyll.
+However I faced a lot of problems when I tried to install both of them.
+
+Below are some examples:
+
+Problem 1
+
+Building native extensions.  This could take a while...
+ERROR:  Error installing jekyll:
+ERROR: Failed to build gem native extension.
+
+/usr/bin/ruby1.9.1 extconf.rb
+/usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require': cannot load such file -- mkmf (LoadError)
+from /usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require'
+from extconf.rb:1:in `&amp;lt;main&amp;gt;'
+
+
+
+Solution 1
+
+sudo apt-get install ruby1.9.1-dev
+
+
+
+Problem 2
+
+Bundler::GemfileNotFound
+
+
+
+Solution 2
+find the Gemfile by command:
+
+locate Gemfile
+
+
+
+cd into the directory
+
+Problem 3
+
+rake aborted!
+You have already activated rake 0.9.6, but your Gemfile requires rake 0.9.2.2.
+
+
+
+Solution 3
+run command
+
+$ bundle exec rake install
+
+
+
+Apply to all the incidents when rake is aborted.
+
+Finally the big boss came and I was unable to configure the rake such that it can
+point to my github local repo. Sad…
+
+Now I switch to Jekyll Bootstrap. Hopefully it is a better solution.
+Hopefully it was not because I was noob.
+</content>
+      <categories>
+        
+          <category> programming </category>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+</search>
