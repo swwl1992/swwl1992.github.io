@@ -111,17 +111,17 @@
 
 
 
-<meta name="description" content="What do the number of executors and cores actually mean in a cluster?">
+<meta name="description" content="From an infrastructural perspective, what do the number of executors and cores actually mean?">
 <meta name="keywords" content="Jekyll, NexT">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spark executor and cores rethought">
+<meta property="og:title" content="Spark's number of cores rethought">
 <meta property="og:url" content="http://localhost:4000/spark/2018/04/02/spark-executor-cores.html">
 <meta property="og:site_name" content="Salmon Says">
-<meta property="og:description" content="What do the number of executors and cores actually mean in a cluster?">
+<meta property="og:description" content="From an infrastructural perspective, what do the number of executors and cores actually mean?">
 <meta property="og:locale" content="en">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spark executor and cores rethought">
-<meta name="twitter:description" content="What do the number of executors and cores actually mean in a cluster?">
+<meta name="twitter:title" content="Spark's number of cores rethought">
+<meta name="twitter:description" content="From an infrastructural perspective, what do the number of executors and cores actually mean?">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -154,7 +154,7 @@
 
 
 
-  <title>Spark executor and cores rethought | Salmon Says</title>
+  <title>Spark's number of cores rethought | Salmon Says</title>
   
 
 
@@ -288,7 +288,7 @@
           <h1 class="post-title" itemprop="name headline">
           
           
-            Spark executor and cores rethought
+            Spark's number of cores rethought
           
         </h1>
         
@@ -350,10 +350,6 @@
 
           
             
-                <div class="post-description">
-                    
-                </div>
-            
           
 
         </div>
@@ -366,7 +362,159 @@
       
 
       
-        
+        <p>There are tons of articles talking about setting the number of executors and cores for <a href="http://spark.apache.org/">Spark</a> applications.
+Hence I am <em>not</em> going to discuss anything about tuning these 2 parameters.
+Instead I would like to address what does the values of these parameters mean
+for nodes or containers which are executing your tasks.</p>
+
+<h3 id="summary">Summary</h3>
+
+<p>The number of cores has no direct relation to physical CPU cores,
+instead it is a logical counter
+which determines the number of concurrent
+tasks that are able to run on one executor.
+I believe that many articles you can find have already addressed it.
+However from the perspective of servers or containers
+that receive tasks from the driver process,
+the number of cores is able to limit the total number of tasks running
+on one server/node/container.</p>
+
+<h3 id="standalone-mode">Standalone mode</h3>
+
+<p>Standalone mode is very easy to setup but has few features in
+scheduling and access control.
+Though I have touched both standalone and YARN mode,
+starting from standalone mode is a good choice
+because the implementation details are easy to inspect, compared to YARN mode
+where lots of details are handled by YARN.</p>
+
+<p>Let’s start from worker process first.
+It is recommended that each server only runs one single worker process
+and I am going to treat it as an assumption.</p>
+
+<p>What are workers and executors?</p>
+
+<p>Each worker is Java process and so is an executor.
+If the number of cores is not specified when starting a worker,
+the worker will pick the number of physical cores from OS
+to be its capacity of cores.
+For Spark applications that demand executors,
+worker processes spawn executor processes as responses to such requests.
+Upon each creation of an executor process,
+worker deduct the amount of memory and cores from the total value
+it controls.
+In <a href="">Worker</a>
+class, you can find in method <code class="highlighter-rouge">launchExecutor</code> that
+for each launch of a new executor, the count of used cores is incremented.
+Therefore as I said,
+the number of memory and cores are more like
+<em>logical</em> values rather than the actual amount of resources each executor uses.</p>
+
+<p>What does it look like in deeper details?
+The number of memory (controlled by <code class="highlighter-rouge">spark.executor.memory</code>)
+determines the <strong>maximum heap size</strong> of executor process,
+by forming the <code class="highlighter-rouge">-Xmx</code> parameter.
+For example if you pass in <code class="highlighter-rouge">--conf spark.executor.memory=10240m</code>
+when submitting an Spark application,
+the executor Java process will include a command line argument as <code class="highlighter-rouge">-Xmx 10240m</code>.</p>
+
+<p><a href="https://github.com/apache/spark/blob/master/core/src/main/scala/org/apache/spark/deploy/worker/ExecutorRunner.scala">ExecutorRunner</a>
+is the wrapper class around each executor process.
+It has an attribute which is an instance of Java
+<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Process.html">Process</a>.
+Actually <a href="https://github.com/apache/spark/blob/master/core/src/main/scala/org/apache/spark/deploy/worker/Worker.scala">CoarseGrainedExecutorBackend</a>
+is the main entry point class of executor process
+which is able to be observed by using <code class="highlighter-rouge">ps -ef</code> command.
+As you dig deeper in the source code,
+you should be able to find that each task is a thread submitted
+to a thread pool.
+<code class="highlighter-rouge">spark.executor.cores</code> thus controls the upper limit of concurrent tasks
+running in one executor process.
+Their resources are shared within one process.
+As quite a number of online sources have pointed out,
+a big number of cores, say 8,
+causes the overhead of context switch to be big and
+actually slow down the overall performance.
+A number between 2 and 4 (inclusive) is recommended for most Spark applications.</p>
+
+<h3 id="yarn-mode">YARN mode</h3>
+
+<p>YARN provides a much richer set of features such as
+(very fine-grained) capacity scheduling, label-based scheduling and access control.</p>
+
+<p>The table below helps you compare and understand standalone and YARN mode
+side by side.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>YARN</th>
+      <th>standalone</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ResourceManager</td>
+      <td>Master</td>
+    </tr>
+    <tr>
+      <td>NodeManager</td>
+      <td>Worker</td>
+    </tr>
+    <tr>
+      <td>yarn.nodemanager.resource.memory-mb</td>
+      <td>–memory</td>
+    </tr>
+    <tr>
+      <td>yarn.nodemanager.resource.cpu-vcores</td>
+      <td>–cores</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>A major difference between YARN and standalone mode in terms of resource control
+is that workers stop spawning new executors
+when either of the resources is exhausted.
+However the <code class="highlighter-rouge">DefaultResourceCalculator</code> only uses <em>memory</em> to control
+the resources used by executors.
+As a result sometimes you can see that the available of vcores on a node
+become negative.
+<code class="highlighter-rouge">DominantResourceCalculator</code> behaves the same way as workers in standalone mode.
+It chooses the dominant resource as the upper limit for resource usage.</p>
+
+<h3 id="an-infra-perspective">An infra perspective</h3>
+
+<p>I have heard that some companies use Kubernetes to spawn containers to host NodeManagers,
+when there are huge demands for resources.</p>
+
+<p>An ideal scenario is where the memory and cores in your cluster
+are consumed at the same pace.
+When memory is used up,
+cores should be exhausted as well.
+To achieve better utility of your Hadoop slaves,
+tune these parameters such that
+when memory and cores are used up by executors,
+memory in OS is close to fully utilized and CPU load is slightly below
+maximum capacity.
+This advice is given in condition that Spark executors are the dominant
+processes running on your servers
+and you should always leave some memory and computational power for
+other processes than Spark executors and tasks.
+Your Spark applications might have very strange behavior,
+sometimes even failures,
+when the CPU load of Hadoop slaves is extremely high.</p>
+
+<p>If you have both IO intensive (such as ETL)
+and computationally intensive applications (such as data science apps),
+consider introducing label-based scheduling before tuning.</p>
+
+<h3 id="epilogue-data-engineering-in-shopee">Epilogue: data engineering in Shopee</h3>
+
+<p>As the primary data provider in a leading E-commerce platform operating across Southeast Asia,
+data engineering team is able to handle TB-level in one ETL flow and
+this number is still increasing fast.
+We run Spark jobs on top of an in-house Hadoop cluster
+whose size is among the top-tier in Singapore as well as SEA region, hopefully.</p>
 
       
     </div>
@@ -486,15 +634,24 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/assets/images/avatar.gif"
                alt="Wan Wenli" />
           <p class="site-author-name" itemprop="name">Wan Wenli</p>
            
-              <p class="site-description motion-element" itemprop="description">Elegant theme for Jekyll.</p>
+              <p class="site-description motion-element" itemprop="description"></p>
           
         </div>
         <nav class="site-state motion-element">
@@ -549,6 +706,31 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+
+
+
+
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-3"> <a class="nav-link" href="#summary"> <span class="nav-number">1</span> <span class="nav-text">Summary</span> </a> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> </li></ol> </li></ol> </li></ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#standalone-mode"> <span class="nav-number">2</span> <span class="nav-text">Standalone mode</span> </a> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> </li></ol> </li></ol> </li></ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#yarn-mode"> <span class="nav-number">3</span> <span class="nav-text">YARN mode</span> </a> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> </li></ol> </li></ol> </li></ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#an-infra-perspective"> <span class="nav-number">4</span> <span class="nav-text">An infra perspective</span> </a> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> </li></ol> </li></ol> </li></ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#epilogue-data-engineering-in-shopee"> <span class="nav-number">5</span> <span class="nav-text">Epilogue: data engineering in Shopee</span> </a> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child">
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
