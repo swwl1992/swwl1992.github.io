@@ -463,11 +463,11 @@ side by side.</p>
     </tr>
     <tr>
       <td>yarn.nodemanager.resource.memory-mb</td>
-      <td>–memory</td>
+      <td>--memory</td>
     </tr>
     <tr>
       <td>yarn.nodemanager.resource.cpu-vcores</td>
-      <td>–cores</td>
+      <td>--cores</td>
     </tr>
   </tbody>
 </table>
@@ -484,17 +484,14 @@ It chooses the dominant resource as the upper limit for resource usage.</p>
 
 <h3 id="an-infra-perspective">An infra perspective</h3>
 
-<p>I have heard that some companies use Kubernetes to spawn containers to host NodeManagers,
-when there are huge demands for resources.</p>
-
 <p>An ideal scenario is where the memory and cores in your cluster
 are consumed at the same pace.
-When memory is used up,
+In other words, when memory is used up,
 cores should be exhausted as well.
 To achieve better utility of your Hadoop slaves,
 tune these parameters such that
 when memory and cores are used up by executors,
-memory in OS is close to fully utilized and CPU load is slightly below
+memory of OS is close to fully utilized and CPU load is slightly below
 maximum capacity.
 This advice is given in condition that Spark executors are the dominant
 processes running on your servers
@@ -503,6 +500,17 @@ other processes than Spark executors and tasks.
 Your Spark applications might have very strange behavior,
 sometimes even failures,
 when the CPU load of Hadoop slaves is extremely high.</p>
+
+<p>These tunings fit very well in the context of
+running ETL and hosting a data warehouse on a cloud
+where you are able to purchase and configure the specs of
+your containers or virtual machines very easily.
+In contrast, if your NodeManagers (or workers) run on physical servers,
+there is no easy way to increase or reduce the numbers of CPU cores.
+Plugging in or our RAM is also not feasible in modern days data centers.
+I have heard that some companies use Kubernetes to spawn containers to host NodeManagers,
+when there are huge demands for resources,
+which can be seen as an alternative way of setting up the specs of nodes.</p>
 
 <p>If you have both IO intensive (such as ETL)
 and computationally intensive applications (such as data science apps),

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.2">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-04-03T15:38:48+08:00</updated><id>http://localhost:4000/</id><title type="html">Salmon Says</title><author><name>Wan Wenli</name></author><entry><title type="html">Spark’s number of cores rethought</title><link href="http://localhost:4000/spark/2018/04/02/spark-executor-cores.html" rel="alternate" type="text/html" title="Spark's number of cores rethought" /><published>2018-04-02T00:00:00+08:00</published><updated>2018-04-02T00:00:00+08:00</updated><id>http://localhost:4000/spark/2018/04/02/spark-executor-cores</id><content type="html" xml:base="http://localhost:4000/spark/2018/04/02/spark-executor-cores.html">&lt;p&gt;There are tons of articles talking about setting the number of executors and cores for &lt;a href=&quot;http://spark.apache.org/&quot;&gt;Spark&lt;/a&gt; applications.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.2">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-04-03T22:20:31+08:00</updated><id>http://localhost:4000/</id><title type="html">Salmon Says</title><author><name>Wan Wenli</name></author><entry><title type="html">Spark’s number of cores rethought</title><link href="http://localhost:4000/spark/2018/04/02/spark-executor-cores.html" rel="alternate" type="text/html" title="Spark's number of cores rethought" /><published>2018-04-02T00:00:00+08:00</published><updated>2018-04-02T00:00:00+08:00</updated><id>http://localhost:4000/spark/2018/04/02/spark-executor-cores</id><content type="html" xml:base="http://localhost:4000/spark/2018/04/02/spark-executor-cores.html">&lt;p&gt;There are tons of articles talking about setting the number of executors and cores for &lt;a href=&quot;http://spark.apache.org/&quot;&gt;Spark&lt;/a&gt; applications.
 Hence I am &lt;em&gt;not&lt;/em&gt; going to discuss anything about tuning these 2 parameters.
 Instead I would like to address what does the values of these parameters mean
 for nodes or containers which are executing your tasks.&lt;/p&gt;
@@ -99,11 +99,11 @@ side by side.&lt;/p&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;td&gt;yarn.nodemanager.resource.memory-mb&lt;/td&gt;
-      &lt;td&gt;–memory&lt;/td&gt;
+      &lt;td&gt;--memory&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;td&gt;yarn.nodemanager.resource.cpu-vcores&lt;/td&gt;
-      &lt;td&gt;–cores&lt;/td&gt;
+      &lt;td&gt;--cores&lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
@@ -120,17 +120,14 @@ It chooses the dominant resource as the upper limit for resource usage.&lt;/p&gt
 
 &lt;h3 id=&quot;an-infra-perspective&quot;&gt;An infra perspective&lt;/h3&gt;
 
-&lt;p&gt;I have heard that some companies use Kubernetes to spawn containers to host NodeManagers,
-when there are huge demands for resources.&lt;/p&gt;
-
 &lt;p&gt;An ideal scenario is where the memory and cores in your cluster
 are consumed at the same pace.
-When memory is used up,
+In other words, when memory is used up,
 cores should be exhausted as well.
 To achieve better utility of your Hadoop slaves,
 tune these parameters such that
 when memory and cores are used up by executors,
-memory in OS is close to fully utilized and CPU load is slightly below
+memory of OS is close to fully utilized and CPU load is slightly below
 maximum capacity.
 This advice is given in condition that Spark executors are the dominant
 processes running on your servers
@@ -139,6 +136,17 @@ other processes than Spark executors and tasks.
 Your Spark applications might have very strange behavior,
 sometimes even failures,
 when the CPU load of Hadoop slaves is extremely high.&lt;/p&gt;
+
+&lt;p&gt;These tunings fit very well in the context of
+running ETL and hosting a data warehouse on a cloud
+where you are able to purchase and configure the specs of
+your containers or virtual machines very easily.
+In contrast, if your NodeManagers (or workers) run on physical servers,
+there is no easy way to increase or reduce the numbers of CPU cores.
+Plugging in or our RAM is also not feasible in modern days data centers.
+I have heard that some companies use Kubernetes to spawn containers to host NodeManagers,
+when there are huge demands for resources,
+which can be seen as an alternative way of setting up the specs of nodes.&lt;/p&gt;
 
 &lt;p&gt;If you have both IO intensive (such as ETL)
 and computationally intensive applications (such as data science apps),
