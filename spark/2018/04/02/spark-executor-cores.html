@@ -477,7 +477,7 @@ is that workers stop spawning new executors
 when either of the resources is exhausted.
 However the <code class="highlighter-rouge">DefaultResourceCalculator</code> only uses <em>memory</em> to control
 the resources used by executors.
-As a result sometimes you can see that the available of vcores on a node
+As a result sometimes you can see that the available number of vcores on a node
 become negative.
 <code class="highlighter-rouge">DominantResourceCalculator</code> behaves the same way as workers in standalone mode.
 It chooses the dominant resource as the upper limit for resource usage.</p>
