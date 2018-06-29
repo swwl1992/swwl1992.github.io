@@ -1,4 +1,251 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.2">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-04-04T19:38:19+08:00</updated><id>http://localhost:4000/</id><title type="html">Salmon Says</title><author><name>Wan Wenli</name></author><entry><title type="html">Spark’s number of cores rethought</title><link href="http://localhost:4000/spark/2018/04/02/spark-executor-cores.html" rel="alternate" type="text/html" title="Spark's number of cores rethought" /><published>2018-04-02T00:00:00+08:00</published><updated>2018-04-02T00:00:00+08:00</updated><id>http://localhost:4000/spark/2018/04/02/spark-executor-cores</id><content type="html" xml:base="http://localhost:4000/spark/2018/04/02/spark-executor-cores.html">&lt;p&gt;There are tons of articles talking about setting the number of executors and cores for &lt;a href=&quot;http://spark.apache.org/&quot;&gt;Spark&lt;/a&gt; applications.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.2">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-06-29T14:33:33+08:00</updated><id>http://localhost:4000/</id><title type="html">Salmon Says</title><subtitle>Sources for my personal blog</subtitle><author><name>Wan Wenli</name></author><entry><title type="html">A brief guide to Bitcoin lightning network with examples</title><link href="http://localhost:4000/blockchain/2018/06/28/Bitcoin-lightning-network.html" rel="alternate" type="text/html" title="A brief guide to Bitcoin lightning network with examples" /><published>2018-06-28T00:00:00+08:00</published><updated>2018-06-28T00:00:00+08:00</updated><id>http://localhost:4000/blockchain/2018/06/28/Bitcoin-lightning-network</id><content type="html" xml:base="http://localhost:4000/blockchain/2018/06/28/Bitcoin-lightning-network.html">&lt;p&gt;Why another post about the lightning network (LN) of Bitcoin?&lt;/p&gt;
+
+&lt;p&gt;The primary reason is that
+some of the resources online are &lt;em&gt;not&lt;/em&gt; up to date.
+The technological details of LN are not intuitive enough
+and not easy to grasp.
+Without examples, confusion and misunderstanding may arise.&lt;/p&gt;
+
+&lt;p&gt;If you are a technician, researcher, engineer,
+blockchain hobbyist or enthusiast
+who already has some knowledge about LN,
+this article is for you.
+Do not worry if you know nothing about LN,
+because this article leads you to the most useful resources
+and tell you which piece of information is accurate in them.
+Some understanding about
+&lt;a href=&quot;https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki&quot;&gt;segregated witness&lt;/a&gt;
+is strongly recommended before
+reading the remaining part of this post,
+as current LN payments heavily rely on it.&lt;/p&gt;
+
+&lt;p&gt;In summary this post focuses on:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;what are the reliable resources to read/watch in order to understand LN;&lt;/li&gt;
+  &lt;li&gt;what info inside these articles and videos is accurate and what is outdated;&lt;/li&gt;
+  &lt;li&gt;how LN works, roughly;&lt;/li&gt;
+  &lt;li&gt;how to find LN transactions on-chain.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Unfortunately, this article does &lt;em&gt;not&lt;/em&gt; discuss
+how lightning network will affect bitcoin ecosystem,
+its advantages and drawbacks,
+how much transaction rate will improve, or even coin price!&lt;/p&gt;
+
+&lt;p&gt;Good news: this article provides &lt;strong&gt;concrete examples&lt;/strong&gt; of payments via LN
+that have been permanently written on Bitcoin blockchain!
+So far I have not seen any other articles that give out examples.&lt;/p&gt;
+
+&lt;p&gt;Last but not the least,
+this post is my personal humble understanding on LN.
+I am open for comments and critics.&lt;/p&gt;
+
+&lt;h3 id=&quot;articles-and-videos&quot;&gt;Articles and videos&lt;/h3&gt;
+
+&lt;p&gt;The GitHub repo
+&lt;a href=&quot;https://github.com/bcongdon/awesome-lightning-network&quot;&gt;awesome-lightning-network&lt;/a&gt;
+lists out many resources for LN.
+It is a good starting point.
+However in my point of view,
+there is only one that is sufficiently comprehensive: the
+&lt;a href=&quot;https://lightning.network/lightning-network-paper.pdf&quot;&gt;lightning network paper&lt;/a&gt;.
+I strongly recommend you to read through it.&lt;/p&gt;
+
+&lt;p&gt;You may have come across
+&lt;a href=&quot;https://www.youtube.com/watch?v=8zVzw912wPo&amp;amp;t=2317s&quot;&gt;this YouTube video&lt;/a&gt;
+on LN.
+It appears as the 2&lt;sup&gt;nd&lt;/sup&gt; search result of
+“lightning network” on YouTube.
+Its weakness is that for bi-directional payments,
+how to penalise an old commitment transaction and
+revoke all the funds is not clear.
+To understand the details of penalty
+which is an essential part to ensure the safety and trustworthiness of LN,
+please read the LN paper.
+Penalty on HTLC transactions follows a very similar mechanism.
+Later you will see both successfully claimed and penalised fund on-chain.&lt;/p&gt;
+
+&lt;p&gt;Besides, the articles and videos share another fatal issue:
+the scripts illustrated in them &lt;em&gt;cannot&lt;/em&gt; be found on the most recent blocks.
+For example, I am &lt;em&gt;unable&lt;/em&gt; to find an input script
+that follow the format below which is on page 31 of the LN paper
+and implemented in a JavaScript LN protocol,
+&lt;a href=&quot;https://github.com/yoursnetwork/yours-channels&quot;&gt;yours-channels&lt;/a&gt;.
+However if you do find one, please leave your comment.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;OP IF
+  OP HASH160 &amp;lt;Hash160 (R)&amp;gt; OP EQUALVERIFY
+  2 &amp;lt;Ali c e 2&amp;gt; &amp;lt;Bob2&amp;gt; OP CHECKMULTISIG
+OP ELSE
+  2 &amp;lt;Ali c e 1&amp;gt; &amp;lt;Bob1&amp;gt; OP CHECKMULTISIG
+OP ENDIF
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;I suppose it is because
+the specifications of LN have been updated and redefined in
+&lt;a href=&quot;https://github.com/lightningnetwork/lightning-rfc&quot;&gt;this repo&lt;/a&gt;
+called Basis of Lightning Technology (BOLT).
+To be more specific, transactions and scripts are documented in
+&lt;a href=&quot;https://github.com/lightningnetwork/lightning-rfc/blob/master/03-transactions.md&quot;&gt;BOLT #3&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;source-code&quot;&gt;Source code&lt;/h3&gt;
+
+&lt;p&gt;There is a handful of implementations for LN.
+The most popular two are the
+&lt;a href=&quot;https://github.com/lightningnetwork/lnd&quot;&gt;LND&lt;/a&gt; written in Go
+and
+&lt;a href=&quot;https://github.com/ElementsProject/lightning&quot;&gt;lightning&lt;/a&gt; in C.
+I have found these two repos after encountering the
+&lt;a href=&quot;https://lnmainnet.gaben.win/&quot;&gt;mainnet LN explorer&lt;/a&gt;
+which gets readings from them.&lt;/p&gt;
+
+&lt;p&gt;Both of them strictly follow the
+&lt;a href=&quot;https://github.com/lightningnetwork/lightning-rfc/blob/master/03-transactions.md&quot;&gt;BOLT #3&lt;/a&gt;
+to build transactions and scripts.
+Read more detailed source code here:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/lightningnetwork/lnd/blob/master/lnwallet/script_utils.go&quot;&gt;script_utils.go&lt;/a&gt;
+in LND&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/ElementsProject/lightning/blob/master/bitcoin/script.c&quot;&gt;script.c&lt;/a&gt; in lightning&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As you will see soon,
+BOLT #3 is the dominantly (probably the only) observable form on-chain.&lt;/p&gt;
+
+&lt;h3 id=&quot;how-to-find-a-ln-transaction&quot;&gt;How to find a LN transaction&lt;/h3&gt;
+
+&lt;p&gt;There are two major forms of transactions that are surely from LN:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;2-of-2-MULTISIG embedded in P2WSH followed by
+a conditional time locked input (for bi-directional channels)&lt;/li&gt;
+  &lt;li&gt;2-of-2-MULTISIG embedded in P2WSH followed by at least one HTLC input&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The first one is the dominant type of input script in LN and
+takes up more than 80% of transaction inputs broadcast by LN.
+Later you will see that the second form has two versions,
+one for sender and the other for receiver.&lt;/p&gt;
+
+&lt;h3 id=&quot;examples&quot;&gt;Examples&lt;/h3&gt;
+
+&lt;p&gt;Here are some example hashes of LN transactions.&lt;/p&gt;
+
+&lt;h5 id=&quot;to_local&quot;&gt;to_local&lt;/h5&gt;
+
+&lt;p&gt;It is used to close a bi-directional channel and is
+the most commonly seen form, as mentioned before.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;succeeded:
+&lt;a href=&quot;https://btc.com/0191535bfda21f5dfec1c904775c5e2fbee8a985815c88d77258a0b42dba3526#in_0&quot;&gt;0191535bfda21f5dfec1c904775c5e2fbee8a985815c88d77258a0b42dba3526&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;penalised:
+&lt;a href=&quot;https://btc.com/0da5e5dba5e793d50820c2275dab74912b121c8b7e34ce32a9dbfd4567a9bf8e#in_0&quot;&gt;0da5e5dba5e793d50820c2275dab74912b121c8b7e34ce32a9dbfd4567a9bf8e&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Let us examine the successful case:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Its upstream input is a 2-of-2 MULTISIG embedded in P2WSH,
+the funding transaction.&lt;/li&gt;
+  &lt;li&gt;The funding transaction has two outputs (commitment transactions)
+and the other is a P2WPKH.
+The P2WPKH is not time locked and
+has been sent to the counterparty of the channel.&lt;/li&gt;
+  &lt;li&gt;Its input witness starts with &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;sig&amp;gt; 0&lt;/code&gt; form
+therefore its fund has already been successfully taken.
+According to the LN paper, the LN channel is &lt;em&gt;fully closed&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Why the second input has been penalised?
+Because there is a &lt;code class=&quot;highlighter-rouge&quot;&gt;1&lt;/code&gt; right after the signature and
+it executes the if-branch which revokes all the funds in the channel.
+Both inputs were from the two outputs of
+the previous funding transaction and there is only one output.
+Therefore we can conclude that it is in a penalty transaction.&lt;/p&gt;
+
+&lt;h5 id=&quot;sender-script&quot;&gt;sender script&lt;/h5&gt;
+
+&lt;p&gt;Here are two examples:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;timeout:
+&lt;a href=&quot;https://btc.com/a16f6d78a58d31fe7459887adf5bd6b4dd95277ea375d250c700cde9fa908bdb&quot;&gt;a16f6d78a58d31fe7459887adf5bd6b4dd95277ea375d250c700cde9fa908bdb&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;claimed by preimage:
+&lt;a href=&quot;https://btc.com/89c744f0806a57a9b4634c320703cc941aaf272f290296373b709499064335e5&quot;&gt;89c744f0806a57a9b4634c320703cc941aaf272f290296373b709499064335e5&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The expenditures by timeout are easy to identify, as its format is simply
+&lt;code class=&quot;highlighter-rouge&quot;&gt;0 &amp;lt;sig&amp;gt; &amp;lt;sig&amp;gt; 0&lt;/code&gt;.
+How to identify if a HTLC transaction has used the preimage?
+Here I would like to recommend the
+&lt;a href=&quot;https://github.com/petertodd/python-bitcoinlib&quot;&gt;python bitcoin library&lt;/a&gt;.
+I like it a lot because python provides power interactive terminal
+and it is convenient to analyse bitcoin blockchain.&lt;/p&gt;
+
+&lt;p&gt;Let us see the transaction input whose hash starts with “89c744”.
+Its witness is in the form of &lt;code class=&quot;highlighter-rouge&quot;&gt;sig [unknown] scriptPubKey&lt;/code&gt;.
+Later we will find out that the unknown part is
+actually the hash160 of a secret, the hash that locks the contract.
+A revocation script will appear in the exactly same form
+but we shall see that the script does not execute the revocation path.&lt;/p&gt;
+
+&lt;p&gt;The scriptPubKey part, according to BOLT #3, is decoded as&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;In&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]:&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;bitcoin.core&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CScript&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;In&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CScript&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;bytearray&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fromhex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'76a9149d908ebcc9e1913b808eb7b4ba47bc4d1b35ebd38763ac672102aa52226cbb5aaef23f175575c06feb16aa303e76f288be28c4760ef768c865977c820120876475527c210362c9ec1c0c7bb399037469b376e9e19d6aa0fbb58df811786b7425dea&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;   ...: 94b519a52ae67a9146e3bef3f86aed6d6f825f13d1fa070039c866c5c88ac6868'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Out&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CScript&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OP_DUP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_HASH160&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'9d908ebcc9e1913b808eb7b4ba47bc4d1b35ebd3'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_EQUAL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_IF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_CHECKSIG&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_ELSE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'02aa52226cbb5aaef23f175575c06feb16aa303e76f288be28c4760ef768c86597'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_SWAP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_SIZE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'20'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_EQUAL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_NOTIF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_DROP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_SWAP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'0362c9ec1c0c7bb399037469b376e9e19d6aa0fbb58df811786b7425dea94b519a'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_CHECKMULTISIG&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_ELSE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_HASH160&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'6e3bef3f86aed6d6f825f13d1fa070039c866c5c'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_EQUALVERIFY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_CHECKSIG&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_ENDIF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_ENDIF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Next, let us see the hash value of the unknown part,&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;n&quot;&gt;In&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]:&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;bitcoin&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;In&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CScript&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bitcoin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;core&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Hash160&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;bytearray&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fromhex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'ae626cc4d6c208bdb3179b9d3efc7ae61779a9924b3852f01d0024afa84a4bbb'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))])&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Out&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CScript&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'6e3bef3f86aed6d6f825f13d1fa070039c866c5c'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)])&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;See? The hash160 of the previously unknown field is
+equal to the value right after the last &lt;code class=&quot;highlighter-rouge&quot;&gt;OP_HASH160&lt;/code&gt;
+and before the &lt;code class=&quot;highlighter-rouge&quot;&gt;OP_EQUALVERIFY&lt;/code&gt;.
+Therefore the fund is indeed taken by providing the preimage,
+according to the HTLC script for senders defined in BOLT #3,
+instead of being revoked.&lt;/p&gt;
+
+&lt;p&gt;Here I am not going to show how the script should be executed
+step by step on a stack.
+You may do this yourself and keep in mind that
+the exection path in a if-else branch is determined by a digit
+whose value is either 1 or 0.&lt;/p&gt;
+
+&lt;h5 id=&quot;receiver-script&quot;&gt;receiver script&lt;/h5&gt;
+
+&lt;p&gt;Similarly, here are another two examples for receiver script:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;claimed by preimage:
+&lt;a href=&quot;https://btc.com/36b1aff2ad0076be95b1ee1dc4036374998760c80c6583a6478a699e86658ac0&quot;&gt;36b1aff2ad0076be95b1ee1dc4036374998760c80c6583a6478a699e86658ac0&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;timeout:
+&lt;a href=&quot;https://btc.com/f9af9b93d66c7e5ee7dcbe0b53faa3d17aa6b9f4cc5b19f0985917b57d82c59a#in_0&quot;&gt;f9af9b93d66c7e5ee7dcbe0b53faa3d17aa6b9f4cc5b19f0985917b57d82c59a&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Again, if you find HTLC inputs that are penalised,
+be sure to leave a comment.&lt;/p&gt;
+
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+
+&lt;p&gt;With all the resources presented by this article
+and on-chain examples,
+I hope you can better understand transactions in LN.&lt;/p&gt;
+
+&lt;p&gt;Long live blockchain.&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="blockchain" /><summary type="html">technical details, source code and discussion about online resources</summary></entry><entry><title type="html">Spark’s number of cores rethought</title><link href="http://localhost:4000/spark/2018/04/02/spark-executor-cores.html" rel="alternate" type="text/html" title="Spark's number of cores rethought" /><published>2018-04-02T00:00:00+08:00</published><updated>2018-04-02T00:00:00+08:00</updated><id>http://localhost:4000/spark/2018/04/02/spark-executor-cores</id><content type="html" xml:base="http://localhost:4000/spark/2018/04/02/spark-executor-cores.html">&lt;p&gt;There are tons of articles talking about setting the number of executors and cores for &lt;a href=&quot;http://spark.apache.org/&quot;&gt;Spark&lt;/a&gt; applications.
 Hence I am &lt;em&gt;not&lt;/em&gt; going to discuss anything about tuning these 2 parameters.
 Instead I would like to address what does the values of these parameters mean
 for nodes or containers which are executing your tasks.&lt;/p&gt;
@@ -99,11 +346,11 @@ side by side.&lt;/p&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;td&gt;yarn.nodemanager.resource.memory-mb&lt;/td&gt;
-      &lt;td&gt;--memory&lt;/td&gt;
+      &lt;td&gt;–memory&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;td&gt;yarn.nodemanager.resource.cpu-vcores&lt;/td&gt;
-      &lt;td&gt;--cores&lt;/td&gt;
+      &lt;td&gt;–cores&lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
@@ -113,21 +360,24 @@ is that workers stop spawning new executors
 when either of the resources is exhausted.
 However the &lt;code class=&quot;highlighter-rouge&quot;&gt;DefaultResourceCalculator&lt;/code&gt; only uses &lt;em&gt;memory&lt;/em&gt; to control
 the resources used by executors.
-As a result sometimes you can see that the available number of vcores on a node
+As a result sometimes you can see that the available of vcores on a node
 become negative.
 &lt;code class=&quot;highlighter-rouge&quot;&gt;DominantResourceCalculator&lt;/code&gt; behaves the same way as workers in standalone mode.
 It chooses the dominant resource as the upper limit for resource usage.&lt;/p&gt;
 
 &lt;h3 id=&quot;an-infra-perspective&quot;&gt;An infra perspective&lt;/h3&gt;
 
+&lt;p&gt;I have heard that some companies use Kubernetes to spawn containers to host NodeManagers,
+when there are huge demands for resources.&lt;/p&gt;
+
 &lt;p&gt;An ideal scenario is where the memory and cores in your cluster
 are consumed at the same pace.
-In other words, when memory is used up,
+When memory is used up,
 cores should be exhausted as well.
 To achieve better utility of your Hadoop slaves,
 tune these parameters such that
 when memory and cores are used up by executors,
-memory of OS is close to fully utilized and CPU load is slightly below
+memory in OS is close to fully utilized and CPU load is slightly below
 maximum capacity.
 This advice is given in condition that Spark executors are the dominant
 processes running on your servers
@@ -136,17 +386,6 @@ other processes than Spark executors and tasks.
 Your Spark applications might have very strange behavior,
 sometimes even failures,
 when the CPU load of Hadoop slaves is extremely high.&lt;/p&gt;
-
-&lt;p&gt;These tunings fit very well in the context of
-running ETL and hosting a data warehouse on a cloud
-where you are able to purchase and configure the specs of
-your containers or virtual machines very easily.
-In contrast, if your NodeManagers (or workers) run on physical servers,
-there is no easy way to increase or reduce the numbers of CPU cores.
-Plugging in or our RAM is also not feasible in modern days data centers.
-I have heard that some companies use Kubernetes to spawn containers to host NodeManagers,
-when there are huge demands for resources,
-which can be seen as an alternative way of setting up the specs of nodes.&lt;/p&gt;
 
 &lt;p&gt;If you have both IO intensive (such as ETL)
 and computationally intensive applications (such as data science apps),
@@ -1081,64 +1320,4 @@ writing it.&lt;/p&gt;
 &lt;p&gt;Appended on 10-Jan-2014:&lt;/p&gt;
 
 &lt;p&gt;Since the new release of the website,
-the CSS of this website has given up &lt;code class=&quot;highlighter-rouge&quot;&gt;bootstrap&lt;/code&gt; framework.&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="programming" /><summary type="html">Some thoughts with bootstrap framework.</summary></entry><entry><title type="html">Why I used Jekyll-bootstrap instead of Octopress</title><link href="http://localhost:4000/programming/2013/06/13/Why-I-Used-Jekyll-Instead-of-Octopress.html" rel="alternate" type="text/html" title="Why I used Jekyll-bootstrap instead of Octopress" /><published>2013-06-13T00:00:00+08:00</published><updated>2013-06-13T00:00:00+08:00</updated><id>http://localhost:4000/programming/2013/06/13/Why-I-Used-Jekyll-Instead-of-Octopress</id><content type="html" xml:base="http://localhost:4000/programming/2013/06/13/Why-I-Used-Jekyll-Instead-of-Octopress.html">&lt;p&gt;I was amazed by the beautiful blog made by my friend.
-He suggested me use &lt;code class=&quot;highlighter-rouge&quot;&gt;Octopress&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;Jekyll&lt;/code&gt;.
-However I faced a lot of problems when I tried to install both of them.&lt;/p&gt;
-
-&lt;p&gt;Below are some examples:&lt;/p&gt;
-
-&lt;h5 id=&quot;problem-1&quot;&gt;Problem 1&lt;/h5&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Building native extensions.  This could take a while...
-ERROR:  Error installing jekyll:
-ERROR: Failed to build gem native extension.
-
-/usr/bin/ruby1.9.1 extconf.rb
-/usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require': cannot load such file -- mkmf (LoadError)
-from /usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require'
-from extconf.rb:1:in `&amp;lt;main&amp;gt;'
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h5 id=&quot;solution-1&quot;&gt;Solution 1&lt;/h5&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install ruby1.9.1-dev
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h5 id=&quot;problem-2&quot;&gt;Problem 2&lt;/h5&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Bundler::GemfileNotFound
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h5 id=&quot;solution-2&quot;&gt;Solution 2&lt;/h5&gt;
-&lt;p&gt;find the Gemfile by command:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;locate Gemfile
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;cd into the directory&lt;/p&gt;
-
-&lt;h5 id=&quot;problem-3&quot;&gt;Problem 3&lt;/h5&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rake aborted!
-You have already activated rake 0.9.6, but your Gemfile requires rake 0.9.2.2.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h5 id=&quot;solution-3&quot;&gt;Solution 3&lt;/h5&gt;
-&lt;p&gt;run command&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ bundle exec rake install
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Apply to all the incidents when rake is aborted.&lt;/p&gt;
-
-&lt;p&gt;Finally the big boss came and I was unable to configure the rake such that it can
-point to my github local repo. Sad…&lt;/p&gt;
-
-&lt;p&gt;Now I switch to &lt;code class=&quot;highlighter-rouge&quot;&gt;Jekyll Bootstrap&lt;/code&gt;. Hopefully it is a better solution.
-Hopefully it was not because I was noob.&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="programming" /><summary type="html">My bad experience with Octopress</summary></entry></feed>
+the CSS of this website has given up &lt;code class=&quot;highlighter-rouge&quot;&gt;bootstrap&lt;/code&gt; framework.&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="programming" /><summary type="html">Some thoughts with bootstrap framework.</summary></entry></feed>
