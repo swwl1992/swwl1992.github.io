@@ -265,7 +265,7 @@ Long live blockchain.
     </entry>
   
     <entry>
-      <title>Spark's number of cores rethought</title>
+      <title>Apache Spark's number of cores rethought</title>
       <url>/spark/2018/04/02/spark-executor-cores.html</url>
       <content type="text">There are tons of articles talking about setting the number of executors and cores for Spark applications.
 Hence I am not going to discuss anything about tuning these 2 parameters.
