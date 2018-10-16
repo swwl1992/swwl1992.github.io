@@ -2,6 +2,102 @@
 <search>
   
     <entry>
+      <title>How do Bitcoin mining pools pay their miners?</title>
+      <url>/blockchain/2018/09/13/How-do-bitcoin-mining-pools-pay.html</url>
+      <content type="text">Since the price of Bitcoin surged in the 2017 Q4,
+many mining pools have surfaced.
+Over the globe there are over 20 active and recognizable mining pools.
+You can find more pools and their addresses from
+this GitHub repo.
+This article explains a particular type of routine job in a Bitcoin mining pool:
+how does it pay Bitcoins to its miners?
+Actually you will find out that it might not be the same as you thought.
+
+Directly from coinbase addresses
+
+This is the simplest way.
+SlushPool has been using this method for some time.
+You can easily find payout transactions miners from address
+1CK6KHY6MHgYvmRQ4PAafKYDrg1ejbH1cE
+which is the publicly known coinbase address of SlushPool.
+On a typical day you can observe more than five transactions from this address
+each of which is with a huge number of outputs to various addresses -
+it is the typical way of identifying payments from a mining pool to its miners.
+
+Other pools that also use this method are
+BTC.TOP and Huobi Pool.
+However, you can find that BTC.TOP also uses intermediate addresses to pay its miners.
+
+Pay via intermediate wallets
+
+This is probably the most common practice of pools.
+Take BTC.com for example,
+you can find its coinbase address is
+bc1qjl8uwezzlech723lpnyuza0h2cdkvxvh54v3dn.
+There are many transactions associated with this address,
+most of which are coinbase transactions.
+However there are some Bitcoins sent by it to other addresses,
+for example,
+3FxUA8godrRmxgUaPv71b3XCUxcoCLtUx2
+in transaction
+d094eca893253c12bb53f55ed834281349eda9e59505fa91d07e114fd616aa02.
+
+Therefore,
+3FxUA8godrRmxgUaPv71b3XCUxcoCLtUx2
+is one of the intermediate addresses used by BTC.com.
+Every day there are a few transactions from it to many addresses,
+probably thousands of outputs in a single transaction,
+and this is how BTC.com pays its miners.
+
+AntPool: payments chain
+
+AntPool is a very special case and
+its payment pattern is the most difficult to trace.
+The whole process of payments is like a chain or loop.
+Almost every day it starts from in the morning
+and last until late afternoon.
+
+
+  Generate a new wallet
+  Use the intermediate address to pay 101 addresses
+  Among the 101 recipients 100 are miners,
+while the one newly generated wallet receives all the change
+  Use the balance in the change wallet to pay another 100 miners + 1 new wallet
+  Repeat the process above until all miner addresses are paid
+
+
+The end result is that all the intermediate change wallets are empty and
+they will not be reused.
+Only the very last change wallet has some Bitcoins in it.
+Personally I like this process because it gives the miners highest level of
+privacy.
+If you wish to find out all miners’ addresses under AntPool by hands,
+you have to traverse many transactions.
+But for other pools, you only need to checkout less than ten transactions,
+probably even less than five.
+
+F2Pool: pay without transaction fees
+
+Everyday F2Pool broadcasts a transaction with zero transaction fee
+to pay its miners.
+After that, F2Pool tries to mine it because
+no other miner is willing to mine a transaction without any fee.
+This approach saves money, apparently.
+A major disadvantage of it is there are huge
+uncertainties in the time when its miners receive Bitcoins.
+</content>
+      <categories>
+        
+          <category> blockchain </category>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
       <title>A brief guide to Bitcoin lightning network with examples</title>
       <url>/blockchain/2018/06/28/Bitcoin-lightning-network.html</url>
       <content type="text">Why another post about the lightning network (LN) of Bitcoin?
@@ -203,8 +299,7 @@ The scriptPubKey part, according to BOLT #3, is decoded as
 
 In [1]: from bitcoin.core import CScript
 
-In [2]: CScript(bytearray.fromhex('76a9149d908ebcc9e1913b808eb7b4ba47bc4d1b35ebd38763ac672102aa52226cbb5aaef23f175575c06feb16aa303e76f288be28c4760ef768c865977c820120876475527c210362c9ec1c0c7bb399037469b376e9e19d6aa0fbb58df811786b7425dea
-   ...: 94b519a52ae67a9146e3bef3f86aed6d6f825f13d1fa070039c866c5c88ac6868'))
+In [2]: CScript(bytearray.fromhex('76a9149d908ebcc9e1913b808eb7b4ba47bc4d1b35ebd38763ac672102aa52226cbb5aaef23f175575c06feb16aa303e76f288be28c4760ef768c865977c820120876475527c210362c9ec1c0c7bb399037469b376e9e19d6aa0fbb58df811786b7425dea94b519a52ae67a9146e3bef3f86aed6d6f825f13d1fa070039c866c5c88ac6868'))
 Out[2]: CScript([OP_DUP, OP_HASH160, x('9d908ebcc9e1913b808eb7b4ba47bc4d1b35ebd3'), OP_EQUAL, OP_IF, OP_CHECKSIG, OP_ELSE, x('02aa52226cbb5aaef23f175575c06feb16aa303e76f288be28c4760ef768c86597'), OP_SWAP, OP_SIZE, x('20'), OP_EQUAL, OP_NOTIF, OP_DROP, 2, OP_SWAP, x('0362c9ec1c0c7bb399037469b376e9e19d6aa0fbb58df811786b7425dea94b519a'), 2, OP_CHECKMULTISIG, OP_ELSE, OP_HASH160, x('6e3bef3f86aed6d6f825f13d1fa070039c866c5c'), OP_EQUALVERIFY, OP_CHECKSIG, OP_ENDIF, OP_ENDIF])
 
 

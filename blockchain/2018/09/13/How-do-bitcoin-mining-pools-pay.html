@@ -111,17 +111,17 @@
 
 
 
-<meta name="description" content="From an infrastructural perspective, what do the number of executors and cores actually mean?">
+<meta name="description" content="Insights of a data analytics project with onchain examples">
 <meta name="keywords" content="Jekyll, NexT">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Apache Spark's number of cores rethought">
-<meta property="og:url" content="http://0.0.0.0:4000/spark/2018/04/02/spark-executor-cores.html">
+<meta property="og:title" content="How do Bitcoin mining pools pay their miners?">
+<meta property="og:url" content="http://0.0.0.0:4000/blockchain/2018/09/13/How-do-bitcoin-mining-pools-pay.html">
 <meta property="og:site_name" content="Salmon Says">
-<meta property="og:description" content="From an infrastructural perspective, what do the number of executors and cores actually mean?">
+<meta property="og:description" content="Insights of a data analytics project with onchain examples">
 <meta property="og:locale" content="en">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Apache Spark's number of cores rethought">
-<meta name="twitter:description" content="From an infrastructural perspective, what do the number of executors and cores actually mean?">
+<meta name="twitter:title" content="How do Bitcoin mining pools pay their miners?">
+<meta name="twitter:description" content="Insights of a data analytics project with onchain examples">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -154,7 +154,7 @@
 
 
 
-  <title>Apache Spark's number of cores rethought | Salmon Says</title>
+  <title>How do Bitcoin mining pools pay their miners? | Salmon Says</title>
   
 
 
@@ -268,7 +268,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://0.0.0.0:4000/spark/2018/04/02/spark-executor-cores.html">
+    <link itemprop="mainEntityOfPage" href="http://0.0.0.0:4000/blockchain/2018/09/13/How-do-bitcoin-mining-pools-pay.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Wan Wenli">
@@ -288,7 +288,7 @@
           <h1 class="post-title" itemprop="name headline">
           
           
-            Apache Spark's number of cores rethought
+            How do Bitcoin mining pools pay their miners?
           
         </h1>
         
@@ -302,8 +302,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-02T00:00:00+08:00">
-                2018-04-02
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-13T00:00:00+08:00">
+                2018-09-13
               </time>
             
 
@@ -326,8 +326,8 @@
               
                 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/category/#/spark" itemprop="url" rel="index">
-                    <span itemprop="name">spark</span>
+                  <a href="/category/#/blockchain" itemprop="url" rel="index">
+                    <span itemprop="name">blockchain</span>
                   </a>
                 </span>
 
@@ -366,159 +366,87 @@
       
 
       
-        <p>There are tons of articles talking about setting the number of executors and cores for <a href="http://spark.apache.org/">Spark</a> applications.
-Hence I am <em>not</em> going to discuss anything about tuning these 2 parameters.
-Instead I would like to address what does the values of these parameters mean
-for nodes or containers which are executing your tasks.</p>
+        <p>Since the price of Bitcoin surged in the 2017 Q4,
+many mining pools have surfaced.
+Over the globe there are over 20 active and recognizable mining pools.
+You can find more pools and their addresses from
+<a href="https://github.com/btccom/Blockchain-Known-Pools/blob/master/pools.json">this GitHub repo</a>.
+This article explains a particular type of routine job in a Bitcoin mining pool:
+how does it pay Bitcoins to its miners?
+Actually you will find out that it might not be the same as you thought.</p>
 
-<h3 id="summary">Summary</h3>
+<h3 id="directly-from-coinbase-addresses">Directly from coinbase addresses</h3>
 
-<p>The number of cores has no direct relation to physical CPU cores,
-instead it is a logical counter
-which determines the number of concurrent
-tasks that are able to run on one executor.
-I believe that many articles you can find have already addressed it.
-However from the perspective of servers or containers
-that receive tasks from the driver process,
-the number of cores is able to limit the total number of tasks running
-on one server/node/container.</p>
+<p>This is the simplest way.
+SlushPool has been using this method for some time.
+You can easily find payout transactions miners from address
+<a href="https://btc.com/1CK6KHY6MHgYvmRQ4PAafKYDrg1ejbH1cE">1CK6KHY6MHgYvmRQ4PAafKYDrg1ejbH1cE</a>
+which is the publicly known coinbase address of SlushPool.
+On a typical day you can observe more than five transactions from this address
+each of which is with a huge number of outputs to various addresses -
+it is the typical way of identifying payments from a mining pool to its miners.</p>
 
-<h3 id="standalone-mode">Standalone mode</h3>
+<p>Other pools that also use this method are
+BTC.TOP and Huobi Pool.
+However, you can find that BTC.TOP also uses intermediate addresses to pay its miners.</p>
 
-<p>Standalone mode is very easy to setup but has few features in
-scheduling and access control.
-Though I have touched both standalone and YARN mode,
-starting from standalone mode is a good choice
-because the implementation details are easy to inspect, compared to YARN mode
-where lots of details are handled by YARN.</p>
+<h3 id="pay-via-intermediate-wallets">Pay via intermediate wallets</h3>
 
-<p>Let’s start from worker process first.
-It is recommended that each server only runs one single worker process
-and I am going to treat it as an assumption.</p>
+<p>This is probably the most common practice of pools.
+Take <a href="https://btc.com">BTC.com</a> for example,
+you can find its coinbase address is
+<a href="https://btc.com/bc1qjl8uwezzlech723lpnyuza0h2cdkvxvh54v3dn">bc1qjl8uwezzlech723lpnyuza0h2cdkvxvh54v3dn</a>.
+There are many transactions associated with this address,
+most of which are coinbase transactions.
+However there are some Bitcoins sent by it to other addresses,
+for example,
+<a href="https://btc.com/3FxUA8godrRmxgUaPv71b3XCUxcoCLtUx2">3FxUA8godrRmxgUaPv71b3XCUxcoCLtUx2</a>
+in transaction
+<a href="https://btc.com/d094eca893253c12bb53f55ed834281349eda9e59505fa91d07e114fd616aa02">d094eca893253c12bb53f55ed834281349eda9e59505fa91d07e114fd616aa02</a>.</p>
 
-<p>What are workers and executors?</p>
+<p>Therefore,
+<a href="https://btc.com/3FxUA8godrRmxgUaPv71b3XCUxcoCLtUx2">3FxUA8godrRmxgUaPv71b3XCUxcoCLtUx2</a>
+is one of the intermediate addresses used by BTC.com.
+Every day there are a few transactions from it to many addresses,
+probably thousands of outputs in a single transaction,
+and this is how BTC.com pays its miners.</p>
 
-<p>Each worker is Java process and so is an executor.
-If the number of cores is not specified when starting a worker,
-the worker will pick the number of physical cores from OS
-to be its capacity of cores.
-For Spark applications that demand executors,
-worker processes spawn executor processes as responses to such requests.
-Upon each creation of an executor process,
-worker deduct the amount of memory and cores from the total value
-it controls.
-In <a href="">Worker</a>
-class, you can find in method <code class="highlighter-rouge">launchExecutor</code> that
-for each launch of a new executor, the count of used cores is incremented.
-Therefore as I said,
-the number of memory and cores are more like
-<em>logical</em> values rather than the actual amount of resources each executor uses.</p>
+<h3 id="antpool-payments-chain">AntPool: payments chain</h3>
 
-<p>What does it look like in deeper details?
-The number of memory (controlled by <code class="highlighter-rouge">spark.executor.memory</code>)
-determines the <strong>maximum heap size</strong> of executor process,
-by forming the <code class="highlighter-rouge">-Xmx</code> parameter.
-For example if you pass in <code class="highlighter-rouge">--conf spark.executor.memory=10240m</code>
-when submitting an Spark application,
-the executor Java process will include a command line argument as <code class="highlighter-rouge">-Xmx 10240m</code>.</p>
+<p>AntPool is a very special case and
+its payment pattern is the most difficult to trace.
+The whole process of payments is like a chain or loop.
+Almost every day it starts from in the morning
+and last until late afternoon.</p>
 
-<p><a href="https://github.com/apache/spark/blob/master/core/src/main/scala/org/apache/spark/deploy/worker/ExecutorRunner.scala">ExecutorRunner</a>
-is the wrapper class around each executor process.
-It has an attribute which is an instance of Java
-<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Process.html">Process</a>.
-Actually <a href="https://github.com/apache/spark/blob/master/core/src/main/scala/org/apache/spark/deploy/worker/Worker.scala">CoarseGrainedExecutorBackend</a>
-is the main entry point class of executor process
-which is able to be observed by using <code class="highlighter-rouge">ps -ef</code> command.
-As you dig deeper in the source code,
-you should be able to find that each task is a thread submitted
-to a thread pool.
-<code class="highlighter-rouge">spark.executor.cores</code> thus controls the upper limit of concurrent tasks
-running in one executor process.
-Their resources are shared within one process.
-As quite a number of online sources have pointed out,
-a big number of cores, say 8,
-causes the overhead of context switch to be big and
-actually slow down the overall performance.
-A number between 2 and 4 (inclusive) is recommended for most Spark applications.</p>
+<ul>
+  <li>Generate a new wallet</li>
+  <li>Use the intermediate address to pay 101 addresses</li>
+  <li>Among the 101 recipients 100 are miners,
+while the one newly generated wallet receives <em>all</em> the change</li>
+  <li>Use the balance in the change wallet to pay another 100 miners + 1 new wallet</li>
+  <li>Repeat the process above until all miner addresses are paid</li>
+</ul>
 
-<h3 id="yarn-mode">YARN mode</h3>
+<p>The end result is that all the intermediate change wallets are empty and
+they will <em>not</em> be reused.
+Only the very last change wallet has some Bitcoins in it.
+Personally I like this process because it gives the miners highest level of
+privacy.
+If you wish to find out all miners’ addresses under AntPool by hands,
+you have to traverse many transactions.
+But for other pools, you only need to checkout less than ten transactions,
+probably even less than five.</p>
 
-<p>YARN provides a much richer set of features such as
-(very fine-grained) capacity scheduling, label-based scheduling and access control.</p>
+<h3 id="f2pool-pay-without-transaction-fees">F2Pool: pay without transaction fees</h3>
 
-<p>The table below helps you compare and understand standalone and YARN mode
-side by side.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>YARN</th>
-      <th>standalone</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>ResourceManager</td>
-      <td>Master</td>
-    </tr>
-    <tr>
-      <td>NodeManager</td>
-      <td>Worker</td>
-    </tr>
-    <tr>
-      <td>yarn.nodemanager.resource.memory-mb</td>
-      <td>–memory</td>
-    </tr>
-    <tr>
-      <td>yarn.nodemanager.resource.cpu-vcores</td>
-      <td>–cores</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>A major difference between YARN and standalone mode in terms of resource control
-is that workers stop spawning new executors
-when either of the resources is exhausted.
-However the <code class="highlighter-rouge">DefaultResourceCalculator</code> only uses <em>memory</em> to control
-the resources used by executors.
-As a result sometimes you can see that the available of vcores on a node
-become negative.
-<code class="highlighter-rouge">DominantResourceCalculator</code> behaves the same way as workers in standalone mode.
-It chooses the dominant resource as the upper limit for resource usage.</p>
-
-<h3 id="an-infra-perspective">An infra perspective</h3>
-
-<p>I have heard that some companies use Kubernetes to spawn containers to host NodeManagers,
-when there are huge demands for resources.</p>
-
-<p>An ideal scenario is where the memory and cores in your cluster
-are consumed at the same pace.
-When memory is used up,
-cores should be exhausted as well.
-To achieve better utility of your Hadoop slaves,
-tune these parameters such that
-when memory and cores are used up by executors,
-memory in OS is close to fully utilized and CPU load is slightly below
-maximum capacity.
-This advice is given in condition that Spark executors are the dominant
-processes running on your servers
-and you should always leave some memory and computational power for
-other processes than Spark executors and tasks.
-Your Spark applications might have very strange behavior,
-sometimes even failures,
-when the CPU load of Hadoop slaves is extremely high.</p>
-
-<p>If you have both IO intensive (such as ETL)
-and computationally intensive applications (such as data science apps),
-consider introducing label-based scheduling before tuning.</p>
-
-<h3 id="epilogue-data-engineering-in-shopee">Epilogue: data engineering in Shopee</h3>
-
-<p>As the primary data provider in a leading E-commerce platform operating across Southeast Asia,
-data engineering team is able to handle TB-level in one ETL flow and
-this number is still increasing fast.
-We run Spark jobs on top of an in-house Hadoop cluster
-whose size is among the top-tier in Singapore as well as SEA region, hopefully.</p>
+<p>Everyday F2Pool broadcasts a transaction with zero transaction fee
+to pay its miners.
+After that, F2Pool tries to mine it because
+no other miner is willing to mine a transaction without any fee.
+This approach saves money, apparently.
+A major disadvantage of it is there are huge
+uncertainties in the time when its miners receive Bitcoins.</p>
 
       
     </div>
@@ -558,18 +486,14 @@ whose size is among the top-tier in Singapore as well as SEA region, hopefully.<
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/blockchain/2018/06/28/Bitcoin-lightning-network.html" rel="next" title="A brief guide to Bitcoin lightning network with examples">
-                <i class="fa fa-chevron-left"></i> A brief guide to Bitcoin lightning network with examples
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/kafka/2016/11/04/Kafka-Group-Coordinator.html" rel="prev" title="Offset topic and consumer group coordinator of Kafka">
-                Offset topic and consumer group coordinator of Kafka <i class="fa fa-chevron-right"></i>
+              <a href="/blockchain/2018/06/28/Bitcoin-lightning-network.html" rel="prev" title="A brief guide to Bitcoin lightning network with examples">
+                A brief guide to Bitcoin lightning network with examples <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -731,7 +655,7 @@ whose size is among the top-tier in Singapore as well as SEA region, hopefully.<
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-3"> <a class="nav-link" href="#summary"> <span class="nav-number">1</span> <span class="nav-text">Summary</span> </a> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> </li></ol> </li></ol> </li></ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#standalone-mode"> <span class="nav-number">2</span> <span class="nav-text">Standalone mode</span> </a> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> </li></ol> </li></ol> </li></ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#yarn-mode"> <span class="nav-number">3</span> <span class="nav-text">YARN mode</span> </a> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> </li></ol> </li></ol> </li></ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#an-infra-perspective"> <span class="nav-number">4</span> <span class="nav-text">An infra perspective</span> </a> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> </li></ol> </li></ol> </li></ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#epilogue-data-engineering-in-shopee"> <span class="nav-number">5</span> <span class="nav-text">Epilogue: data engineering in Shopee</span> </a> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child">
+      <li class="nav-item nav-level-3"> <a class="nav-link" href="#directly-from-coinbase-addresses"> <span class="nav-number">1</span> <span class="nav-text">Directly from coinbase addresses</span> </a> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> </li></ol> </li></ol> </li></ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#pay-via-intermediate-wallets"> <span class="nav-number">2</span> <span class="nav-text">Pay via intermediate wallets</span> </a> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> </li></ol> </li></ol> </li></ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#antpool-payments-chain"> <span class="nav-number">3</span> <span class="nav-text">AntPool: payments chain</span> </a> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> </li></ol> </li></ol> </li></ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#f2pool-pay-without-transaction-fees"> <span class="nav-number">4</span> <span class="nav-text">F2Pool: pay without transaction fees</span> </a> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child">
     </ol>
   </div>
             

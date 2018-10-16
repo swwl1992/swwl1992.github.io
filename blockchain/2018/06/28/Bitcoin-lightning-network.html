@@ -115,7 +115,7 @@
 <meta name="keywords" content="Jekyll, NexT">
 <meta property="og:type" content="article">
 <meta property="og:title" content="A brief guide to Bitcoin lightning network with examples">
-<meta property="og:url" content="http://localhost:4000/blockchain/2018/06/28/Bitcoin-lightning-network.html">
+<meta property="og:url" content="http://0.0.0.0:4000/blockchain/2018/06/28/Bitcoin-lightning-network.html">
 <meta property="og:site_name" content="Salmon Says">
 <meta property="og:description" content="Technical details, source code and discussion about online resources">
 <meta property="og:locale" content="en">
@@ -148,7 +148,7 @@
 
 
 
-  <link rel="canonical" href="http://localhost:4000/"/>
+  <link rel="canonical" href="http://0.0.0.0:4000/"/>
 
 
 
@@ -268,7 +268,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/blockchain/2018/06/28/Bitcoin-lightning-network.html">
+    <link itemprop="mainEntityOfPage" href="http://0.0.0.0:4000/blockchain/2018/06/28/Bitcoin-lightning-network.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Wan Wenli">
@@ -349,6 +349,10 @@
           
 
           
+            
+                <div class="post-description">
+                    
+                </div>
             
           
 
@@ -561,8 +565,7 @@ but we shall see that the script does not execute the revocation path.</p>
 
 <div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">from</span> <span class="nn">bitcoin.core</span> <span class="kn">import</span> <span class="n">CScript</span>
 
-<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="n">CScript</span><span class="p">(</span><span class="nb">bytearray</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s">'76a9149d908ebcc9e1913b808eb7b4ba47bc4d1b35ebd38763ac672102aa52226cbb5aaef23f175575c06feb16aa303e76f288be28c4760ef768c865977c820120876475527c210362c9ec1c0c7bb399037469b376e9e19d6aa0fbb58df811786b7425dea</span><span class="err">
-</span><span class="s">   ...: 94b519a52ae67a9146e3bef3f86aed6d6f825f13d1fa070039c866c5c88ac6868'</span><span class="p">))</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="n">CScript</span><span class="p">(</span><span class="nb">bytearray</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s">'76a9149d908ebcc9e1913b808eb7b4ba47bc4d1b35ebd38763ac672102aa52226cbb5aaef23f175575c06feb16aa303e76f288be28c4760ef768c865977c820120876475527c210362c9ec1c0c7bb399037469b376e9e19d6aa0fbb58df811786b7425dea94b519a52ae67a9146e3bef3f86aed6d6f825f13d1fa070039c866c5c88ac6868'</span><span class="p">))</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="n">CScript</span><span class="p">([</span><span class="n">OP_DUP</span><span class="p">,</span> <span class="n">OP_HASH160</span><span class="p">,</span> <span class="n">x</span><span class="p">(</span><span class="s">'9d908ebcc9e1913b808eb7b4ba47bc4d1b35ebd3'</span><span class="p">),</span> <span class="n">OP_EQUAL</span><span class="p">,</span> <span class="n">OP_IF</span><span class="p">,</span> <span class="n">OP_CHECKSIG</span><span class="p">,</span> <span class="n">OP_ELSE</span><span class="p">,</span> <span class="n">x</span><span class="p">(</span><span class="s">'02aa52226cbb5aaef23f175575c06feb16aa303e76f288be28c4760ef768c86597'</span><span class="p">),</span> <span class="n">OP_SWAP</span><span class="p">,</span> <span class="n">OP_SIZE</span><span class="p">,</span> <span class="n">x</span><span class="p">(</span><span class="s">'20'</span><span class="p">),</span> <span class="n">OP_EQUAL</span><span class="p">,</span> <span class="n">OP_NOTIF</span><span class="p">,</span> <span class="n">OP_DROP</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">OP_SWAP</span><span class="p">,</span> <span class="n">x</span><span class="p">(</span><span class="s">'0362c9ec1c0c7bb399037469b376e9e19d6aa0fbb58df811786b7425dea94b519a'</span><span class="p">),</span> <span class="mi">2</span><span class="p">,</span> <span class="n">OP_CHECKMULTISIG</span><span class="p">,</span> <span class="n">OP_ELSE</span><span class="p">,</span> <span class="n">OP_HASH160</span><span class="p">,</span> <span class="n">x</span><span class="p">(</span><span class="s">'6e3bef3f86aed6d6f825f13d1fa070039c866c5c'</span><span class="p">),</span> <span class="n">OP_EQUALVERIFY</span><span class="p">,</span> <span class="n">OP_CHECKSIG</span><span class="p">,</span> <span class="n">OP_ENDIF</span><span class="p">,</span> <span class="n">OP_ENDIF</span><span class="p">])</span>
 </code></pre>
 </div>
@@ -648,6 +651,10 @@ I hope you can better understand transactions in LN.</p>
       
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
+            
+              <a href="/blockchain/2018/09/13/How-do-bitcoin-mining-pools-pay.html" rel="next" title="How do Bitcoin mining pools pay their miners?">
+                <i class="fa fa-chevron-left"></i> How do Bitcoin mining pools pay their miners?
+              </a>
             
           </div>
 
@@ -746,7 +753,7 @@ I hope you can better understand transactions in LN.</p>
                alt="Wan Wenli" />
           <p class="site-author-name" itemprop="name">Wan Wenli</p>
            
-              <p class="site-description motion-element" itemprop="description"></p>
+              <p class="site-description motion-element" itemprop="description">Sources for my personal blog</p>
           
         </div>
         <nav class="site-state motion-element">
@@ -754,7 +761,7 @@ I hope you can better understand transactions in LN.</p>
           
             <div class="site-state-item site-state-posts">
               <a href="">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>

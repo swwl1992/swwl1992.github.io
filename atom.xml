@@ -1,4 +1,84 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.2">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-06-29T17:41:24+08:00</updated><id>http://localhost:4000/</id><title type="html">Salmon Says</title><author><name>Wan Wenli</name></author><entry><title type="html">A brief guide to Bitcoin lightning network with examples</title><link href="http://localhost:4000/blockchain/2018/06/28/Bitcoin-lightning-network.html" rel="alternate" type="text/html" title="A brief guide to Bitcoin lightning network with examples" /><published>2018-06-28T00:00:00+08:00</published><updated>2018-06-28T00:00:00+08:00</updated><id>http://localhost:4000/blockchain/2018/06/28/Bitcoin-lightning-network</id><content type="html" xml:base="http://localhost:4000/blockchain/2018/06/28/Bitcoin-lightning-network.html">&lt;p&gt;Why another post about the lightning network (LN) of Bitcoin?&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.2">Jekyll</generator><link href="http://0.0.0.0:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2018-10-16T17:08:10+08:00</updated><id>http://0.0.0.0:4000/</id><title type="html">Salmon Says</title><subtitle>Sources for my personal blog</subtitle><author><name>Wan Wenli</name></author><entry><title type="html">How do Bitcoin mining pools pay their miners?</title><link href="http://0.0.0.0:4000/blockchain/2018/09/13/How-do-bitcoin-mining-pools-pay.html" rel="alternate" type="text/html" title="How do Bitcoin mining pools pay their miners?" /><published>2018-09-13T00:00:00+08:00</published><updated>2018-09-13T00:00:00+08:00</updated><id>http://0.0.0.0:4000/blockchain/2018/09/13/How-do-bitcoin-mining-pools-pay</id><content type="html" xml:base="http://0.0.0.0:4000/blockchain/2018/09/13/How-do-bitcoin-mining-pools-pay.html">&lt;p&gt;Since the price of Bitcoin surged in the 2017 Q4,
+many mining pools have surfaced.
+Over the globe there are over 20 active and recognizable mining pools.
+You can find more pools and their addresses from
+&lt;a href=&quot;https://github.com/btccom/Blockchain-Known-Pools/blob/master/pools.json&quot;&gt;this GitHub repo&lt;/a&gt;.
+This article explains a particular type of routine job in a Bitcoin mining pool:
+how does it pay Bitcoins to its miners?
+Actually you will find out that it might not be the same as you thought.&lt;/p&gt;
+
+&lt;h3 id=&quot;directly-from-coinbase-addresses&quot;&gt;Directly from coinbase addresses&lt;/h3&gt;
+
+&lt;p&gt;This is the simplest way.
+SlushPool has been using this method for some time.
+You can easily find payout transactions miners from address
+&lt;a href=&quot;https://btc.com/1CK6KHY6MHgYvmRQ4PAafKYDrg1ejbH1cE&quot;&gt;1CK6KHY6MHgYvmRQ4PAafKYDrg1ejbH1cE&lt;/a&gt;
+which is the publicly known coinbase address of SlushPool.
+On a typical day you can observe more than five transactions from this address
+each of which is with a huge number of outputs to various addresses -
+it is the typical way of identifying payments from a mining pool to its miners.&lt;/p&gt;
+
+&lt;p&gt;Other pools that also use this method are
+BTC.TOP and Huobi Pool.
+However, you can find that BTC.TOP also uses intermediate addresses to pay its miners.&lt;/p&gt;
+
+&lt;h3 id=&quot;pay-via-intermediate-wallets&quot;&gt;Pay via intermediate wallets&lt;/h3&gt;
+
+&lt;p&gt;This is probably the most common practice of pools.
+Take &lt;a href=&quot;https://btc.com&quot;&gt;BTC.com&lt;/a&gt; for example,
+you can find its coinbase address is
+&lt;a href=&quot;https://btc.com/bc1qjl8uwezzlech723lpnyuza0h2cdkvxvh54v3dn&quot;&gt;bc1qjl8uwezzlech723lpnyuza0h2cdkvxvh54v3dn&lt;/a&gt;.
+There are many transactions associated with this address,
+most of which are coinbase transactions.
+However there are some Bitcoins sent by it to other addresses,
+for example,
+&lt;a href=&quot;https://btc.com/3FxUA8godrRmxgUaPv71b3XCUxcoCLtUx2&quot;&gt;3FxUA8godrRmxgUaPv71b3XCUxcoCLtUx2&lt;/a&gt;
+in transaction
+&lt;a href=&quot;https://btc.com/d094eca893253c12bb53f55ed834281349eda9e59505fa91d07e114fd616aa02&quot;&gt;d094eca893253c12bb53f55ed834281349eda9e59505fa91d07e114fd616aa02&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Therefore,
+&lt;a href=&quot;https://btc.com/3FxUA8godrRmxgUaPv71b3XCUxcoCLtUx2&quot;&gt;3FxUA8godrRmxgUaPv71b3XCUxcoCLtUx2&lt;/a&gt;
+is one of the intermediate addresses used by BTC.com.
+Every day there are a few transactions from it to many addresses,
+probably thousands of outputs in a single transaction,
+and this is how BTC.com pays its miners.&lt;/p&gt;
+
+&lt;h3 id=&quot;antpool-payments-chain&quot;&gt;AntPool: payments chain&lt;/h3&gt;
+
+&lt;p&gt;AntPool is a very special case and
+its payment pattern is the most difficult to trace.
+The whole process of payments is like a chain or loop.
+Almost every day it starts from in the morning
+and last until late afternoon.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Generate a new wallet&lt;/li&gt;
+  &lt;li&gt;Use the intermediate address to pay 101 addresses&lt;/li&gt;
+  &lt;li&gt;Among the 101 recipients 100 are miners,
+while the one newly generated wallet receives &lt;em&gt;all&lt;/em&gt; the change&lt;/li&gt;
+  &lt;li&gt;Use the balance in the change wallet to pay another 100 miners + 1 new wallet&lt;/li&gt;
+  &lt;li&gt;Repeat the process above until all miner addresses are paid&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The end result is that all the intermediate change wallets are empty and
+they will &lt;em&gt;not&lt;/em&gt; be reused.
+Only the very last change wallet has some Bitcoins in it.
+Personally I like this process because it gives the miners highest level of
+privacy.
+If you wish to find out all miners’ addresses under AntPool by hands,
+you have to traverse many transactions.
+But for other pools, you only need to checkout less than ten transactions,
+probably even less than five.&lt;/p&gt;
+
+&lt;h3 id=&quot;f2pool-pay-without-transaction-fees&quot;&gt;F2Pool: pay without transaction fees&lt;/h3&gt;
+
+&lt;p&gt;Everyday F2Pool broadcasts a transaction with zero transaction fee
+to pay its miners.
+After that, F2Pool tries to mine it because
+no other miner is willing to mine a transaction without any fee.
+This approach saves money, apparently.
+A major disadvantage of it is there are huge
+uncertainties in the time when its miners receive Bitcoins.&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="blockchain" /><summary type="html">Insights of a data analytics project with onchain examples</summary></entry><entry><title type="html">A brief guide to Bitcoin lightning network with examples</title><link href="http://0.0.0.0:4000/blockchain/2018/06/28/Bitcoin-lightning-network.html" rel="alternate" type="text/html" title="A brief guide to Bitcoin lightning network with examples" /><published>2018-06-28T00:00:00+08:00</published><updated>2018-06-28T00:00:00+08:00</updated><id>http://0.0.0.0:4000/blockchain/2018/06/28/Bitcoin-lightning-network</id><content type="html" xml:base="http://0.0.0.0:4000/blockchain/2018/06/28/Bitcoin-lightning-network.html">&lt;p&gt;Why another post about the lightning network (LN) of Bitcoin?&lt;/p&gt;
 
 &lt;p&gt;The primary reason is that
 some of the resources online are &lt;em&gt;not&lt;/em&gt; up to date.
@@ -197,8 +277,7 @@ but we shall see that the script does not execute the revocation path.&lt;/p&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;In&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]:&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;bitcoin.core&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CScript&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;In&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CScript&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;bytearray&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fromhex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'76a9149d908ebcc9e1913b808eb7b4ba47bc4d1b35ebd38763ac672102aa52226cbb5aaef23f175575c06feb16aa303e76f288be28c4760ef768c865977c820120876475527c210362c9ec1c0c7bb399037469b376e9e19d6aa0fbb58df811786b7425dea&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;   ...: 94b519a52ae67a9146e3bef3f86aed6d6f825f13d1fa070039c866c5c88ac6868'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;In&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CScript&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;bytearray&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fromhex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'76a9149d908ebcc9e1913b808eb7b4ba47bc4d1b35ebd38763ac672102aa52226cbb5aaef23f175575c06feb16aa303e76f288be28c4760ef768c865977c820120876475527c210362c9ec1c0c7bb399037469b376e9e19d6aa0fbb58df811786b7425dea94b519a52ae67a9146e3bef3f86aed6d6f825f13d1fa070039c866c5c88ac6868'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;Out&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CScript&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OP_DUP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_HASH160&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'9d908ebcc9e1913b808eb7b4ba47bc4d1b35ebd3'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_EQUAL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_IF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_CHECKSIG&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_ELSE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'02aa52226cbb5aaef23f175575c06feb16aa303e76f288be28c4760ef768c86597'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_SWAP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_SIZE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'20'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_EQUAL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_NOTIF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_DROP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_SWAP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'0362c9ec1c0c7bb399037469b376e9e19d6aa0fbb58df811786b7425dea94b519a'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_CHECKMULTISIG&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_ELSE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_HASH160&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'6e3bef3f86aed6d6f825f13d1fa070039c866c5c'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_EQUALVERIFY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_CHECKSIG&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_ENDIF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OP_ENDIF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
@@ -245,7 +324,7 @@ be sure to leave a comment.&lt;/p&gt;
 and on-chain examples,
 I hope you can better understand transactions in LN.&lt;/p&gt;
 
-&lt;p&gt;Long live blockchain.&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="blockchain" /><summary type="html">Technical details, source code and discussion about online resources</summary></entry><entry><title type="html">Apache Spark’s number of cores rethought</title><link href="http://localhost:4000/spark/2018/04/02/spark-executor-cores.html" rel="alternate" type="text/html" title="Apache Spark's number of cores rethought" /><published>2018-04-02T00:00:00+08:00</published><updated>2018-04-02T00:00:00+08:00</updated><id>http://localhost:4000/spark/2018/04/02/spark-executor-cores</id><content type="html" xml:base="http://localhost:4000/spark/2018/04/02/spark-executor-cores.html">&lt;p&gt;There are tons of articles talking about setting the number of executors and cores for &lt;a href=&quot;http://spark.apache.org/&quot;&gt;Spark&lt;/a&gt; applications.
+&lt;p&gt;Long live blockchain.&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="blockchain" /><summary type="html">Technical details, source code and discussion about online resources</summary></entry><entry><title type="html">Apache Spark’s number of cores rethought</title><link href="http://0.0.0.0:4000/spark/2018/04/02/spark-executor-cores.html" rel="alternate" type="text/html" title="Apache Spark's number of cores rethought" /><published>2018-04-02T00:00:00+08:00</published><updated>2018-04-02T00:00:00+08:00</updated><id>http://0.0.0.0:4000/spark/2018/04/02/spark-executor-cores</id><content type="html" xml:base="http://0.0.0.0:4000/spark/2018/04/02/spark-executor-cores.html">&lt;p&gt;There are tons of articles talking about setting the number of executors and cores for &lt;a href=&quot;http://spark.apache.org/&quot;&gt;Spark&lt;/a&gt; applications.
 Hence I am &lt;em&gt;not&lt;/em&gt; going to discuss anything about tuning these 2 parameters.
 Instead I would like to address what does the values of these parameters mean
 for nodes or containers which are executing your tasks.&lt;/p&gt;
@@ -397,7 +476,7 @@ consider introducing label-based scheduling before tuning.&lt;/p&gt;
 data engineering team is able to handle TB-level in one ETL flow and
 this number is still increasing fast.
 We run Spark jobs on top of an in-house Hadoop cluster
-whose size is among the top-tier in Singapore as well as SEA region, hopefully.&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="spark" /><summary type="html">From an infrastructural perspective, what do the number of executors and cores actually mean?</summary></entry><entry><title type="html">Offset topic and consumer group coordinator of Kafka</title><link href="http://localhost:4000/kafka/2016/11/04/Kafka-Group-Coordinator.html" rel="alternate" type="text/html" title="Offset topic and consumer group coordinator of Kafka" /><published>2016-11-04T00:00:00+08:00</published><updated>2016-11-04T00:00:00+08:00</updated><id>http://localhost:4000/kafka/2016/11/04/Kafka-Group-Coordinator</id><content type="html" xml:base="http://localhost:4000/kafka/2016/11/04/Kafka-Group-Coordinator.html">&lt;p&gt;This article is to discuss two subjects
+whose size is among the top-tier in Singapore as well as SEA region, hopefully.&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="spark" /><summary type="html">From an infrastructural perspective, what do the number of executors and cores actually mean?</summary></entry><entry><title type="html">Offset topic and consumer group coordinator of Kafka</title><link href="http://0.0.0.0:4000/kafka/2016/11/04/Kafka-Group-Coordinator.html" rel="alternate" type="text/html" title="Offset topic and consumer group coordinator of Kafka" /><published>2016-11-04T00:00:00+08:00</published><updated>2016-11-04T00:00:00+08:00</updated><id>http://0.0.0.0:4000/kafka/2016/11/04/Kafka-Group-Coordinator</id><content type="html" xml:base="http://0.0.0.0:4000/kafka/2016/11/04/Kafka-Group-Coordinator.html">&lt;p&gt;This article is to discuss two subjects
 that are not frequently or clearly covered by official document or
 online sources.&lt;/p&gt;
 
@@ -494,7 +573,7 @@ Correct me if I ever miss something or make any mistake.&lt;/p&gt;
 &lt;p&gt;The introduction of coordinator, according to the
 &lt;a href=&quot;https://cwiki.apache.org/confluence/display/KAFKA/Kafka+Detailed+Consumer+Coordinator+Design&quot;&gt;official wiki of Kafka&lt;/a&gt;,
 is to solve the &lt;em&gt;split brain&lt;/em&gt; problem
-which is a well known problem in a distributed system.&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="kafka" /><summary type="html">An attempted understanding from source code and limited documentation</summary></entry><entry><title type="html">Thoughts on Consumer Group of Apache Kafka</title><link href="http://localhost:4000/kafka/2016/10/25/Kafka-Consumer-Group.html" rel="alternate" type="text/html" title="Thoughts on Consumer Group of Apache Kafka" /><published>2016-10-25T00:00:00+08:00</published><updated>2016-10-25T00:00:00+08:00</updated><id>http://localhost:4000/kafka/2016/10/25/Kafka-Consumer-Group</id><content type="html" xml:base="http://localhost:4000/kafka/2016/10/25/Kafka-Consumer-Group.html">&lt;h4 id=&quot;introduction&quot;&gt;Introduction&lt;/h4&gt;
+which is a well known problem in a distributed system.&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="kafka" /><summary type="html">An attempted understanding from source code and limited documentation</summary></entry><entry><title type="html">Thoughts on Consumer Group of Apache Kafka</title><link href="http://0.0.0.0:4000/kafka/2016/10/25/Kafka-Consumer-Group.html" rel="alternate" type="text/html" title="Thoughts on Consumer Group of Apache Kafka" /><published>2016-10-25T00:00:00+08:00</published><updated>2016-10-25T00:00:00+08:00</updated><id>http://0.0.0.0:4000/kafka/2016/10/25/Kafka-Consumer-Group</id><content type="html" xml:base="http://0.0.0.0:4000/kafka/2016/10/25/Kafka-Consumer-Group.html">&lt;h4 id=&quot;introduction&quot;&gt;Introduction&lt;/h4&gt;
 
 &lt;p&gt;The concept of consumer group is intriguring.
 According to the
@@ -631,7 +710,7 @@ Nevertheless, it prohibits the removal of &lt;em&gt;active&lt;/em&gt; consumer g
 checking the number of children under consuemr registry dicrectory
 (i.e., &lt;code class=&quot;highlighter-rouge&quot;&gt;/consumers/[group_name]/ids&lt;/code&gt;).
 When you wish to remove a consumer group by a ZooKeeper client,
-please take notice of active consumers as well.&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="kafka" /><summary type="html">Simple experiences from the usage of consumer group in production</summary></entry><entry><title type="html">Advice for STM R&amp;amp;D Assignments</title><link href="http://localhost:4000/programming/2014/12/28/STM-RD-Advice.html" rel="alternate" type="text/html" title="Advice for STM R&amp;D Assignments" /><published>2014-12-28T00:00:00+08:00</published><updated>2014-12-28T00:00:00+08:00</updated><id>http://localhost:4000/programming/2014/12/28/STM-RD-Advice</id><content type="html" xml:base="http://localhost:4000/programming/2014/12/28/STM-RD-Advice.html">&lt;h5 id=&quot;introduction--disclaimer&quot;&gt;Introduction &amp;amp; Disclaimer&lt;/h5&gt;
+please take notice of active consumers as well.&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="kafka" /><summary type="html">Simple experiences from the usage of consumer group in production</summary></entry><entry><title type="html">Advice for STM R&amp;amp;D Assignments</title><link href="http://0.0.0.0:4000/programming/2014/12/28/STM-RD-Advice.html" rel="alternate" type="text/html" title="Advice for STM R&amp;D Assignments" /><published>2014-12-28T00:00:00+08:00</published><updated>2014-12-28T00:00:00+08:00</updated><id>http://0.0.0.0:4000/programming/2014/12/28/STM-RD-Advice</id><content type="html" xml:base="http://0.0.0.0:4000/programming/2014/12/28/STM-RD-Advice.html">&lt;h5 id=&quot;introduction--disclaimer&quot;&gt;Introduction &amp;amp; Disclaimer&lt;/h5&gt;
 
 &lt;p&gt;STM (Starter Mission) is the training program for
 new employees of
@@ -821,12 +900,12 @@ It is designed to equip you with
 essential knowledge and skills for future work.
 Please fully use the time and resources during STM and
 it will surely benefit you in the days to come.
-I wish you all the best.&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="programming" /><summary type="html">Some guidelines that will help you</summary></entry><entry><title type="html">It has been two years</title><link href="http://localhost:4000/life/2014/02/03/TwoYears.html" rel="alternate" type="text/html" title="It has been two years" /><published>2014-02-03T00:00:00+08:00</published><updated>2014-02-03T00:00:00+08:00</updated><id>http://localhost:4000/life/2014/02/03/TwoYears</id><content type="html" xml:base="http://localhost:4000/life/2014/02/03/TwoYears.html">&lt;p&gt;It has been two years since I joined &lt;a href=&quot;https://github.com&quot;&gt;github&lt;/a&gt;.&lt;/p&gt;
+I wish you all the best.&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="programming" /><summary type="html">Some guidelines that will help you</summary></entry><entry><title type="html">It has been two years</title><link href="http://0.0.0.0:4000/life/2014/02/03/TwoYears.html" rel="alternate" type="text/html" title="It has been two years" /><published>2014-02-03T00:00:00+08:00</published><updated>2014-02-03T00:00:00+08:00</updated><id>http://0.0.0.0:4000/life/2014/02/03/TwoYears</id><content type="html" xml:base="http://0.0.0.0:4000/life/2014/02/03/TwoYears.html">&lt;p&gt;It has been two years since I joined &lt;a href=&quot;https://github.com&quot;&gt;github&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/images/github-reg.png&quot; alt=&quot;Your browser does not support img&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Since then my life has stepped into AD (After Development) from
-BC (Before Coding).&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="life" /><summary type="html">GitHub registration anniversary</summary></entry><entry><title type="html">Ocaml React package tutorial</title><link href="http://localhost:4000/programming/2014/01/28/React-Tutorial.html" rel="alternate" type="text/html" title="Ocaml React package tutorial" /><published>2014-01-28T00:00:00+08:00</published><updated>2014-01-28T00:00:00+08:00</updated><id>http://localhost:4000/programming/2014/01/28/React-Tutorial</id><content type="html" xml:base="http://localhost:4000/programming/2014/01/28/React-Tutorial.html">&lt;p&gt;React is an Ocaml package made for &lt;a href=&quot;http://en.wikipedia.org/wiki/Reactive_programming&quot;&gt;reactive programming&lt;/a&gt;
+BC (Before Coding).&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="life" /><summary type="html">GitHub registration anniversary</summary></entry><entry><title type="html">Ocaml React package tutorial</title><link href="http://0.0.0.0:4000/programming/2014/01/28/React-Tutorial.html" rel="alternate" type="text/html" title="Ocaml React package tutorial" /><published>2014-01-28T00:00:00+08:00</published><updated>2014-01-28T00:00:00+08:00</updated><id>http://0.0.0.0:4000/programming/2014/01/28/React-Tutorial</id><content type="html" xml:base="http://0.0.0.0:4000/programming/2014/01/28/React-Tutorial.html">&lt;p&gt;React is an Ocaml package made for &lt;a href=&quot;http://en.wikipedia.org/wiki/Reactive_programming&quot;&gt;reactive programming&lt;/a&gt;
 using Ocaml.
 The objective of this post is to illustrate and explain some examples of the React API.
 Therefore the basic concepts of React, such as Signals, Events and side effects, will not be repeated here.
@@ -1090,7 +1169,7 @@ For examples, l2 takes a function with two arguments as its input.&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;http://www.reactivemanifesto.org/&quot;&gt;
 &lt;img style=&quot;border: 0; position: fixed; left: 0; top:0; z-index: 9000&quot; src=&quot;http://www.reactivemanifesto.org/images/ribbons/we-are-reactive-black-left.png&quot; /&gt;
-&lt;/a&gt;&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="programming" /><summary type="html">Unofficial tutorial for Ocaml React package</summary></entry><entry><title type="html">Differences between type systems of Ocaml &amp;amp; Java</title><link href="http://localhost:4000/programming/2013/12/27/Type-Systems.html" rel="alternate" type="text/html" title="Differences between type systems of Ocaml &amp; Java" /><published>2013-12-27T00:00:00+08:00</published><updated>2013-12-27T00:00:00+08:00</updated><id>http://localhost:4000/programming/2013/12/27/Type-Systems</id><content type="html" xml:base="http://localhost:4000/programming/2013/12/27/Type-Systems.html">&lt;h5 id=&quot;introduction&quot;&gt;Introduction&lt;/h5&gt;
+&lt;/a&gt;&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="programming" /><summary type="html">Unofficial tutorial for Ocaml React package</summary></entry><entry><title type="html">Differences between type systems of Ocaml &amp;amp; Java</title><link href="http://0.0.0.0:4000/programming/2013/12/27/Type-Systems.html" rel="alternate" type="text/html" title="Differences between type systems of Ocaml &amp; Java" /><published>2013-12-27T00:00:00+08:00</published><updated>2013-12-27T00:00:00+08:00</updated><id>http://0.0.0.0:4000/programming/2013/12/27/Type-Systems</id><content type="html" xml:base="http://0.0.0.0:4000/programming/2013/12/27/Type-Systems.html">&lt;h5 id=&quot;introduction&quot;&gt;Introduction&lt;/h5&gt;
 
 &lt;p&gt;When asked the differences between the Ocaml’s type system and Java’s,
 I realized that I did not understand them well.
@@ -1292,7 +1371,7 @@ The inference was based upon the use of the integer operator + and the integer l
 
 &lt;p&gt;In summary,
 the type system of Java has lots of similarities compared to Ocaml.
-Still Java is one of the dominant and most popular programming languages.&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="programming" /><summary type="html">Some research done for my final year project</summary></entry><entry><title type="html">Welcome to Jekyll</title><link href="http://localhost:4000/programming/2013/07/17/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll" /><published>2013-07-17T00:00:00+08:00</published><updated>2013-07-17T00:00:00+08:00</updated><id>http://localhost:4000/programming/2013/07/17/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/programming/2013/07/17/welcome-to-jekyll.html">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory - edit this post and re-build (or run with the &lt;code class=&quot;highlighter-rouge&quot;&gt;-w&lt;/code&gt; switch) to see your changes!
+Still Java is one of the dominant and most popular programming languages.&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="programming" /><summary type="html">Some research done for my final year project</summary></entry><entry><title type="html">Welcome to Jekyll</title><link href="http://0.0.0.0:4000/programming/2013/07/17/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll" /><published>2013-07-17T00:00:00+08:00</published><updated>2013-07-17T00:00:00+08:00</updated><id>http://0.0.0.0:4000/programming/2013/07/17/welcome-to-jekyll</id><content type="html" xml:base="http://0.0.0.0:4000/programming/2013/07/17/welcome-to-jekyll.html">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory - edit this post and re-build (or run with the &lt;code class=&quot;highlighter-rouge&quot;&gt;-w&lt;/code&gt; switch) to see your changes!
 To add new posts, simply add a file in the &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory that follows the convention: YYYY-MM-DD-name-of-post.ext.&lt;/p&gt;
 
 &lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
@@ -1303,21 +1382,4 @@ To add new posts, simply add a file in the &lt;code class=&quot;highlighter-roug
 &lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Tom'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints 'Hi, Tom' to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/mojombo/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;.&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="programming" /><summary type="html">An introduction to Jekyll application.</summary></entry><entry><title type="html">Bootstrap, bootstrap everywhere</title><link href="http://localhost:4000/programming/2013/06/19/Bootstrap-Everywhere.html" rel="alternate" type="text/html" title="Bootstrap, bootstrap everywhere" /><published>2013-06-19T00:00:00+08:00</published><updated>2013-06-19T00:00:00+08:00</updated><id>http://localhost:4000/programming/2013/06/19/Bootstrap-Everywhere</id><content type="html" xml:base="http://localhost:4000/programming/2013/06/19/Bootstrap-Everywhere.html">&lt;p&gt;In layman’s terms,
-bootstrap is a CSS and Javascript framework designed to
-make web development easier.
-At the same time, it makes the websites look similar.
-If the framework is used without any customization,
-the produced websites will look almost in the same style.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/bootstrap-everywhere.jpg&quot; alt=&quot;My helpful screenshot&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Anyway, I do not say twitter bootstrap is bad.
-Even this blog uses this framework.
-Imagine if I built the CSS from scratch, perhaps I would have not finished
-writing it.&lt;/p&gt;
-
-&lt;p&gt;Appended on 10-Jan-2014:&lt;/p&gt;
-
-&lt;p&gt;Since the new release of the website,
-the CSS of this website has given up &lt;code class=&quot;highlighter-rouge&quot;&gt;bootstrap&lt;/code&gt; framework.&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="programming" /><summary type="html">Some thoughts with bootstrap framework.</summary></entry></feed>
+&lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/mojombo/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;.&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="programming" /><summary type="html">An introduction to Jekyll application.</summary></entry></feed>
