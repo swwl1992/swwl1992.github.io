@@ -1014,17 +1014,17 @@ BC (Before Coding).
     </entry>
   
     <entry>
-      <title>Ocaml React package tutorial</title>
+      <title>OCaml React package tutorial</title>
       <url>/programming/2014/01/28/React-Tutorial.html</url>
-      <content type="text">React is an Ocaml package made for reactive programming
-using Ocaml.
+      <content type="text">React is an OCaml package made for reactive programming
+using OCaml.
 The objective of this post is to illustrate and explain some examples of the React API.
 Therefore the basic concepts of React, such as Signals, Events and side effects, will not be repeated here.
 Below are some prerequisites for reading this post.
 
 
-  Ocaml (version 4.00.1 or above)
-  OPAM (Ocaml PAckage Manager)
+  OCaml (version 4.00.1 or above)
+  OPAM (OCaml PAckage Manager)
   React (installation via OPAM)
   React Introduction
 
@@ -1037,13 +1037,14 @@ contact me through my Github account.
 Thank you for your feedbacks.
 
 Using React package
+
 For compilation
 
 ocamlfind ocamlopt -o clock -linkpkg \
     -package react clock.ml
 
 
-For Ocaml Toplevel
+For OCaml Toplevel
 
 #use &quot;topfind&quot;;;
 #require &quot;react&quot;;;
@@ -1070,7 +1071,7 @@ let () = List.iter send_w [0; 1; 2; 3]
 
 
 The output would be only 0.
-All the values after the first occurence are omitted.
+All the values after the first occurrence are omitted.
 
 val drop_once : 'a React.event -&amp;gt; 'a React.event
 
@@ -1260,7 +1261,7 @@ Note that only updates that change the value of a signal are printed.
 Many API are similar to those in React.E.
 Therefore this tutorial jumps straight to Lifting combinators.
 Lifting transforms a regular function to make it act on signals.
-For examples, l2 takes a function with two arguments as its input.
+For example, l2 takes a function with two arguments as its input.
 
 val l2 : ?eq:('c -&amp;gt; 'c -&amp;gt; bool) -&amp;gt;
     ('a -&amp;gt; 'b -&amp;gt; 'c) -&amp;gt; 'a React.signal -&amp;gt; 'b React.signal -&amp;gt; 'c React.signal
@@ -1276,11 +1277,7 @@ Some other examples
 
   Clock.ml
   Breakout.ml
-  Oreo project Ocaml Reactive programming used on Web authored by me
-
-
-
-
+  Oreo project OCaml Reactive programming used on Web authored by me
 
 </content>
       <categories>

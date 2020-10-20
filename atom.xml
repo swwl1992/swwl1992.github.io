@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://wanwenli.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://wanwenli.com/" rel="alternate" type="text/html" /><updated>2020-10-20T21:13:11+08:00</updated><id>https://wanwenli.com/atom.xml</id><title type="html">Salmon Says</title><subtitle>Keep talking</subtitle><author><name>Wan Wenli</name></author><entry><title type="html">How do Bitcoin mining pools pay their miners?</title><link href="https://wanwenli.com/blockchain/2018/09/13/How-do-bitcoin-mining-pools-pay.html" rel="alternate" type="text/html" title="How do Bitcoin mining pools pay their miners?" /><published>2018-09-13T00:00:00+08:00</published><updated>2018-09-13T00:00:00+08:00</updated><id>https://wanwenli.com/blockchain/2018/09/13/How-do-bitcoin-mining-pools-pay</id><content type="html" xml:base="https://wanwenli.com/blockchain/2018/09/13/How-do-bitcoin-mining-pools-pay.html">&lt;p&gt;Since the price of Bitcoin surged in the 2017 Q4,
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://wanwenli.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://wanwenli.com/" rel="alternate" type="text/html" /><updated>2020-10-20T21:48:30+08:00</updated><id>https://wanwenli.com/atom.xml</id><title type="html">Salmon Says</title><subtitle>Keep talking</subtitle><author><name>Wan Wenli</name></author><entry><title type="html">How do Bitcoin mining pools pay their miners?</title><link href="https://wanwenli.com/blockchain/2018/09/13/How-do-bitcoin-mining-pools-pay.html" rel="alternate" type="text/html" title="How do Bitcoin mining pools pay their miners?" /><published>2018-09-13T00:00:00+08:00</published><updated>2018-09-13T00:00:00+08:00</updated><id>https://wanwenli.com/blockchain/2018/09/13/How-do-bitcoin-mining-pools-pay</id><content type="html" xml:base="https://wanwenli.com/blockchain/2018/09/13/How-do-bitcoin-mining-pools-pay.html">&lt;p&gt;Since the price of Bitcoin surged in the 2017 Q4,
 many mining pools have surfaced.
 Over the globe there are over 20 active and recognizable mining pools.
 You can find more pools and their addresses from
@@ -898,15 +898,15 @@ I wish you all the best.&lt;/p&gt;</content><author><name>Wan Wenli</name></auth
 &lt;p&gt;&lt;img src=&quot;/assets/images/github-reg.png&quot; alt=&quot;Your browser does not support img&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Since then my life has stepped into AD (After Development) from
-BC (Before Coding).&lt;/p&gt;</content><author><name>Wan Wenli</name></author><summary type="html">It has been two years since I joined github.</summary></entry><entry><title type="html">Ocaml React package tutorial</title><link href="https://wanwenli.com/programming/2014/01/28/React-Tutorial.html" rel="alternate" type="text/html" title="Ocaml React package tutorial" /><published>2014-01-28T00:00:00+08:00</published><updated>2014-01-28T00:00:00+08:00</updated><id>https://wanwenli.com/programming/2014/01/28/React-Tutorial</id><content type="html" xml:base="https://wanwenli.com/programming/2014/01/28/React-Tutorial.html">&lt;p&gt;React is an Ocaml package made for &lt;a href=&quot;http://en.wikipedia.org/wiki/Reactive_programming&quot;&gt;reactive programming&lt;/a&gt;
-using Ocaml.
+BC (Before Coding).&lt;/p&gt;</content><author><name>Wan Wenli</name></author><summary type="html">It has been two years since I joined github.</summary></entry><entry><title type="html">OCaml React package tutorial</title><link href="https://wanwenli.com/programming/2014/01/28/React-Tutorial.html" rel="alternate" type="text/html" title="OCaml React package tutorial" /><published>2014-01-28T00:00:00+08:00</published><updated>2014-01-28T00:00:00+08:00</updated><id>https://wanwenli.com/programming/2014/01/28/React-Tutorial</id><content type="html" xml:base="https://wanwenli.com/programming/2014/01/28/React-Tutorial.html">&lt;p&gt;React is an OCaml package made for &lt;a href=&quot;http://en.wikipedia.org/wiki/Reactive_programming&quot;&gt;reactive programming&lt;/a&gt;
+using OCaml.
 The objective of this post is to illustrate and explain some examples of the React API.
 Therefore the basic concepts of React, such as Signals, Events and side effects, will not be repeated here.
 Below are some prerequisites for reading this post.&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;http://ocaml.org/&quot;&gt;Ocaml&lt;/a&gt; (version 4.00.1 or above)&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://opam.ocamlpro.com/&quot;&gt;OPAM&lt;/a&gt; (Ocaml PAckage Manager)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://ocaml.org/&quot;&gt;OCaml&lt;/a&gt; (version 4.00.1 or above)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://opam.ocamlpro.com/&quot;&gt;OPAM&lt;/a&gt; (OCaml PAckage Manager)&lt;/li&gt;
   &lt;li&gt;React (installation via OPAM)&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;http://erratique.ch/software/react/doc/React.html&quot;&gt;React Introduction&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -919,13 +919,14 @@ contact me through my Github account.
 Thank you for your feedbacks.&lt;/p&gt;
 
 &lt;h5 id=&quot;using-react-package&quot;&gt;Using React package&lt;/h5&gt;
+
 &lt;p&gt;For compilation&lt;/p&gt;
 
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ocamlfind ocamlopt -o clock -linkpkg \
     -package react clock.ml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;For Ocaml Toplevel&lt;/p&gt;
+&lt;p&gt;For OCaml Toplevel&lt;/p&gt;
 
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#use &quot;topfind&quot;;;
 #require &quot;react&quot;;;
@@ -952,7 +953,7 @@ Any occurence after time t will not affect e.&lt;/p&gt;
 &lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;The output would be only 0.
-All the values after the first occurence are omitted.&lt;/p&gt;
+All the values after the first occurrence are omitted.&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ocaml&quot; data-lang=&quot;ocaml&quot;&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;drop_once&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;React&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;event&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;React&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;event&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
@@ -1142,7 +1143,7 @@ Note that only updates that change the value of a signal are printed.&lt;/p&gt;
 &lt;p&gt;Many API are similar to those in React.E.
 Therefore this tutorial jumps straight to Lifting combinators.
 Lifting transforms a regular function to make it act on signals.
-For examples, l2 takes a function with two arguments as its input.&lt;/p&gt;
+For example, l2 takes a function with two arguments as its input.&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ocaml&quot; data-lang=&quot;ocaml&quot;&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;l2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;eq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;bool&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;React&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;signal&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;React&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;signal&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;React&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;signal&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
@@ -1158,12 +1159,8 @@ For examples, l2 takes a function with two arguments as its input.&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;&lt;a href=&quot;https://github.com/dbuenzli/react/blob/master/test/clock.ml&quot;&gt;Clock.ml&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://github.com/dbuenzli/react/blob/master/test/breakout.ml&quot;&gt;Breakout.ml&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/swwl1992/oreo&quot;&gt;Oreo project&lt;/a&gt; Ocaml Reactive programming used on Web authored by me&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://www.reactivemanifesto.org/&quot;&gt;
-&lt;img style=&quot;border: 0; position: fixed; left: 0; top:0; z-index: 9000&quot; src=&quot;http://www.reactivemanifesto.org/images/ribbons/we-are-reactive-black-left.png&quot; /&gt;
-&lt;/a&gt;&lt;/p&gt;</content><author><name>Wan Wenli</name></author><summary type="html">React is an Ocaml package made for reactive programming using Ocaml. The objective of this post is to illustrate and explain some examples of the React API. Therefore the basic concepts of React, such as Signals, Events and side effects, will not be repeated here. Below are some prerequisites for reading this post.</summary></entry><entry><title type="html">Differences between type systems of OCaml &amp;amp; Java</title><link href="https://wanwenli.com/programming/2013/12/27/Type-Systems.html" rel="alternate" type="text/html" title="Differences between type systems of OCaml &amp; Java" /><published>2013-12-27T00:00:00+08:00</published><updated>2013-12-27T00:00:00+08:00</updated><id>https://wanwenli.com/programming/2013/12/27/Type-Systems</id><content type="html" xml:base="https://wanwenli.com/programming/2013/12/27/Type-Systems.html">&lt;h5 id=&quot;introduction&quot;&gt;Introduction&lt;/h5&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/swwl1992/oreo&quot;&gt;Oreo project&lt;/a&gt; OCaml Reactive programming used on Web authored by me&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Wan Wenli</name></author><summary type="html">React is an OCaml package made for reactive programming using OCaml. The objective of this post is to illustrate and explain some examples of the React API. Therefore the basic concepts of React, such as Signals, Events and side effects, will not be repeated here. Below are some prerequisites for reading this post.</summary></entry><entry><title type="html">Differences between type systems of OCaml &amp;amp; Java</title><link href="https://wanwenli.com/programming/2013/12/27/Type-Systems.html" rel="alternate" type="text/html" title="Differences between type systems of OCaml &amp; Java" /><published>2013-12-27T00:00:00+08:00</published><updated>2013-12-27T00:00:00+08:00</updated><id>https://wanwenli.com/programming/2013/12/27/Type-Systems</id><content type="html" xml:base="https://wanwenli.com/programming/2013/12/27/Type-Systems.html">&lt;h5 id=&quot;introduction&quot;&gt;Introduction&lt;/h5&gt;
 
 &lt;p&gt;When asked the differences between the OCaml’s type system and Java’s,
 I realized that I did not understand them well.

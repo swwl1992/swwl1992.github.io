@@ -111,19 +111,17 @@
 
 
 
-<meta name="description" content="Unofficial tutorial for Ocaml React package">
+<meta name="description" content="Unofficial tutorial for OCaml React package">
 <meta name="keywords" content="Jekyll, NexT">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Ocaml React package tutorial">
+<meta property="og:title" content="OCaml React package tutorial">
 <meta property="og:url" content="https://wanwenli.com/programming/2014/01/28/React-Tutorial.html">
 <meta property="og:site_name" content="Salmon Says">
-<meta property="og:description" content="Unofficial tutorial for Ocaml React package">
+<meta property="og:description" content="Unofficial tutorial for OCaml React package">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="border: 0; position: fixed; left: 0; top:0; z-index: 9000">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ocaml React package tutorial">
-<meta name="twitter:description" content="Unofficial tutorial for Ocaml React package">
-<meta name="twitter:image" content="border: 0; position: fixed; left: 0; top:0; z-index: 9000">
+<meta name="twitter:title" content="OCaml React package tutorial">
+<meta name="twitter:description" content="Unofficial tutorial for OCaml React package">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -156,7 +154,7 @@
 
 
 
-  <title>Ocaml React package tutorial | Salmon Says</title>
+  <title>OCaml React package tutorial | Salmon Says</title>
   
 
 
@@ -302,7 +300,7 @@
           <h1 class="post-title" itemprop="name headline">
           
           
-            Ocaml React package tutorial
+            OCaml React package tutorial
           
         </h1>
         
@@ -353,17 +351,6 @@
 
           
             
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/programming/2014/01/28/React-Tutorial.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="/programming/2014/01/28/React-Tutorial.html" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -376,7 +363,7 @@
           
             
                 <div class="post-description">
-                    Unofficial tutorial for Ocaml React package
+                    Unofficial tutorial for OCaml React package
                 </div>
             
           
@@ -391,15 +378,15 @@
       
 
       
-        <p>React is an Ocaml package made for <a href="http://en.wikipedia.org/wiki/Reactive_programming">reactive programming</a>
-using Ocaml.
+        <p>React is an OCaml package made for <a href="http://en.wikipedia.org/wiki/Reactive_programming">reactive programming</a>
+using OCaml.
 The objective of this post is to illustrate and explain some examples of the React API.
 Therefore the basic concepts of React, such as Signals, Events and side effects, will not be repeated here.
 Below are some prerequisites for reading this post.</p>
 
 <ul>
-  <li><a href="http://ocaml.org/">Ocaml</a> (version 4.00.1 or above)</li>
-  <li><a href="http://opam.ocamlpro.com/">OPAM</a> (Ocaml PAckage Manager)</li>
+  <li><a href="http://ocaml.org/">OCaml</a> (version 4.00.1 or above)</li>
+  <li><a href="http://opam.ocamlpro.com/">OPAM</a> (OCaml PAckage Manager)</li>
   <li>React (installation via OPAM)</li>
   <li><a href="http://erratique.ch/software/react/doc/React.html">React Introduction</a></li>
 </ul>
@@ -412,13 +399,14 @@ contact me through my Github account.
 Thank you for your feedbacks.</p>
 
 <h5 id="using-react-package">Using React package</h5>
+
 <p>For compilation</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ocamlfind ocamlopt -o clock -linkpkg \
     -package react clock.ml
 </code></pre></div></div>
 
-<p>For Ocaml Toplevel</p>
+<p>For OCaml Toplevel</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#use "topfind";;
 #require "react";;
@@ -445,7 +433,7 @@ Any occurence after time t will not affect e.</p>
 </pre></td></tr></tbody></table></code></pre></figure>
 
 <p>The output would be only 0.
-All the values after the first occurence are omitted.</p>
+All the values after the first occurrence are omitted.</p>
 
 <figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">drop_once</span> <span class="o">:</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
 
@@ -635,7 +623,7 @@ Note that only updates that change the value of a signal are printed.</p>
 <p>Many API are similar to those in React.E.
 Therefore this tutorial jumps straight to Lifting combinators.
 Lifting transforms a regular function to make it act on signals.
-For examples, l2 takes a function with two arguments as its input.</p>
+For example, l2 takes a function with two arguments as its input.</p>
 
 <figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">l2</span> <span class="o">:</span> <span class="o">?</span><span class="n">eq</span><span class="o">:</span><span class="p">(</span><span class="k">'</span><span class="n">c</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">c</span> <span class="o">-&gt;</span> <span class="kt">bool</span><span class="p">)</span> <span class="o">-&gt;</span>
     <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">c</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">signal</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="nn">React</span><span class="p">.</span><span class="n">signal</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">c</span> <span class="nn">React</span><span class="p">.</span><span class="n">signal</span></code></pre></figure>
@@ -651,12 +639,8 @@ For examples, l2 takes a function with two arguments as its input.</p>
 <ul>
   <li><a href="https://github.com/dbuenzli/react/blob/master/test/clock.ml">Clock.ml</a></li>
   <li><a href="https://github.com/dbuenzli/react/blob/master/test/breakout.ml">Breakout.ml</a></li>
-  <li><a href="https://github.com/swwl1992/oreo">Oreo project</a> Ocaml Reactive programming used on Web authored by me</li>
+  <li><a href="https://github.com/swwl1992/oreo">Oreo project</a> OCaml Reactive programming used on Web authored by me</li>
 </ul>
-
-<p><a href="http://www.reactivemanifesto.org/">
-<img style="border: 0; position: fixed; left: 0; top:0; z-index: 9000" src="http://www.reactivemanifesto.org/images/ribbons/we-are-reactive-black-left.png" />
-</a></p>
 
       
     </div>
@@ -1044,8 +1028,6 @@ For examples, l2 takes a function with two arguments as its input.</p>
   
 
     
-      <script id="dsq-count-scr" src="https://wanwenli.disqus.com/count.js" async></script>
-    
 
     
       
@@ -1053,7 +1035,7 @@ For examples, l2 takes a function with two arguments as its input.</p>
           var disqus_config = function () {
               this.page.url = 'https://wanwenli.com/programming/2014/01/28/React-Tutorial.html';
               this.page.identifier = '/programming/2014/01/28/React-Tutorial.html';
-              this.page.title = 'Ocaml React package tutorial';
+              this.page.title = 'OCaml React package tutorial';
           };
           var d = document, s = d.createElement('script');
           s.src = 'https://wanwenli.disqus.com/embed.js';
