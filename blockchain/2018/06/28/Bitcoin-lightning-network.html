@@ -14,7 +14,7 @@
 
 
 
-<html class="theme-next muse use-motion" lang="en">
+<html class="theme-next mist use-motion" lang="en">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -115,7 +115,7 @@
 <meta name="keywords" content="Jekyll, NexT">
 <meta property="og:type" content="article">
 <meta property="og:title" content="A brief guide to Bitcoin lightning network with examples">
-<meta property="og:url" content="http://localhost:4000/blockchain/2018/06/28/Bitcoin-lightning-network.html">
+<meta property="og:url" content="https://wanwenli.com/blockchain/2018/06/28/Bitcoin-lightning-network.html">
 <meta property="og:site_name" content="Salmon Says">
 <meta property="og:description" content="Technical details, source code and discussion about online resources">
 <meta property="og:locale" content="en">
@@ -128,7 +128,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '',
-    scheme: 'Muse',
+    scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
     motion: true,
@@ -148,7 +148,7 @@
 
 
 
-  <link rel="canonical" href="http://localhost:4000/"/>
+  <link rel="canonical" href="https://wanwenli.com/"/>
 
 
 
@@ -238,6 +238,18 @@
           </a>
         </li>
       
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -268,7 +280,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/blockchain/2018/06/28/Bitcoin-lightning-network.html">
+    <link itemprop="mainEntityOfPage" href="https://wanwenli.com/blockchain/2018/06/28/Bitcoin-lightning-network.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Wan Wenli">
@@ -338,8 +350,6 @@
           
 
           
-            
-          
 
           
           
@@ -351,7 +361,7 @@
           
             
                 <div class="post-description">
-                    
+                    Technical details, source code and discussion about online resources
                 </div>
             
           
@@ -442,14 +452,13 @@ and implemented in a JavaScript LN protocol,
 <a href="https://github.com/yoursnetwork/yours-channels">yours-channels</a>.
 However if you do find one, please leave your comment.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>OP IF
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>OP IF
   OP HASH160 &lt;Hash160 (R)&gt; OP EQUALVERIFY
   2 &lt;Ali c e 2&gt; &lt;Bob2&gt; OP CHECKMULTISIG
 OP ELSE
   2 &lt;Ali c e 1&gt; &lt;Bob1&gt; OP CHECKMULTISIG
 OP ENDIF
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>I suppose it is because
 the specifications of LN have been updated and redefined in
@@ -523,13 +532,13 @@ the funding transaction.</li>
 and the other is a P2WPKH.
 The P2WPKH is not time locked and
 has been sent to the counterparty of the channel.</li>
-  <li>Its input witness starts with <code class="highlighter-rouge">&lt;sig&gt; 0</code> form
+  <li>Its input witness starts with <code class="language-plaintext highlighter-rouge">&lt;sig&gt; 0</code> form
 therefore its fund has already been successfully taken.
 According to the LN paper, the LN channel is <em>fully closed</em>.</li>
 </ul>
 
 <p>Why the second input has been penalised?
-Because there is a <code class="highlighter-rouge">1</code> right after the signature and
+Because there is a <code class="language-plaintext highlighter-rouge">1</code> right after the signature and
 it executes the if-branch which revokes all the funds in the channel.
 Both inputs were from the two outputs of
 the previous funding transaction and there is only one output.
@@ -547,7 +556,7 @@ Therefore we can conclude that it is in a penalty transaction.</p>
 </ul>
 
 <p>The expenditures by timeout are easy to identify, as its format is simply
-<code class="highlighter-rouge">0 &lt;sig&gt; &lt;sig&gt; 0</code>.
+<code class="language-plaintext highlighter-rouge">0 &lt;sig&gt; &lt;sig&gt; 0</code>.
 How to identify if a HTLC transaction has used the preimage?
 Here I would like to recommend the
 <a href="https://github.com/petertodd/python-bitcoinlib">python bitcoin library</a>.
@@ -555,7 +564,7 @@ I like it a lot because python provides power interactive terminal
 and it is convenient to analyse bitcoin blockchain.</p>
 
 <p>Let us see the transaction input whose hash starts with “89c744”.
-Its witness is in the form of <code class="highlighter-rouge">sig [unknown] scriptPubKey</code>.
+Its witness is in the form of <code class="language-plaintext highlighter-rouge">sig [unknown] scriptPubKey</code>.
 Later we will find out that the unknown part is
 actually the hash160 of a secret, the hash that locks the contract.
 A revocation script will appear in the exactly same form
@@ -563,25 +572,23 @@ but we shall see that the script does not execute the revocation path.</p>
 
 <p>The scriptPubKey part, according to BOLT #3, is decoded as</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">from</span> <span class="nn">bitcoin.core</span> <span class="kn">import</span> <span class="n">CScript</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">from</span> <span class="nn">bitcoin.core</span> <span class="kn">import</span> <span class="n">CScript</span>
 
-<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="n">CScript</span><span class="p">(</span><span class="nb">bytearray</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s">'76a9149d908ebcc9e1913b808eb7b4ba47bc4d1b35ebd38763ac672102aa52226cbb5aaef23f175575c06feb16aa303e76f288be28c4760ef768c865977c820120876475527c210362c9ec1c0c7bb399037469b376e9e19d6aa0fbb58df811786b7425dea94b519a52ae67a9146e3bef3f86aed6d6f825f13d1fa070039c866c5c88ac6868'</span><span class="p">))</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="n">CScript</span><span class="p">(</span><span class="nb">bytearray</span><span class="p">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s">'76a9149d908ebcc9e1913b808eb7b4ba47bc4d1b35ebd38763ac672102aa52226cbb5aaef23f175575c06feb16aa303e76f288be28c4760ef768c865977c820120876475527c210362c9ec1c0c7bb399037469b376e9e19d6aa0fbb58df811786b7425dea94b519a52ae67a9146e3bef3f86aed6d6f825f13d1fa070039c866c5c88ac6868'</span><span class="p">))</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="n">CScript</span><span class="p">([</span><span class="n">OP_DUP</span><span class="p">,</span> <span class="n">OP_HASH160</span><span class="p">,</span> <span class="n">x</span><span class="p">(</span><span class="s">'9d908ebcc9e1913b808eb7b4ba47bc4d1b35ebd3'</span><span class="p">),</span> <span class="n">OP_EQUAL</span><span class="p">,</span> <span class="n">OP_IF</span><span class="p">,</span> <span class="n">OP_CHECKSIG</span><span class="p">,</span> <span class="n">OP_ELSE</span><span class="p">,</span> <span class="n">x</span><span class="p">(</span><span class="s">'02aa52226cbb5aaef23f175575c06feb16aa303e76f288be28c4760ef768c86597'</span><span class="p">),</span> <span class="n">OP_SWAP</span><span class="p">,</span> <span class="n">OP_SIZE</span><span class="p">,</span> <span class="n">x</span><span class="p">(</span><span class="s">'20'</span><span class="p">),</span> <span class="n">OP_EQUAL</span><span class="p">,</span> <span class="n">OP_NOTIF</span><span class="p">,</span> <span class="n">OP_DROP</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">OP_SWAP</span><span class="p">,</span> <span class="n">x</span><span class="p">(</span><span class="s">'0362c9ec1c0c7bb399037469b376e9e19d6aa0fbb58df811786b7425dea94b519a'</span><span class="p">),</span> <span class="mi">2</span><span class="p">,</span> <span class="n">OP_CHECKMULTISIG</span><span class="p">,</span> <span class="n">OP_ELSE</span><span class="p">,</span> <span class="n">OP_HASH160</span><span class="p">,</span> <span class="n">x</span><span class="p">(</span><span class="s">'6e3bef3f86aed6d6f825f13d1fa070039c866c5c'</span><span class="p">),</span> <span class="n">OP_EQUALVERIFY</span><span class="p">,</span> <span class="n">OP_CHECKSIG</span><span class="p">,</span> <span class="n">OP_ENDIF</span><span class="p">,</span> <span class="n">OP_ENDIF</span><span class="p">])</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Next, let us see the hash value of the unknown part,</p>
-<div class="language-python highlighter-rouge"><pre class="highlight"><code>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 <span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">bitcoin</span>
 
-<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="n">CScript</span><span class="p">([</span><span class="n">bitcoin</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Hash160</span><span class="p">(</span><span class="nb">bytearray</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s">'ae626cc4d6c208bdb3179b9d3efc7ae61779a9924b3852f01d0024afa84a4bbb'</span><span class="p">))])</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="n">CScript</span><span class="p">([</span><span class="n">bitcoin</span><span class="p">.</span><span class="n">core</span><span class="p">.</span><span class="n">Hash160</span><span class="p">(</span><span class="nb">bytearray</span><span class="p">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s">'ae626cc4d6c208bdb3179b9d3efc7ae61779a9924b3852f01d0024afa84a4bbb'</span><span class="p">))])</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="n">CScript</span><span class="p">([</span><span class="n">x</span><span class="p">(</span><span class="s">'6e3bef3f86aed6d6f825f13d1fa070039c866c5c'</span><span class="p">)])</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>See? The hash160 of the previously unknown field is
-equal to the value right after the last <code class="highlighter-rouge">OP_HASH160</code>
-and before the <code class="highlighter-rouge">OP_EQUALVERIFY</code>.
+equal to the value right after the last <code class="language-plaintext highlighter-rouge">OP_HASH160</code>
+and before the <code class="language-plaintext highlighter-rouge">OP_EQUALVERIFY</code>.
 Therefore the fund is indeed taken by providing the preimage,
 according to the HTLC script for senders defined in BOLT #3,
 instead of being revoked.</p>
@@ -680,35 +687,12 @@ I hope you can better understand transactions in LN.</p>
   </div>
 </div>
 
-<div id="disqus_thread"></div>
-<script>
-/**
-*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-/*
-   var disqus_config = function () {
-   this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-   this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-   };
-   */
-(function() { // DON'T EDIT BELOW THIS LINE
-	var d = document, s = d.createElement('script');
-	s.src = 'https://wanwenli.disqus.com/embed.js';
-	s.setAttribute('data-timestamp', +new Date());
-	(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
           </div>
           
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
-
 
         </div>
         
@@ -760,8 +744,8 @@ I hope you can better understand transactions in LN.</p>
 
           
             <div class="site-state-item site-state-posts">
-              <a href="">
-                <span class="site-state-item-count">12</span>
+              <a href="/archives/">
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -772,12 +756,21 @@ I hope you can better understand transactions in LN.</p>
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
           
 
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
           
 
         </nav>
@@ -794,6 +787,30 @@ I hope you can better understand transactions in LN.</p>
         
 
         <div class="links-of-author motion-element">
+          
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://github.com/wanwenli" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/wenli_wan" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
           
         </div>
 
@@ -850,15 +867,11 @@ I hope you can better understand transactions in LN.</p>
   
   
   &copy; 
-  <span itemprop="copyrightYear">2019</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Wan Wenli</span>
-</div>
-
-<div class="copyright">
-  <iframe src="https://ghbtns.com/github-btn.html?user=swwl1992&type=follow&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
 </div>
 
 
@@ -869,7 +882,7 @@ I hope you can better understand transactions in LN.</p>
 <div class="theme-info">
   Theme -
   <a class="theme-link" href="https://github.com/simpleyyt/jekyll-theme-next">
-    NexT.Muse
+    NexT.Mist
   </a>
 </div>
 
@@ -991,6 +1004,14 @@ I hope you can better understand transactions in LN.</p>
 
   
 
+    
+      <script id="dsq-count-scr" src="https://wanwenli.disqus.com/count.js" async></script>
+    
+
+    
+
+  
+
 
 
 
@@ -1016,10 +1037,6 @@ I hope you can better understand transactions in LN.</p>
 
 
 
-
-  
-
-    
 
   
 

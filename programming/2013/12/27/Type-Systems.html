@@ -14,7 +14,7 @@
 
 
 
-<html class="theme-next muse use-motion" lang="en">
+<html class="theme-next mist use-motion" lang="en">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -114,13 +114,13 @@
 <meta name="description" content="Some research done for my final year project">
 <meta name="keywords" content="Jekyll, NexT">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Differences between type systems of Ocaml &amp; Java">
-<meta property="og:url" content="http://localhost:4000/programming/2013/12/27/Type-Systems.html">
+<meta property="og:title" content="Differences between type systems of OCaml &amp; Java">
+<meta property="og:url" content="https://wanwenli.com/programming/2013/12/27/Type-Systems.html">
 <meta property="og:site_name" content="Salmon Says">
 <meta property="og:description" content="Some research done for my final year project">
 <meta property="og:locale" content="en">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Differences between type systems of Ocaml &amp; Java">
+<meta name="twitter:title" content="Differences between type systems of OCaml &amp; Java">
 <meta name="twitter:description" content="Some research done for my final year project">
 
 
@@ -128,7 +128,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '',
-    scheme: 'Muse',
+    scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
     motion: true,
@@ -148,13 +148,13 @@
 
 
 
-  <link rel="canonical" href="http://localhost:4000/"/>
+  <link rel="canonical" href="https://wanwenli.com/"/>
 
 
 
 
 
-  <title>Differences between type systems of Ocaml & Java | Salmon Says</title>
+  <title>Differences between type systems of OCaml & Java | Salmon Says</title>
   
 
 
@@ -238,6 +238,18 @@
           </a>
         </li>
       
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -268,7 +280,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/programming/2013/12/27/Type-Systems.html">
+    <link itemprop="mainEntityOfPage" href="https://wanwenli.com/programming/2013/12/27/Type-Systems.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Wan Wenli">
@@ -288,7 +300,7 @@
           <h1 class="post-title" itemprop="name headline">
           
           
-            Differences between type systems of Ocaml & Java
+            Differences between type systems of OCaml & Java
           
         </h1>
         
@@ -338,8 +350,6 @@
           
 
           
-            
-          
 
           
           
@@ -351,7 +361,7 @@
           
             
                 <div class="post-description">
-                    
+                    Some research done for my final year project
                 </div>
             
           
@@ -368,12 +378,12 @@
       
         <h5 id="introduction">Introduction</h5>
 
-<p>When asked the differences between the Ocaml’s type system and Java’s,
+<p>When asked the differences between the OCaml’s type system and Java’s,
 I realized that I did not understand them well.
 Therefore, I did some research about these two type systems and
 posted the result as this blog.</p>
 
-<h5 id="ocaml-type-system">Ocaml Type System</h5>
+<h5 id="ocaml-type-system">OCaml Type System</h5>
 
 <p>The ML languages are statically and strictly typed.
 In addition, every expression has exactly one type.
@@ -384,7 +394,7 @@ whether the coercion makes sense or not.</p>
 <p>What is “safety”?
 There is a formal definition based on the operational semantics of
 the programming language,
-but an approximte definition is that a valid program will never fault
+but an approximate definition is that a valid program will never fault
 because of an invalid machine operation.
 All memory access will be valid.
 ML guarantees safety by proving that every program that
@@ -392,11 +402,11 @@ passes the type checker can never produce a machine fault.
 Another functional language,
 Lisp which is dynamically and strictly typed,
 guarantees its safety by checking for validity at run time.
-One of the consequences is that ML has no <code class="highlighter-rouge">nil</code> or <code class="highlighter-rouge">NULL</code> values.
-These values would potentially cause mechine errors if used
+One of the consequences is that ML has no <code class="language-plaintext highlighter-rouge">nil</code> or <code class="language-plaintext highlighter-rouge">NULL</code> values.
+These values would potentially cause machine errors if used
 where a value is expected.</p>
 
-<p>An Ocaml programmer may initially spend a lot of time getting the Ocaml
+<p>An OCaml programmer may initially spend a lot of time getting the OCaml
 type checker to accept his programs.
 But eventually
 he will find the type checker is one of his best friends.
@@ -419,32 +429,34 @@ here are some rules about type checking.</p>
   </li>
 </ul>
 
-<p>One of the important points in Ocaml is that
+<p>One of the important points in OCaml is that
 there are no “pure commands”.
 Every assignment produce a value</p>
 <ul>
-  <li>although the value has the trivial <code class="highlighter-rouge">unit</code> type.
-Below let us see some examples of how Ocaml type system works:</li>
+  <li>although the value has the trivial <code class="language-plaintext highlighter-rouge">unit</code> type.
+Below let us see some examples of how OCaml type system works:</li>
 </ul>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
-4</pre></td><td class="code"><pre>	<span class="k">if</span> <span class="mi">1</span> <span class="p">&lt;</span> <span class="mi">2</span> <span class="k">then</span>
-		<span class="mi">1</span>
-	<span class="k">else</span>
-		<span class="mi">1</span><span class="p">.</span><span class="mi">3</span><span class="w">
-</span></pre></td></tr></tbody></table></code></pre></figure>
+4
+</pre></td><td class="code"><pre><span class="k">if</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="k">then</span>
+  <span class="mi">1</span>
+<span class="k">else</span>
+  <span class="mi">1</span><span class="o">.</span><span class="mi">3</span>
+</pre></td></tr></tbody></table></code></pre></figure>
 
 <p>When compiling the code,
-the compilor would tell you there is a type error on line 4,
+the compiler would tell you there is a type error on line 4,
 characters 3-6. This is because the type checker requires that
 both branches of the conditional statement have the same type
 no matter how the test turns out.
-Since the expressions <code class="highlighter-rouge">1</code> and <code class="highlighter-rouge">1.3</code> have different types,
+Since the expressions <code class="language-plaintext highlighter-rouge">1</code> and <code class="language-plaintext highlighter-rouge">1.3</code> have different types,
 the type checker generates an error.</p>
 
 <h5 id="a-strong-static-language-java">A Strong Static Language: Java</h5>
+
 <p>Java is considered one of the most static languages,
 but it implemented a comprehensive reflection API which
 allows you to change classes at run time,
@@ -470,96 +482,103 @@ such as JavaScript, Python and Ruby, are becoming more and more popular
 in recent years.</p>
 
 <h5 id="what-are-their-differences">What are their differences?</h5>
+
 <p>Anyway,
 there is no stronger or weaker type system between these two systems.
-Ocaml and Java are both to static and strong typing languages.
+OCaml and Java are both static and strongly typed languages.
 They both have primitive, array and class types.
-(The standard ML language does not support class types but 
+(The standard ML language does not support class types but
 Objective-caml does.)
-However Java and Ocaml do have some differences in their type systems.
-Ocaml is a functional language and
+However Java and OCaml do have some differences in their type systems.
+OCaml is a functional language and
 a function can be passed as a argument,
 known as higher order functions.
 The type of a function is defined by both its input and output type.
 For example in the chunck of code below,</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
-2</pre></td><td class="code"><pre>	<span class="k">let</span> <span class="n">square</span> <span class="n">x</span> <span class="p">=</span> <span class="n">x</span> <span class="p">*</span> <span class="n">x</span><span class="p">;</span>
-	<span class="k">val</span> <span class="n">square</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">-&gt;</span> <span class="kt">int</span> <span class="p">=</span> <span class="p">&lt;</span><span class="k">fun</span><span class="p">&gt;</span><span class="w">
-</span></pre></td></tr></tbody></table></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="code"><pre><span class="k">let</span> <span class="n">square</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span>
+<span class="k">val</span> <span class="n">square</span> <span class="o">:</span> <span class="kt">int</span> <span class="o">-&gt;</span> <span class="kt">int</span> <span class="o">=</span> <span class="o">&lt;</span><span class="k">fun</span><span class="o">&gt;</span>
+</pre></td></tr></tbody></table></code></pre></figure>
 
-<p><code class="highlighter-rouge">square</code> is a function that takes an integer and returns an integer.
+<p><code class="language-plaintext highlighter-rouge">square</code> is a function that takes an integer and returns an integer.
 Most importantly,
 square can be passed to another function as an input.
 However it is not done as natural in Java.
 In Java higher order function is usually done by
 wrapping the function within an interface as below:</p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
 5
 6
-7</pre></td><td class="code"><pre>  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">methodToPass</span><span class="o">()</span> <span class="o">{</span>
-		<span class="c1">// do something</span>
-	<span class="o">}</span>
+7
+</pre></td><td class="code"><pre><span class="kd">public</span> <span class="kt">int</span> <span class="nf">methodToPass</span><span class="o">()</span> <span class="o">{</span>
+	<span class="c1">// do something</span>
+<span class="o">}</span>
 
-	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">dansMethod</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="n">Callable</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">myFunc</span><span class="o">)</span> <span class="o">{</span>
-		<span class="c1">// do something</span>
-	<span class="o">}</span><span class="w">
-</span></pre></td></tr></tbody></table></code></pre></figure>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">dansMethod</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="nc">Callable</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">myFunc</span><span class="o">)</span> <span class="o">{</span>
+	<span class="c1">// do something</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></figure>
 
-<p>then use a inner class to call the method <code class="highlighter-rouge">methodToPass</code> as shown below:</p>
+<p>then use a inner class to call the method <code class="language-plaintext highlighter-rouge">methodToPass</code> as shown below:</p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
-5</pre></td><td class="code"><pre>  <span class="n">dansMethod</span><span class="o">(</span><span class="mi">100</span><span class="o">,</span> <span class="k">new</span> <span class="n">Callable</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;()</span> <span class="o">{</span>
-		<span class="kd">public</span> <span class="n">Integer</span> <span class="nf">call</span><span class="o">()</span> <span class="o">{</span>
-			<span class="k">return</span> <span class="nf">methodToPass</span><span class="o">();</span>
-		<span class="o">}</span>
-	<span class="o">});</span><span class="w">
-</span></pre></td></tr></tbody></table></code></pre></figure>
+5
+</pre></td><td class="code"><pre><span class="n">dansMethod</span><span class="o">(</span><span class="mi">100</span><span class="o">,</span> <span class="k">new</span> <span class="nc">Callable</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;()</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="nc">Integer</span> <span class="nf">call</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="nf">methodToPass</span><span class="o">();</span>
+	<span class="o">}</span>
+<span class="o">});</span>
+</pre></td></tr></tbody></table></code></pre></figure>
 
-<p>Next, pattern matching is something unique to Ocaml compared to Java.
-A similar feature in Java is perhaps <code class="highlighter-rouge">switch</code> statement.
+<p>Next, pattern matching is something unique to OCaml compared to Java.
+A similar feature in Java is perhaps <code class="language-plaintext highlighter-rouge">switch</code> statement.
 However it does not have many things to do with type system.</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
-4</pre></td><td class="code"><pre>	<span class="k">let</span> <span class="k">rec</span> <span class="n">sigma</span> <span class="n">f</span> <span class="p">=</span> <span class="k">function</span>
-		<span class="p">|</span> <span class="bp">[]</span> <span class="p">-&gt;</span> <span class="mi">0</span>
-		<span class="p">|</span> <span class="n">x</span> <span class="p">::</span> <span class="n">l</span> <span class="p">-&gt;</span> <span class="n">f</span> <span class="n">x</span> <span class="o">+</span> <span class="n">sigma</span> <span class="n">f</span> <span class="n">l</span><span class="p">;;</span>
-	<span class="k">val</span> <span class="n">sigma</span> <span class="p">:</span> <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="p">-&gt;</span> <span class="kt">int</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="kt">list</span> <span class="p">-&gt;</span> <span class="kt">int</span> <span class="p">=</span> <span class="p">&lt;</span><span class="k">fun</span><span class="p">&gt;</span><span class="w">
-</span></pre></td></tr></tbody></table></code></pre></figure>
+4
+</pre></td><td class="code"><pre><span class="k">let</span> <span class="k">rec</span> <span class="n">sigma</span> <span class="n">f</span> <span class="o">=</span> <span class="k">function</span>
+	<span class="o">|</span> <span class="bp">[]</span> <span class="o">-&gt;</span> <span class="mi">0</span>
+	<span class="o">|</span> <span class="n">x</span> <span class="o">::</span> <span class="n">l</span> <span class="o">-&gt;</span> <span class="n">f</span> <span class="n">x</span> <span class="o">+</span> <span class="n">sigma</span> <span class="n">f</span> <span class="n">l</span><span class="p">;;</span>
+<span class="k">val</span> <span class="n">sigma</span> <span class="o">:</span> <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="kt">list</span> <span class="o">-&gt;</span> <span class="kt">int</span> <span class="o">=</span> <span class="o">&lt;</span><span class="k">fun</span><span class="o">&gt;</span>
+</pre></td></tr></tbody></table></code></pre></figure>
 
 <p>Last but not the least,
-type inference is a major difference between Ocaml and Java type systems.
+type inference is a major difference between OCaml and Java type systems.
 Most conventional static typing languages require programmers to restate the types of expressions.
 For example,
 the following Java code instantiates a method to increment an integer by 1.</p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
-3</pre></td><td class="code"><pre><span class="kt">int</span> <span class="nf">succ</span> <span class="o">(</span><span class="kt">int</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
+3
+</pre></td><td class="code"><pre><span class="kt">int</span> <span class="nf">succ</span> <span class="o">(</span><span class="kt">int</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">return</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
-<span class="o">}</span><span class="w">
-</span></pre></td></tr></tbody></table></code></pre></figure>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></figure>
 
-<p>In OCaml, all programs can be written such that the types they use are competely inferred, i.e.
+<p>In OCaml, all programs can be written such that the types they use are completely inferred, i.e.
 it is never necessary to explicitly define and declare types in OCaml.
 However, defining important types in a program is a good way to leverage static type checking by providing machine-checked documentation,
 improving error reporting and tightening the type system to catch more errors.</p>
 
 <p>The above Java code can be re-written as</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
-2</pre></td><td class="code"><pre><span class="k">let</span> <span class="n">succ</span> <span class="n">n</span> <span class="p">=</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;;</span>
-<span class="k">val</span> <span class="n">succ</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">-&gt;</span> <span class="kt">int</span> <span class="p">=</span> <span class="p">&lt;</span><span class="k">fun</span><span class="p">&gt;</span><span class="w">
-</span></pre></td></tr></tbody></table></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="code"><pre><span class="k">let</span> <span class="n">succ</span> <span class="n">n</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;;</span>
+<span class="k">val</span> <span class="n">succ</span> <span class="o">:</span> <span class="kt">int</span> <span class="o">-&gt;</span> <span class="kt">int</span> <span class="o">=</span> <span class="o">&lt;</span><span class="k">fun</span><span class="o">&gt;</span>
+</pre></td></tr></tbody></table></code></pre></figure>
 
 <p>OCaml infers that the function maps integers onto integers even though no types were declared.
 The inference was based upon the use of the integer operator + and the integer literal 1.</p>
@@ -567,7 +586,7 @@ The inference was based upon the use of the integer operator + and the integer l
 <h5 id="conclusion">Conclusion</h5>
 
 <p>In summary,
-the type system of Java has lots of similarities compared to Ocaml.
+the type system of Java has lots of similarities compared to OCaml.
 Still Java is one of the dominant and most popular programming languages.</p>
 
       
@@ -636,35 +655,12 @@ Still Java is one of the dominant and most popular programming languages.</p>
   </div>
 </div>
 
-<div id="disqus_thread"></div>
-<script>
-/**
-*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-/*
-   var disqus_config = function () {
-   this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-   this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-   };
-   */
-(function() { // DON'T EDIT BELOW THIS LINE
-	var d = document, s = d.createElement('script');
-	s.src = 'https://wanwenli.disqus.com/embed.js';
-	s.setAttribute('data-timestamp', +new Date());
-	(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
           </div>
           
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
-
 
         </div>
         
@@ -716,8 +712,8 @@ Still Java is one of the dominant and most popular programming languages.</p>
 
           
             <div class="site-state-item site-state-posts">
-              <a href="">
-                <span class="site-state-item-count">12</span>
+              <a href="/archives/">
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -728,12 +724,21 @@ Still Java is one of the dominant and most popular programming languages.</p>
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
           
 
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
           
 
         </nav>
@@ -750,6 +755,30 @@ Still Java is one of the dominant and most popular programming languages.</p>
         
 
         <div class="links-of-author motion-element">
+          
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://github.com/wanwenli" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/wenli_wan" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
           
         </div>
 
@@ -781,7 +810,7 @@ Still Java is one of the dominant and most popular programming languages.</p>
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-5"> <a class="nav-link" href="#introduction"> <span class="nav-number">1</span> <span class="nav-text">Introduction</span> </a> <ol class="nav-child"> </li></ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#ocaml-type-system"> <span class="nav-number">2</span> <span class="nav-text">Ocaml Type System</span> </a> <ol class="nav-child"> </li></ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#a-strong-static-language-java"> <span class="nav-number">3</span> <span class="nav-text">A Strong Static Language: Java</span> </a> <ol class="nav-child"> </li></ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#what-are-their-differences"> <span class="nav-number">4</span> <span class="nav-text">What are their differences?</span> </a> <ol class="nav-child"> </li></ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#conclusion"> <span class="nav-number">5</span> <span class="nav-text">Conclusion</span> </a> <ol class="nav-child">
+      <li class="nav-item nav-level-5"> <a class="nav-link" href="#introduction"> <span class="nav-number">1</span> <span class="nav-text">Introduction</span> </a> <ol class="nav-child"> </li></ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#ocaml-type-system"> <span class="nav-number">2</span> <span class="nav-text">OCaml Type System</span> </a> <ol class="nav-child"> </li></ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#a-strong-static-language-java"> <span class="nav-number">3</span> <span class="nav-text">A Strong Static Language: Java</span> </a> <ol class="nav-child"> </li></ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#what-are-their-differences"> <span class="nav-number">4</span> <span class="nav-text">What are their differences?</span> </a> <ol class="nav-child"> </li></ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#conclusion"> <span class="nav-number">5</span> <span class="nav-text">Conclusion</span> </a> <ol class="nav-child">
     </ol>
   </div>
             
@@ -806,15 +835,11 @@ Still Java is one of the dominant and most popular programming languages.</p>
   
   
   &copy; 
-  <span itemprop="copyrightYear">2019</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Wan Wenli</span>
-</div>
-
-<div class="copyright">
-  <iframe src="https://ghbtns.com/github-btn.html?user=swwl1992&type=follow&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
 </div>
 
 
@@ -825,7 +850,7 @@ Still Java is one of the dominant and most popular programming languages.</p>
 <div class="theme-info">
   Theme -
   <a class="theme-link" href="https://github.com/simpleyyt/jekyll-theme-next">
-    NexT.Muse
+    NexT.Mist
   </a>
 </div>
 
@@ -947,6 +972,14 @@ Still Java is one of the dominant and most popular programming languages.</p>
 
   
 
+    
+      <script id="dsq-count-scr" src="https://wanwenli.disqus.com/count.js" async></script>
+    
+
+    
+
+  
+
 
 
 
@@ -972,10 +1005,6 @@ Still Java is one of the dominant and most popular programming languages.</p>
 
 
 
-
-  
-
-    
 
   
 

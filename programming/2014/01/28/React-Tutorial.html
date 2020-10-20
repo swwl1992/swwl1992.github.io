@@ -14,7 +14,7 @@
 
 
 
-<html class="theme-next muse use-motion" lang="en">
+<html class="theme-next mist use-motion" lang="en">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -115,7 +115,7 @@
 <meta name="keywords" content="Jekyll, NexT">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ocaml React package tutorial">
-<meta property="og:url" content="http://localhost:4000/programming/2014/01/28/React-Tutorial.html">
+<meta property="og:url" content="https://wanwenli.com/programming/2014/01/28/React-Tutorial.html">
 <meta property="og:site_name" content="Salmon Says">
 <meta property="og:description" content="Unofficial tutorial for Ocaml React package">
 <meta property="og:locale" content="en">
@@ -130,7 +130,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '',
-    scheme: 'Muse',
+    scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
     motion: true,
@@ -150,7 +150,7 @@
 
 
 
-  <link rel="canonical" href="http://localhost:4000/"/>
+  <link rel="canonical" href="https://wanwenli.com/"/>
 
 
 
@@ -240,6 +240,18 @@
           </a>
         </li>
       
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -270,7 +282,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/programming/2014/01/28/React-Tutorial.html">
+    <link itemprop="mainEntityOfPage" href="https://wanwenli.com/programming/2014/01/28/React-Tutorial.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Wan Wenli">
@@ -340,8 +352,6 @@
           
 
           
-            
-          
 
           
           
@@ -353,7 +363,7 @@
           
             
                 <div class="post-description">
-                    
+                    Unofficial tutorial for Ocaml React package
                 </div>
             
           
@@ -391,57 +401,56 @@ Thank you for your feedbacks.</p>
 <h5 id="using-react-package">Using React package</h5>
 <p>For compilation</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>ocamlfind ocamlopt -o clock -linkpkg \
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ocamlfind ocamlopt -o clock -linkpkg \
     -package react clock.ml
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>For Ocaml Toplevel</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>#use "topfind";;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#use "topfind";;
 #require "react";;
 open React;;
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h5 id="module-reacte">Module <a href="http://erratique.ch/software/react/doc/React.E.html">React.E</a></h5>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">once</span> <span class="p">:</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">once</span> <span class="o">:</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
 
 <p>once e is e with only its next occurence.
 Any occurence after time t will not affect e.</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
-5</pre></td><td class="code"><pre><span class="k">open</span> <span class="nc">React</span> <span class="c">(* omitted in the examples below *)</span>
-<span class="k">let</span> <span class="n">w</span><span class="p">,</span> <span class="n">send_w</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span>
-<span class="k">let</span> <span class="n">x</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">once</span> <span class="n">w</span>
-<span class="k">let</span> <span class="n">pr_x</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">map</span> <span class="n">print_int</span> <span class="n">x</span>
-<span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">iter</span> <span class="n">send_w</span> <span class="p">[</span><span class="mi">0</span><span class="p">;</span> <span class="mi">1</span><span class="p">;</span> <span class="mi">2</span><span class="p">;</span> <span class="mi">3</span><span class="p">]</span><span class="w">
-</span></pre></td></tr></tbody></table></code></pre></figure>
+5
+</pre></td><td class="code"><pre><span class="k">open</span> <span class="nc">React</span> <span class="c">(* omitted in the examples below *)</span>
+<span class="k">let</span> <span class="n">w</span><span class="o">,</span> <span class="n">send_w</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span>
+<span class="k">let</span> <span class="n">x</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">once</span> <span class="n">w</span>
+<span class="k">let</span> <span class="n">pr_x</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">map</span> <span class="n">print_int</span> <span class="n">x</span>
+<span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">iter</span> <span class="n">send_w</span> <span class="p">[</span><span class="mi">0</span><span class="p">;</span> <span class="mi">1</span><span class="p">;</span> <span class="mi">2</span><span class="p">;</span> <span class="mi">3</span><span class="p">]</span>
+</pre></td></tr></tbody></table></code></pre></figure>
 
 <p>The output would be only 0.
 All the values after the first occurence are omitted.</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">drop_once</span> <span class="p">:</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">drop_once</span> <span class="o">:</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
 
 <p>drop_once e is e without its next occurrence.
 Similarly, if we change the third line of the example above,
 the output would be 123.
 The reason is because the NEXT occurrence of e is omitted.</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">app</span> <span class="p">:</span> <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">b</span><span class="p">)</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">app</span> <span class="o">:</span> <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">b</span><span class="p">)</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
 
 <p>app ef e occurs when both ef and e occur simultaneously.</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">f</span> <span class="n">x</span> <span class="n">y</span> <span class="p">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
-<span class="k">let</span> <span class="n">w</span><span class="p">,</span> <span class="n">send_w</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span>
-<span class="k">let</span> <span class="n">x</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">map</span> <span class="p">(</span><span class="k">fun</span> <span class="n">w</span> <span class="p">-&gt;</span> <span class="n">f</span> <span class="n">w</span><span class="p">)</span> <span class="n">w</span>
-<span class="k">let</span> <span class="n">y</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">drop_once</span> <span class="n">w</span>
-<span class="k">let</span> <span class="n">z</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">app</span> <span class="n">x</span> <span class="n">y</span>
-<span class="k">let</span> <span class="n">pr_z</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">map</span> <span class="n">print_int</span> <span class="n">z</span>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">f</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+<span class="k">let</span> <span class="n">w</span><span class="o">,</span> <span class="n">send_w</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span>
+<span class="k">let</span> <span class="n">x</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">map</span> <span class="p">(</span><span class="k">fun</span> <span class="n">w</span> <span class="o">-&gt;</span> <span class="n">f</span> <span class="n">w</span><span class="p">)</span> <span class="n">w</span>
+<span class="k">let</span> <span class="n">y</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">drop_once</span> <span class="n">w</span>
+<span class="k">let</span> <span class="n">z</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">app</span> <span class="n">x</span> <span class="n">y</span>
+<span class="k">let</span> <span class="n">pr_z</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">map</span> <span class="n">print_int</span> <span class="n">z</span>
 <span class="nn">List</span><span class="p">.</span><span class="n">iter</span> <span class="n">send_w</span> <span class="p">[</span><span class="mi">0</span><span class="p">;</span> <span class="mi">1</span><span class="p">;</span> <span class="mi">2</span><span class="p">;</span> <span class="mi">3</span><span class="p">]</span></code></pre></figure>
 
 <p>The output would be 246.
@@ -449,114 +458,114 @@ As explained before,
 drop_once makes y only take updates from the second occurrence onwards.
 Variable z takes the value of x when both x and y are updated.</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">map</span> <span class="p">:</span> <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">b</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">map</span> <span class="o">:</span> <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
 
 <p>map f e applies f to e’s occurrences.</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">stamp</span> <span class="p">:</span> <span class="k">'</span><span class="n">b</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">stamp</span> <span class="o">:</span> <span class="k">'</span><span class="n">b</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
 
 <p>stamp e v is map (fun _ -&gt; v) e.
 It fixes the occurrence of e to v.</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">filter</span> <span class="p">:</span> <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="p">-&gt;</span> <span class="kt">bool</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">filter</span> <span class="o">:</span> <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
 
 <p>filter p e are e’s occurrences that satisfy p.</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">fmap</span> <span class="p">:</span> <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="n">option</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">fmap</span> <span class="o">:</span> <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="n">option</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
 
 <p>fmap fm e are occurrences of e filtered and mapped by fm.</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">v</span><span class="p">,</span> <span class="n">send_v</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span>
-<span class="k">let</span> <span class="n">x</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">stamp</span> <span class="n">v</span> <span class="mi">1</span> <span class="c">(* x: 1111 *)</span>
-<span class="k">let</span> <span class="n">y</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">filter</span> <span class="p">(</span><span class="k">fun</span> <span class="n">n</span> <span class="p">-&gt;</span> <span class="n">n</span> <span class="ow">mod</span> <span class="mi">2</span> <span class="p">=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">v</span> <span class="c">(* y: 02 *)</span>
-<span class="k">let</span> <span class="n">z</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">fmap</span> <span class="p">(</span><span class="k">fun</span> <span class="n">n</span> <span class="p">-&gt;</span> <span class="k">if</span> <span class="n">n</span> <span class="p">=</span> <span class="mi">0</span> <span class="k">then</span> <span class="nc">Some</span> <span class="mi">1</span> <span class="k">else</span> <span class="nc">None</span><span class="p">)</span> <span class="n">v</span> <span class="c">(* z: 1 *)</span>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">v</span><span class="o">,</span> <span class="n">send_v</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span>
+<span class="k">let</span> <span class="n">x</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">stamp</span> <span class="n">v</span> <span class="mi">1</span> <span class="c">(* x: 1111 *)</span>
+<span class="k">let</span> <span class="n">y</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">filter</span> <span class="p">(</span><span class="k">fun</span> <span class="n">n</span> <span class="o">-&gt;</span> <span class="n">n</span> <span class="ow">mod</span> <span class="mi">2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">v</span> <span class="c">(* y: 02 *)</span>
+<span class="k">let</span> <span class="n">z</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">fmap</span> <span class="p">(</span><span class="k">fun</span> <span class="n">n</span> <span class="o">-&gt;</span> <span class="k">if</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">then</span> <span class="nc">Some</span> <span class="mi">1</span> <span class="k">else</span> <span class="nc">None</span><span class="p">)</span> <span class="n">v</span> <span class="c">(* z: 1 *)</span>
 <span class="nn">List</span><span class="p">.</span><span class="n">iter</span> <span class="n">send_v</span> <span class="p">[</span><span class="mi">0</span><span class="p">;</span> <span class="mi">1</span><span class="p">;</span> <span class="mi">2</span><span class="p">;</span> <span class="mi">3</span><span class="p">]</span></code></pre></figure>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">diff</span> <span class="p">:</span> <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">b</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">diff</span> <span class="o">:</span> <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
 
 <p>diff f e occurs whenever e occurs except on the next occurence.
 In another words,
 it is triggered since the second the occurrence.
 Occurences are f v v’ where v is e’s current occurrence and v’ the previous one.</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">changes</span> <span class="p">:</span> <span class="p">?</span><span class="n">eq</span><span class="o">:(</span><span class="k">'</span><span class="n">a</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="p">-&gt;</span> <span class="kt">bool</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">changes</span> <span class="o">:</span> <span class="o">?</span><span class="n">eq</span><span class="o">:</span><span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
 
 <p>changes eq e is the occurrences of e with occurences equal to the previous one dropped.
 Equality is tested with eq (defaults to structural equality).
 The behavior is similar to Signals.</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">x</span><span class="p">,</span> <span class="n">send_x</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span>
-<span class="k">let</span> <span class="n">y</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">diff</span> <span class="p">(</span> <span class="p">-</span> <span class="p">)</span> <span class="n">x</span>
-<span class="k">let</span> <span class="n">z</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">changes</span> <span class="n">x</span>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">x</span><span class="o">,</span> <span class="n">send_x</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span>
+<span class="k">let</span> <span class="n">y</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">diff</span> <span class="p">(</span> <span class="o">-</span> <span class="p">)</span> <span class="n">x</span>
+<span class="k">let</span> <span class="n">z</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">changes</span> <span class="n">x</span>
 <span class="nn">List</span><span class="p">.</span><span class="n">iter</span> <span class="n">send_x</span> <span class="p">[</span><span class="mi">0</span><span class="p">;</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">3</span><span class="p">;</span> <span class="mi">4</span><span class="p">;</span> <span class="mi">4</span><span class="p">]</span></code></pre></figure>
 
 <p>The occurrences of y are 0310 (difference between current and previous one),
 while those of z are 034 (only changes are recorded).</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">dismiss</span> <span class="p">:</span> <span class="k">'</span><span class="n">b</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">dismiss</span> <span class="o">:</span> <span class="k">'</span><span class="n">b</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
 
 <p>dismiss c e is the occurences of e except the ones when c occurs.</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">x</span><span class="p">,</span> <span class="n">send_x</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span>
-<span class="k">let</span> <span class="n">y</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">fmap</span> <span class="p">(</span><span class="k">fun</span> <span class="n">x</span> <span class="p">-&gt;</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">mod</span> <span class="mi">2</span> <span class="p">=</span> <span class="mi">0</span> <span class="k">then</span> <span class="nc">Some</span> <span class="n">x</span> <span class="k">else</span> <span class="nc">None</span><span class="p">)</span> <span class="n">x</span>
-<span class="k">let</span> <span class="n">z</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">dismiss</span> <span class="n">y</span> <span class="n">x</span>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">x</span><span class="o">,</span> <span class="n">send_x</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span>
+<span class="k">let</span> <span class="n">y</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">fmap</span> <span class="p">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">mod</span> <span class="mi">2</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">then</span> <span class="nc">Some</span> <span class="n">x</span> <span class="k">else</span> <span class="nc">None</span><span class="p">)</span> <span class="n">x</span>
+<span class="k">let</span> <span class="n">z</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">dismiss</span> <span class="n">y</span> <span class="n">x</span>
 <span class="nn">List</span><span class="p">.</span><span class="n">iter</span> <span class="n">send_x</span> <span class="p">[</span><span class="mi">1</span><span class="p">;</span> <span class="mi">2</span><span class="p">;</span> <span class="mi">3</span><span class="p">;</span> <span class="mi">4</span><span class="p">;</span> <span class="mi">5</span><span class="p">;</span> <span class="mi">6</span><span class="p">]</span></code></pre></figure>
 
 <p>The occurrences of y are 246 (even numbers).
 Occurrences of z are 135.
 When y has occurrence, z will not have any occurrence.</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">until</span> <span class="p">:</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">until</span> <span class="o">:</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
 
 <p>until c e is e’s occurences until c occurs.</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">x</span><span class="p">,</span> <span class="n">send_x</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span>
-<span class="k">let</span> <span class="n">stop</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">filter</span> <span class="p">(</span><span class="k">fun</span> <span class="n">s</span> <span class="p">-&gt;</span> <span class="n">s</span> <span class="p">=</span> <span class="s2">"c"</span><span class="p">)</span> <span class="n">x</span>
-<span class="k">let</span> <span class="n">y</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">until</span> <span class="n">stop</span> <span class="n">x</span>
-<span class="k">let</span> <span class="n">pr_y</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">map</span> <span class="n">print_string</span> <span class="n">y</span>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">x</span><span class="o">,</span> <span class="n">send_x</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span>
+<span class="k">let</span> <span class="n">stop</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">filter</span> <span class="p">(</span><span class="k">fun</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="s2">"c"</span><span class="p">)</span> <span class="n">x</span>
+<span class="k">let</span> <span class="n">y</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">until</span> <span class="n">stop</span> <span class="n">x</span>
+<span class="k">let</span> <span class="n">pr_y</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">map</span> <span class="n">print_string</span> <span class="n">y</span>
 <span class="nn">List</span><span class="p">.</span><span class="n">iter</span> <span class="n">send_x</span> <span class="p">[</span><span class="s2">"a"</span><span class="p">;</span> <span class="s2">"b"</span><span class="p">;</span> <span class="s2">"c"</span><span class="p">;</span> <span class="s2">"d"</span><span class="p">;</span> <span class="s2">"e"</span><span class="p">]</span></code></pre></figure>
 
 <p>The output is ab.
 All the occurrences after stop event are dropped,
 although stop has no more new updates.</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">accum</span> <span class="p">:</span> <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span><span class="p">)</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">accum</span> <span class="o">:</span> <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span><span class="p">)</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
 
 <p>accum ef i accumulates a value, starting with i,
 using e’s functional occurrences.
 It takes the previous occurrence, applies to the function and evaluates
 the result as the current occurrence.</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">f</span><span class="p">,</span> <span class="n">send_f</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span>
-<span class="k">let</span> <span class="n">a</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">accum</span> <span class="n">f</span> <span class="mi">0</span>
-<span class="k">let</span> <span class="n">pr_a</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">map</span> <span class="n">print_int</span> <span class="n">a</span>
-<span class="nn">List</span><span class="p">.</span><span class="n">iter</span> <span class="n">send_f</span> <span class="o">[(</span> <span class="o">+</span> <span class="p">)</span> <span class="mi">2</span><span class="p">;</span> <span class="p">(</span> <span class="p">-</span> <span class="p">)</span> <span class="mi">1</span><span class="p">;</span> <span class="p">(</span> <span class="p">*</span> <span class="p">)</span> <span class="mi">2</span><span class="o">];</span>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">f</span><span class="o">,</span> <span class="n">send_f</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span>
+<span class="k">let</span> <span class="n">a</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">accum</span> <span class="n">f</span> <span class="mi">0</span>
+<span class="k">let</span> <span class="n">pr_a</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">map</span> <span class="n">print_int</span> <span class="n">a</span>
+<span class="nn">List</span><span class="p">.</span><span class="n">iter</span> <span class="n">send_f</span> <span class="p">[(</span> <span class="o">+</span> <span class="p">)</span> <span class="mi">2</span><span class="p">;</span> <span class="p">(</span> <span class="o">-</span> <span class="p">)</span> <span class="mi">1</span><span class="p">;</span> <span class="p">(</span> <span class="o">*</span> <span class="p">)</span> <span class="mi">2</span><span class="p">];</span>
 <span class="c">(* Output is 2 -1 -2 *)</span></code></pre></figure>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">fold</span> <span class="p">:</span> <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">fold</span> <span class="o">:</span> <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
 
 <p>fold f i e accumulates the occurrences of e with f starting with i.
 The behavior of fold is similar to List.fold_left.</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">x</span><span class="p">,</span> <span class="n">send_x</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span>
-<span class="k">let</span> <span class="n">y</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">fold</span> <span class="p">(</span> <span class="p">*</span> <span class="p">)</span> <span class="mi">1</span> <span class="n">x</span>
-<span class="k">let</span> <span class="n">pr_y</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">map</span> <span class="n">print_int</span> <span class="n">y</span>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">x</span><span class="o">,</span> <span class="n">send_x</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span>
+<span class="k">let</span> <span class="n">y</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">fold</span> <span class="p">(</span> <span class="o">*</span> <span class="p">)</span> <span class="mi">1</span> <span class="n">x</span>
+<span class="k">let</span> <span class="n">pr_y</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">map</span> <span class="n">print_int</span> <span class="n">y</span>
 <span class="nn">List</span><span class="p">.</span><span class="n">iter</span> <span class="n">send_x</span> <span class="p">[</span><span class="mi">1</span><span class="p">;</span> <span class="mi">2</span><span class="p">;</span> <span class="mi">3</span><span class="p">;</span> <span class="mi">4</span><span class="p">]</span></code></pre></figure>
 
 <p>The output would be 1 2 6 24.</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">select</span> <span class="p">:</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="kt">list</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">select</span> <span class="o">:</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="kt">list</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
 
 <p>select el is the occurrences of every event in el.
 If more than one event occurs simultaneously the leftmost is taken and the others are lost.</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">w</span><span class="p">,</span> <span class="n">send_w</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span>
-<span class="k">let</span> <span class="n">x</span><span class="p">,</span> <span class="n">send_x</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span>
-<span class="k">let</span> <span class="n">y</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">map</span> <span class="n">succ</span> <span class="n">w</span>
-<span class="k">let</span> <span class="n">z</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">map</span> <span class="n">succ</span> <span class="n">y</span> <span class="c">(* z and y are considered simultaneous *)</span>
-<span class="k">let</span> <span class="n">t</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">select</span> <span class="p">[</span><span class="n">w</span><span class="p">;</span> <span class="n">x</span><span class="p">]</span> <span class="c">(* t: 0 1 2 3 4 *)</span>
-<span class="k">let</span> <span class="n">sy</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">select</span> <span class="p">[</span><span class="n">y</span><span class="p">;</span> <span class="n">z</span><span class="p">]</span> <span class="c">(* sy: 1 3 4 5 *)</span>
-<span class="k">let</span> <span class="n">sz</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">select</span> <span class="p">[</span><span class="n">z</span><span class="p">;</span> <span class="n">y</span><span class="p">]</span> <span class="c">(* sz: 2 4 5 6 *)</span>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">w</span><span class="o">,</span> <span class="n">send_w</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span>
+<span class="k">let</span> <span class="n">x</span><span class="o">,</span> <span class="n">send_x</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span>
+<span class="k">let</span> <span class="n">y</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">map</span> <span class="n">succ</span> <span class="n">w</span>
+<span class="k">let</span> <span class="n">z</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">map</span> <span class="n">succ</span> <span class="n">y</span> <span class="c">(* z and y are considered simultaneous *)</span>
+<span class="k">let</span> <span class="n">t</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">select</span> <span class="p">[</span><span class="n">w</span><span class="p">;</span> <span class="n">x</span><span class="p">]</span> <span class="c">(* t: 0 1 2 3 4 *)</span>
+<span class="k">let</span> <span class="n">sy</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">select</span> <span class="p">[</span><span class="n">y</span><span class="p">;</span> <span class="n">z</span><span class="p">]</span> <span class="c">(* sy: 1 3 4 5 *)</span>
+<span class="k">let</span> <span class="n">sz</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">select</span> <span class="p">[</span><span class="n">z</span><span class="p">;</span> <span class="n">y</span><span class="p">]</span> <span class="c">(* sz: 2 4 5 6 *)</span>
 <span class="n">send_w</span> <span class="mi">0</span><span class="p">;</span>
 <span class="n">send_x</span> <span class="mi">1</span><span class="p">;</span>
 <span class="nn">List</span><span class="p">.</span><span class="n">iter</span> <span class="n">send_w</span> <span class="p">[</span><span class="mi">2</span><span class="p">;</span> <span class="mi">3</span><span class="p">;</span> <span class="mi">4</span><span class="p">]</span></code></pre></figure>
@@ -565,15 +574,15 @@ If more than one event occurs simultaneously the leftmost is taken and the other
 To know more about simultaneous events, read
 <a href="http://erratique.ch/software/react/doc/React.html#simultaneity">this</a>.</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">merge</span> <span class="p">:</span> <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="kt">list</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">merge</span> <span class="o">:</span> <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="kt">list</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
 
 <p>merge f a el merges the <em>simultaneous</em> occurrences of every event in el using f and the accumulator a.
 You may refer to the previous API to check the meaning of simultaneous events.</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">w</span><span class="p">,</span> <span class="n">send_w</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span>
-<span class="k">let</span> <span class="n">x</span><span class="p">,</span> <span class="n">send_x</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span>
-<span class="k">let</span> <span class="n">y</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">map</span> <span class="n">succ</span> <span class="n">w</span> <span class="c">(* y is a simultaneous event w.r.t. w *)</span>
-<span class="k">let</span> <span class="n">z</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">merge</span> <span class="p">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">v</span> <span class="p">-&gt;</span> <span class="n">v</span><span class="p">::</span><span class="n">acc</span><span class="p">)</span> <span class="bp">[]</span> <span class="p">[</span><span class="n">w</span><span class="p">;</span> <span class="n">x</span><span class="p">;</span> <span class="n">y</span><span class="p">]</span>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">w</span><span class="o">,</span> <span class="n">send_w</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span>
+<span class="k">let</span> <span class="n">x</span><span class="o">,</span> <span class="n">send_x</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span>
+<span class="k">let</span> <span class="n">y</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">map</span> <span class="n">succ</span> <span class="n">w</span> <span class="c">(* y is a simultaneous event w.r.t. w *)</span>
+<span class="k">let</span> <span class="n">z</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">merge</span> <span class="p">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">v</span> <span class="o">-&gt;</span> <span class="n">v</span><span class="o">::</span><span class="n">acc</span><span class="p">)</span> <span class="bp">[]</span> <span class="p">[</span><span class="n">w</span><span class="p">;</span> <span class="n">x</span><span class="p">;</span> <span class="n">y</span><span class="p">]</span>
 <span class="n">send_w</span> <span class="mi">1</span><span class="p">;</span>
 <span class="n">send_x</span> <span class="mi">4</span><span class="p">;</span>
 <span class="n">send_w</span> <span class="mi">2</span><span class="p">;</span></code></pre></figure>
@@ -581,29 +590,30 @@ You may refer to the previous API to check the meaning of simultaneous events.</
 <p>The occurrences of z are [2; 1], [4], [3; 2].
 Hint: fun acc v -&gt; v::acc pushes every v to the accumulator acc.</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">switch</span> <span class="p">:</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">switch</span> <span class="o">:</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span></code></pre></figure>
 
 <p>switch e ee is e’s occurrences until there is an occurrence e’ on ee,
 the occurrences of e’ are then used until there is a new occurrence on ee, etc.</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">fix</span> <span class="p">:</span> <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="p">*</span> <span class="k">'</span><span class="n">b</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">b</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">fix</span> <span class="o">:</span> <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="o">*</span> <span class="k">'</span><span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">b</span></code></pre></figure>
 
 <p>fix ef allows to refer to the value an event had an infinitesimal amount of time before.</p>
 
 <h5 id="module-reacts">Module <a href="http://erratique.ch/software/react/doc/React.S.html">React.S</a></h5>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">hold</span> <span class="p">:</span> <span class="p">?</span><span class="n">eq</span><span class="o">:(</span><span class="k">'</span><span class="n">a</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="p">-&gt;</span> <span class="kt">bool</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">signal</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">hold</span> <span class="o">:</span> <span class="o">?</span><span class="n">eq</span><span class="o">:</span><span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">event</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">signal</span></code></pre></figure>
 
 <p>hold i e has the value of e’s last occurrence or i if there was not any.</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
-4</pre></td><td class="code"><pre><span class="k">let</span> <span class="n">x</span><span class="p">,</span> <span class="n">send_x</span> <span class="p">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span>
-<span class="k">let</span> <span class="n">a</span> <span class="p">=</span> <span class="nn">S</span><span class="p">.</span><span class="n">hold</span> <span class="mi">0</span> <span class="n">x</span>
-<span class="k">let</span> <span class="n">pr_a</span> <span class="p">=</span> <span class="nn">S</span><span class="p">.</span><span class="n">map</span> <span class="n">print_int</span> <span class="n">a</span>
-<span class="nn">List</span><span class="p">.</span><span class="n">iter</span> <span class="n">send_x</span> <span class="p">[</span><span class="mi">1</span><span class="p">;</span> <span class="mi">2</span><span class="p">;</span> <span class="mi">3</span><span class="p">;</span> <span class="mi">3</span><span class="p">;</span> <span class="mi">3</span><span class="p">;</span> <span class="mi">4</span><span class="p">;</span> <span class="mi">4</span><span class="p">;</span> <span class="mi">4</span><span class="p">]</span><span class="w">
-</span></pre></td></tr></tbody></table></code></pre></figure>
+4
+</pre></td><td class="code"><pre><span class="k">let</span> <span class="n">x</span><span class="o">,</span> <span class="n">send_x</span> <span class="o">=</span> <span class="nn">E</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span>
+<span class="k">let</span> <span class="n">a</span> <span class="o">=</span> <span class="nn">S</span><span class="p">.</span><span class="n">hold</span> <span class="mi">0</span> <span class="n">x</span>
+<span class="k">let</span> <span class="n">pr_a</span> <span class="o">=</span> <span class="nn">S</span><span class="p">.</span><span class="n">map</span> <span class="n">print_int</span> <span class="n">a</span>
+<span class="nn">List</span><span class="p">.</span><span class="n">iter</span> <span class="n">send_x</span> <span class="p">[</span><span class="mi">1</span><span class="p">;</span> <span class="mi">2</span><span class="p">;</span> <span class="mi">3</span><span class="p">;</span> <span class="mi">3</span><span class="p">;</span> <span class="mi">3</span><span class="p">;</span> <span class="mi">4</span><span class="p">;</span> <span class="mi">4</span><span class="p">;</span> <span class="mi">4</span><span class="p">]</span>
+</pre></td></tr></tbody></table></code></pre></figure>
 
 <p>A 0 will printed out at line 3 because x has no occurrences by then.
 Then 1234 will be printed.
@@ -614,16 +624,17 @@ Therefore this tutorial jumps straight to Lifting combinators.
 Lifting transforms a regular function to make it act on signals.
 For examples, l2 takes a function with two arguments as its input.</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">l2</span> <span class="p">:</span> <span class="p">?</span><span class="n">eq</span><span class="o">:(</span><span class="k">'</span><span class="n">c</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">c</span> <span class="p">-&gt;</span> <span class="kt">bool</span><span class="p">)</span> <span class="p">-&gt;</span>
-    <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">c</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">signal</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="nn">React</span><span class="p">.</span><span class="n">signal</span> <span class="p">-&gt;</span> <span class="k">'</span><span class="n">c</span> <span class="nn">React</span><span class="p">.</span><span class="n">signal</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">val</span> <span class="n">l2</span> <span class="o">:</span> <span class="o">?</span><span class="n">eq</span><span class="o">:</span><span class="p">(</span><span class="k">'</span><span class="n">c</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">c</span> <span class="o">-&gt;</span> <span class="kt">bool</span><span class="p">)</span> <span class="o">-&gt;</span>
+    <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">c</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="nn">React</span><span class="p">.</span><span class="n">signal</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="nn">React</span><span class="p">.</span><span class="n">signal</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">c</span> <span class="nn">React</span><span class="p">.</span><span class="n">signal</span></code></pre></figure>
 
 <p>Example:</p>
 
-<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">f</span> <span class="n">x</span> <span class="n">y</span> <span class="p">=</span> <span class="n">x</span> <span class="ow">mod</span> <span class="n">y</span>
-<span class="k">let</span> <span class="n">fl</span> <span class="p">=</span> <span class="nn">S</span><span class="p">.</span><span class="n">l2</span> <span class="n">f</span>
-<span class="k">val</span> <span class="n">fl</span> <span class="p">:</span> <span class="kt">int</span> <span class="nn">React</span><span class="p">.</span><span class="n">signal</span> <span class="p">-&gt;</span> <span class="kt">int</span> <span class="nn">React</span><span class="p">.</span><span class="n">signal</span> <span class="p">-&gt;</span> <span class="kt">int</span> <span class="nn">React</span><span class="p">.</span><span class="n">signal</span> <span class="p">=</span> <span class="p">&lt;</span><span class="k">fun</span><span class="p">&gt;</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">f</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="ow">mod</span> <span class="n">y</span>
+<span class="k">let</span> <span class="n">fl</span> <span class="o">=</span> <span class="nn">S</span><span class="p">.</span><span class="n">l2</span> <span class="n">f</span>
+<span class="k">val</span> <span class="n">fl</span> <span class="o">:</span> <span class="kt">int</span> <span class="nn">React</span><span class="p">.</span><span class="n">signal</span> <span class="o">-&gt;</span> <span class="kt">int</span> <span class="nn">React</span><span class="p">.</span><span class="n">signal</span> <span class="o">-&gt;</span> <span class="kt">int</span> <span class="nn">React</span><span class="p">.</span><span class="n">signal</span> <span class="o">=</span> <span class="o">&lt;</span><span class="k">fun</span><span class="o">&gt;</span></code></pre></figure>
 
 <h5 id="some-other-examples">Some other examples</h5>
+
 <ul>
   <li><a href="https://github.com/dbuenzli/react/blob/master/test/clock.ml">Clock.ml</a></li>
   <li><a href="https://github.com/dbuenzli/react/blob/master/test/breakout.ml">Breakout.ml</a></li>
@@ -682,8 +693,8 @@ For examples, l2 takes a function with two arguments as its input.</p>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/programming/2013/12/27/Type-Systems.html" rel="prev" title="Differences between type systems of Ocaml & Java">
-                Differences between type systems of Ocaml & Java <i class="fa fa-chevron-right"></i>
+              <a href="/programming/2013/12/27/Type-Systems.html" rel="prev" title="Differences between type systems of OCaml & Java">
+                Differences between type systems of OCaml & Java <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -700,35 +711,12 @@ For examples, l2 takes a function with two arguments as its input.</p>
   </div>
 </div>
 
-<div id="disqus_thread"></div>
-<script>
-/**
-*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-/*
-   var disqus_config = function () {
-   this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-   this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-   };
-   */
-(function() { // DON'T EDIT BELOW THIS LINE
-	var d = document, s = d.createElement('script');
-	s.src = 'https://wanwenli.disqus.com/embed.js';
-	s.setAttribute('data-timestamp', +new Date());
-	(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
           </div>
           
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
-
 
         </div>
         
@@ -780,8 +768,8 @@ For examples, l2 takes a function with two arguments as its input.</p>
 
           
             <div class="site-state-item site-state-posts">
-              <a href="">
-                <span class="site-state-item-count">12</span>
+              <a href="/archives/">
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -792,12 +780,21 @@ For examples, l2 takes a function with two arguments as its input.</p>
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
           
 
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
           
 
         </nav>
@@ -814,6 +811,30 @@ For examples, l2 takes a function with two arguments as its input.</p>
         
 
         <div class="links-of-author motion-element">
+          
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://github.com/wanwenli" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/wenli_wan" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
           
         </div>
 
@@ -870,15 +891,11 @@ For examples, l2 takes a function with two arguments as its input.</p>
   
   
   &copy; 
-  <span itemprop="copyrightYear">2019</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Wan Wenli</span>
-</div>
-
-<div class="copyright">
-  <iframe src="https://ghbtns.com/github-btn.html?user=swwl1992&type=follow&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
 </div>
 
 
@@ -889,7 +906,7 @@ For examples, l2 takes a function with two arguments as its input.</p>
 <div class="theme-info">
   Theme -
   <a class="theme-link" href="https://github.com/simpleyyt/jekyll-theme-next">
-    NexT.Muse
+    NexT.Mist
   </a>
 </div>
 
@@ -1011,6 +1028,14 @@ For examples, l2 takes a function with two arguments as its input.</p>
 
   
 
+    
+      <script id="dsq-count-scr" src="https://wanwenli.disqus.com/count.js" async></script>
+    
+
+    
+
+  
+
 
 
 
@@ -1036,10 +1061,6 @@ For examples, l2 takes a function with two arguments as its input.</p>
 
 
 
-
-  
-
-    
 
   
 

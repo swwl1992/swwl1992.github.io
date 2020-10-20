@@ -14,7 +14,7 @@
 
 
 
-<html class="theme-next muse use-motion" lang="en">
+<html class="theme-next mist use-motion" lang="en">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -115,7 +115,7 @@
 <meta name="keywords" content="Jekyll, NexT">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Thoughts on Consumer Group of Apache Kafka">
-<meta property="og:url" content="http://localhost:4000/kafka/2016/10/25/Kafka-Consumer-Group.html">
+<meta property="og:url" content="https://wanwenli.com/kafka/2016/10/25/Kafka-Consumer-Group.html">
 <meta property="og:site_name" content="Salmon Says">
 <meta property="og:description" content="Simple experiences from the usage of consumer group in production">
 <meta property="og:locale" content="en">
@@ -130,7 +130,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '',
-    scheme: 'Muse',
+    scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
     motion: true,
@@ -150,7 +150,7 @@
 
 
 
-  <link rel="canonical" href="http://localhost:4000/"/>
+  <link rel="canonical" href="https://wanwenli.com/"/>
 
 
 
@@ -240,6 +240,18 @@
           </a>
         </li>
       
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -270,7 +282,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/kafka/2016/10/25/Kafka-Consumer-Group.html">
+    <link itemprop="mainEntityOfPage" href="https://wanwenli.com/kafka/2016/10/25/Kafka-Consumer-Group.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Wan Wenli">
@@ -340,8 +352,6 @@
           
 
           
-            
-          
 
           
           
@@ -353,7 +363,7 @@
           
             
                 <div class="post-description">
-                    
+                    Simple experiences from the usage of consumer group in production
                 </div>
             
           
@@ -398,29 +408,29 @@ The source code of its generation is defined in <a href="https://github.com/apac
 and shown below.</p>
 
 <figure class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">var</span> <span class="n">consumerUuid</span> <span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="kc">null</span>
-<span class="n">config</span><span class="o">.</span><span class="n">consumerId</span> <span class="k">match</span> <span class="o">{</span>
-  <span class="k">case</span> <span class="nc">Some</span><span class="o">(</span><span class="n">consumerId</span><span class="o">)</span> <span class="c1">// for testing only
-</span>  <span class="k">=&gt;</span> <span class="n">consumerUuid</span> <span class="k">=</span> <span class="n">consumerId</span>
-  <span class="k">case</span> <span class="nc">None</span> <span class="c1">// generate unique consumerId automatically
-</span>  <span class="k">=&gt;</span> <span class="k">val</span> <span class="n">uuid</span> <span class="k">=</span> <span class="nc">UUID</span><span class="o">.</span><span class="n">randomUUID</span><span class="o">()</span>
-  <span class="n">consumerUuid</span> <span class="k">=</span> <span class="s">"%s-%d-%s"</span><span class="o">.</span><span class="n">format</span><span class="o">(</span>
-    <span class="nc">InetAddress</span><span class="o">.</span><span class="n">getLocalHost</span><span class="o">.</span><span class="n">getHostName</span><span class="o">,</span> <span class="nc">System</span><span class="o">.</span><span class="n">currentTimeMillis</span><span class="o">,</span>
-    <span class="n">uuid</span><span class="o">.</span><span class="n">getMostSignificantBits</span><span class="o">().</span><span class="n">toHexString</span><span class="o">.</span><span class="n">substring</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">8</span><span class="o">))</span>
+<span class="nv">config</span><span class="o">.</span><span class="py">consumerId</span> <span class="k">match</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="nc">Some</span><span class="o">(</span><span class="n">consumerId</span><span class="o">)</span> <span class="c1">// for testing only</span>
+  <span class="k">=&gt;</span> <span class="n">consumerUuid</span> <span class="k">=</span> <span class="n">consumerId</span>
+  <span class="k">case</span> <span class="nc">None</span> <span class="c1">// generate unique consumerId automatically</span>
+  <span class="k">=&gt;</span> <span class="k">val</span> <span class="nv">uuid</span> <span class="k">=</span> <span class="nv">UUID</span><span class="o">.</span><span class="py">randomUUID</span><span class="o">()</span>
+  <span class="n">consumerUuid</span> <span class="k">=</span> <span class="s">"%s-%d-%s"</span><span class="o">.</span><span class="py">format</span><span class="o">(</span>
+    <span class="nv">InetAddress</span><span class="o">.</span><span class="py">getLocalHost</span><span class="o">.</span><span class="py">getHostName</span><span class="o">,</span> <span class="nv">System</span><span class="o">.</span><span class="py">currentTimeMillis</span><span class="o">,</span>
+    <span class="nv">uuid</span><span class="o">.</span><span class="py">getMostSignificantBits</span><span class="o">().</span><span class="py">toHexString</span><span class="o">.</span><span class="py">substring</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">8</span><span class="o">))</span>
 <span class="o">}</span>
-<span class="n">config</span><span class="o">.</span><span class="n">groupId</span> <span class="o">+</span> <span class="s">"_"</span> <span class="o">+</span> <span class="n">consumerUuid</span></code></pre></figure>
+<span class="nv">config</span><span class="o">.</span><span class="py">groupId</span> <span class="o">+</span> <span class="s">"_"</span> <span class="o">+</span> <span class="n">consumerUuid</span></code></pre></figure>
 
-<p>If you go into <code class="highlighter-rouge">/owners</code> directory and check the owner of a partition,
+<p>If you go into <code class="language-plaintext highlighter-rouge">/owners</code> directory and check the owner of a partition,
 you should find a very similar value to consumer ID.
-The owner of a topic-partition is defined in the form of <code class="highlighter-rouge">[consumerId]-[threadId]</code> in which <code class="highlighter-rouge">threadId</code> is used
+The owner of a topic-partition is defined in the form of <code class="language-plaintext highlighter-rouge">[consumerId]-[threadId]</code> in which <code class="language-plaintext highlighter-rouge">threadId</code> is used
 because one partition is meant to be consumed by exactly one thread.
-In many cases, the <code class="highlighter-rouge">threadId</code> is equal to the partition number which
+In many cases, the <code class="language-plaintext highlighter-rouge">threadId</code> is equal to the partition number which
 the consumer thread owns.</p>
 
 <p>A consumer group is <em>well balanced</em>
 if each partition inside it is owned by exactly one consumer thread.
 You may use the instructions from <a href="https://cwiki.apache.org/confluence/display/KAFKA/System+Tools#SystemTools-VerifyConsumerRebalance">this link</a>
 to verify the result of consumer rebalance.
-This tool should work well because I have fixed a bug in <code class="highlighter-rouge">VerifyConsumerRebalance.scala</code> in <a href="https://github.com/apache/kafka/pull/1612">this pull request</a>.</p>
+This tool should work well because I have fixed a bug in <code class="language-plaintext highlighter-rouge">VerifyConsumerRebalance.scala</code> in <a href="https://github.com/apache/kafka/pull/1612">this pull request</a>.</p>
 
 <p>Since version 0.9.0,
 Kafka has used <em>brokers</em> to coordinate the rebalance process of consumers.
@@ -432,7 +442,7 @@ I also have thought about it and then wrote this blog.</p>
 you just need to put each consumer in different consumer groups,
 such that the offset of each consumer is different.</p>
 
-<p>Once I read some articles online which suggest use <code class="highlighter-rouge">UUID</code> within
+<p>Once I read some articles online which suggest use <code class="language-plaintext highlighter-rouge">UUID</code> within
 a consumer group, for example <a href="http://stackoverflow.com/questions/30647544/kafka-multiple-consumers-for-a-partition">this question</a> from stackoverflow and
 it has received more than 5 upvotes.
 Unfortunately I <strong>strongly discourage</strong> such usage.</p>
@@ -442,7 +452,7 @@ Often consumers need to be shutdown and started,
 which may not be frequent in commercial environments
 but is expected to be quite frequent in develop, test and staging phases.
 As time goes by a huge number of consumer groups nodes
-shall be accumulated in <code class="highlighter-rouge">/consumers</code> node and
+shall be accumulated in <code class="language-plaintext highlighter-rouge">/consumers</code> node and
 most of them are not in use.
 A direct result is
 it is almost impossible to list out all the consumer groups.
@@ -450,17 +460,16 @@ ZooKeeper client throws runtime exception because the buffer overflows due to
 the overwhelming amount of child nodes.
 The error message is something like:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>IOException Packet &lt;len12343123123&gt; is out of range
-</code></pre>
-</div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>IOException Packet &lt;len12343123123&gt; is out of range
+</code></pre></div></div>
 
-<p>Even you configure the <code class="highlighter-rouge">jute.maxbuffer</code> parameter as some blogs suggest,
+<p>Even you configure the <code class="language-plaintext highlighter-rouge">jute.maxbuffer</code> parameter as some blogs suggest,
 the chance of receiving a response
 before your patience runs out is extremely low.
-I have encountered a situation where <code class="highlighter-rouge">/consumers</code> has more than 90,000
+I have encountered a situation where <code class="language-plaintext highlighter-rouge">/consumers</code> has more than 90,000
 child nodes and was unable to list up consumer groups ever since.
 Another direct result is that some features of <a href="https://github.com/apache/kafka/blob/trunk/core/src/main/scala/kafka/admin/ConsumerGroupCommand.scala">ConsumerGroupCommand</a>
-(used in <code class="highlighter-rouge">kafka-consumer-groups.sh</code>)
+(used in <code class="language-plaintext highlighter-rouge">kafka-consumer-groups.sh</code>)
 will fail because internally it lists out all consumer groups.</p>
 
 <p>However, the huge number of consumer groups should <em>not</em> be a problem
@@ -474,18 +483,18 @@ They only manage those consumer which join or leave them.
 As far as what I have read from <a href="https://github.com/apache/kafka/blob/trunk/core/src/main/scala/kafka/coordinator/GroupCoordinator.scala">GroupCoordinator</a>,
 brokers do not scan all consumer groups.</p>
 
-<p>Next, <code class="highlighter-rouge">UUID</code> is hardly queryable.
+<p>Next, <code class="language-plaintext highlighter-rouge">UUID</code> is hardly queryable.
 Its value is generated at runtime and unpredictable.
 If you wish to describe a consumer group or check its offsets,
 you will face problems on finding the exact value of it.
 A workaround is to <em>log</em> its value somewhere.</p>
 
 <p>Last but not the least,
-group names with <code class="highlighter-rouge">UUID</code> in them is brand new every time.
+group names with <code class="language-plaintext highlighter-rouge">UUID</code> in them is brand new every time.
 Upon the creation of a new consumer group,
 the value of offsets is determined by offset reset,
-in other words the setting of <code class="highlighter-rouge">auto.offset.reset</code>.
-No matter the value is <code class="highlighter-rouge">smallest</code> or <code class="highlighter-rouge">largest</code>,
+in other words the setting of <code class="language-plaintext highlighter-rouge">auto.offset.reset</code>.
+No matter the value is <code class="language-plaintext highlighter-rouge">smallest</code> or <code class="language-plaintext highlighter-rouge">largest</code>,
 the consumer either consumes many messages repeatedly or
 skip some messages.</p>
 
@@ -503,7 +512,7 @@ the target group will never be reused.</p>
 introduces a feature to remove consumer groups.
 Nevertheless, it prohibits the removal of <em>active</em> consumer group by
 checking the number of children under consuemr registry dicrectory
-(i.e., <code class="highlighter-rouge">/consumers/[group_name]/ids</code>).
+(i.e., <code class="language-plaintext highlighter-rouge">/consumers/[group_name]/ids</code>).
 When you wish to remove a consumer group by a ZooKeeper client,
 please take notice of active consumers as well.</p>
 
@@ -573,35 +582,12 @@ please take notice of active consumers as well.</p>
   </div>
 </div>
 
-<div id="disqus_thread"></div>
-<script>
-/**
-*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-/*
-   var disqus_config = function () {
-   this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-   this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-   };
-   */
-(function() { // DON'T EDIT BELOW THIS LINE
-	var d = document, s = d.createElement('script');
-	s.src = 'https://wanwenli.disqus.com/embed.js';
-	s.setAttribute('data-timestamp', +new Date());
-	(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
           </div>
           
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
-
 
         </div>
         
@@ -653,8 +639,8 @@ please take notice of active consumers as well.</p>
 
           
             <div class="site-state-item site-state-posts">
-              <a href="">
-                <span class="site-state-item-count">12</span>
+              <a href="/archives/">
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -665,12 +651,21 @@ please take notice of active consumers as well.</p>
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
           
 
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
           
 
         </nav>
@@ -687,6 +682,30 @@ please take notice of active consumers as well.</p>
         
 
         <div class="links-of-author motion-element">
+          
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://github.com/wanwenli" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/wenli_wan" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
           
         </div>
 
@@ -743,15 +762,11 @@ please take notice of active consumers as well.</p>
   
   
   &copy; 
-  <span itemprop="copyrightYear">2019</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Wan Wenli</span>
-</div>
-
-<div class="copyright">
-  <iframe src="https://ghbtns.com/github-btn.html?user=swwl1992&type=follow&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
 </div>
 
 
@@ -762,7 +777,7 @@ please take notice of active consumers as well.</p>
 <div class="theme-info">
   Theme -
   <a class="theme-link" href="https://github.com/simpleyyt/jekyll-theme-next">
-    NexT.Muse
+    NexT.Mist
   </a>
 </div>
 
@@ -884,6 +899,14 @@ please take notice of active consumers as well.</p>
 
   
 
+    
+      <script id="dsq-count-scr" src="https://wanwenli.disqus.com/count.js" async></script>
+    
+
+    
+
+  
+
 
 
 
@@ -909,10 +932,6 @@ please take notice of active consumers as well.</p>
 
 
 
-
-  
-
-    
 
   
 

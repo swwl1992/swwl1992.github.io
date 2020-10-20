@@ -14,7 +14,7 @@
 
 
 
-<html class="theme-next muse use-motion" lang="en">
+<html class="theme-next mist use-motion" lang="en">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -115,7 +115,7 @@
 <meta name="keywords" content="Jekyll, NexT">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Apache Spark's number of cores rethought">
-<meta property="og:url" content="http://localhost:4000/spark/2018/04/02/spark-executor-cores.html">
+<meta property="og:url" content="https://wanwenli.com/spark/2018/04/02/spark-executor-cores.html">
 <meta property="og:site_name" content="Salmon Says">
 <meta property="og:description" content="From an infrastructural perspective, what do the number of executors and cores actually mean?">
 <meta property="og:locale" content="en">
@@ -128,7 +128,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '',
-    scheme: 'Muse',
+    scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
     motion: true,
@@ -148,7 +148,7 @@
 
 
 
-  <link rel="canonical" href="http://localhost:4000/"/>
+  <link rel="canonical" href="https://wanwenli.com/"/>
 
 
 
@@ -238,6 +238,18 @@
           </a>
         </li>
       
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -268,7 +280,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/spark/2018/04/02/spark-executor-cores.html">
+    <link itemprop="mainEntityOfPage" href="https://wanwenli.com/spark/2018/04/02/spark-executor-cores.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Wan Wenli">
@@ -338,8 +350,6 @@
           
 
           
-            
-          
 
           
           
@@ -351,7 +361,7 @@
           
             
                 <div class="post-description">
-                    
+                    From an infrastructural perspective, what do the number of executors and cores actually mean?
                 </div>
             
           
@@ -408,19 +418,19 @@ Upon each creation of an executor process,
 worker deduct the amount of memory and cores from the total value
 it controls.
 In <a href="">Worker</a>
-class, you can find in method <code class="highlighter-rouge">launchExecutor</code> that
+class, you can find in method <code class="language-plaintext highlighter-rouge">launchExecutor</code> that
 for each launch of a new executor, the count of used cores is incremented.
 Therefore as I said,
 the number of memory and cores are more like
 <em>logical</em> values rather than the actual amount of resources each executor uses.</p>
 
 <p>What does it look like in deeper details?
-The number of memory (controlled by <code class="highlighter-rouge">spark.executor.memory</code>)
+The number of memory (controlled by <code class="language-plaintext highlighter-rouge">spark.executor.memory</code>)
 determines the <strong>maximum heap size</strong> of executor process,
-by forming the <code class="highlighter-rouge">-Xmx</code> parameter.
-For example if you pass in <code class="highlighter-rouge">--conf spark.executor.memory=10240m</code>
+by forming the <code class="language-plaintext highlighter-rouge">-Xmx</code> parameter.
+For example if you pass in <code class="language-plaintext highlighter-rouge">--conf spark.executor.memory=10240m</code>
 when submitting an Spark application,
-the executor Java process will include a command line argument as <code class="highlighter-rouge">-Xmx 10240m</code>.</p>
+the executor Java process will include a command line argument as <code class="language-plaintext highlighter-rouge">-Xmx 10240m</code>.</p>
 
 <p><a href="https://github.com/apache/spark/blob/master/core/src/main/scala/org/apache/spark/deploy/worker/ExecutorRunner.scala">ExecutorRunner</a>
 is the wrapper class around each executor process.
@@ -428,11 +438,11 @@ It has an attribute which is an instance of Java
 <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Process.html">Process</a>.
 Actually <a href="https://github.com/apache/spark/blob/master/core/src/main/scala/org/apache/spark/deploy/worker/Worker.scala">CoarseGrainedExecutorBackend</a>
 is the main entry point class of executor process
-which is able to be observed by using <code class="highlighter-rouge">ps -ef</code> command.
+which is able to be observed by using <code class="language-plaintext highlighter-rouge">ps -ef</code> command.
 As you dig deeper in the source code,
 you should be able to find that each task is a thread submitted
 to a thread pool.
-<code class="highlighter-rouge">spark.executor.cores</code> thus controls the upper limit of concurrent tasks
+<code class="language-plaintext highlighter-rouge">spark.executor.cores</code> thus controls the upper limit of concurrent tasks
 running in one executor process.
 Their resources are shared within one process.
 As quite a number of online sources have pointed out,
@@ -479,11 +489,11 @@ side by side.</p>
 <p>A major difference between YARN and standalone mode in terms of resource control
 is that workers stop spawning new executors
 when either of the resources is exhausted.
-However the <code class="highlighter-rouge">DefaultResourceCalculator</code> only uses <em>memory</em> to control
+However the <code class="language-plaintext highlighter-rouge">DefaultResourceCalculator</code> only uses <em>memory</em> to control
 the resources used by executors.
 As a result sometimes you can see that the available of vcores on a node
 become negative.
-<code class="highlighter-rouge">DominantResourceCalculator</code> behaves the same way as workers in standalone mode.
+<code class="language-plaintext highlighter-rouge">DominantResourceCalculator</code> behaves the same way as workers in standalone mode.
 It chooses the dominant resource as the upper limit for resource usage.</p>
 
 <h3 id="an-infra-perspective">An infra perspective</h3>
@@ -586,35 +596,12 @@ whose size is among the top-tier in Singapore as well as SEA region, hopefully.<
   </div>
 </div>
 
-<div id="disqus_thread"></div>
-<script>
-/**
-*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-/*
-   var disqus_config = function () {
-   this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-   this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-   };
-   */
-(function() { // DON'T EDIT BELOW THIS LINE
-	var d = document, s = d.createElement('script');
-	s.src = 'https://wanwenli.disqus.com/embed.js';
-	s.setAttribute('data-timestamp', +new Date());
-	(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
           </div>
           
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
-
 
         </div>
         
@@ -666,8 +653,8 @@ whose size is among the top-tier in Singapore as well as SEA region, hopefully.<
 
           
             <div class="site-state-item site-state-posts">
-              <a href="">
-                <span class="site-state-item-count">12</span>
+              <a href="/archives/">
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -678,12 +665,21 @@ whose size is among the top-tier in Singapore as well as SEA region, hopefully.<
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
           
 
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
           
 
         </nav>
@@ -700,6 +696,30 @@ whose size is among the top-tier in Singapore as well as SEA region, hopefully.<
         
 
         <div class="links-of-author motion-element">
+          
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://github.com/wanwenli" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/wenli_wan" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
           
         </div>
 
@@ -756,15 +776,11 @@ whose size is among the top-tier in Singapore as well as SEA region, hopefully.<
   
   
   &copy; 
-  <span itemprop="copyrightYear">2019</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Wan Wenli</span>
-</div>
-
-<div class="copyright">
-  <iframe src="https://ghbtns.com/github-btn.html?user=swwl1992&type=follow&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
 </div>
 
 
@@ -775,7 +791,7 @@ whose size is among the top-tier in Singapore as well as SEA region, hopefully.<
 <div class="theme-info">
   Theme -
   <a class="theme-link" href="https://github.com/simpleyyt/jekyll-theme-next">
-    NexT.Muse
+    NexT.Mist
   </a>
 </div>
 
@@ -897,6 +913,14 @@ whose size is among the top-tier in Singapore as well as SEA region, hopefully.<
 
   
 
+    
+      <script id="dsq-count-scr" src="https://wanwenli.disqus.com/count.js" async></script>
+    
+
+    
+
+  
+
 
 
 
@@ -922,10 +946,6 @@ whose size is among the top-tier in Singapore as well as SEA region, hopefully.<
 
 
 
-
-  
-
-    
 
   
 
