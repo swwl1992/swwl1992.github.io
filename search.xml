@@ -3,13 +3,14 @@
   
     <entry>
       <title>My open-source contributions</title>
-      <url>/life/2020/10/01/open-source-contributions.html</url>
+      <url>/life/2020/10/21/open-source-contributions.html</url>
       <content type="text">Source code
 
 
-  python-bitcoinlib
-  996.ICU
+  ohmyzsh
   aws-node-termination-handler
+  996.ICU
+  python-bitcoinlib
 
 
 Issues
@@ -52,8 +53,13 @@ Please complete all practice tests in the Udemy course.
 
 I feel that the difficulty of those practices in Killer Shell is higher than that of the actual exam,
 so do not panic if you cannot finish them on time.
-Another good thing about Killer Shell is that
-it gives you some really helpful tips on how to set up your exam environment.
+Another 2 good things about Killer Shell:
+
+
+  Its UI looks similar to the actual exam.
+  It gives you some really helpful tips on how to set up your exam environment,
+e.g. vimrc configs.
+
 
 glhf
 </content>
