@@ -83,7 +83,7 @@
 <link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="programming,github,blogging," />
+  <meta name="keywords" content="kubernetes,k8s,nginx-ingress-controller," />
 
 
 
@@ -111,17 +111,17 @@
 
 
 
-<meta name="description" content="My bad experience with Octopress">
-<meta name="keywords" content="programming, github, blogging">
+<meta name="description" content="Why does my web page keep redirecting when forcing SSL redirection on an ingress with nginx-ingress-controller?">
+<meta name="keywords" content="kubernetes, k8s, nginx-ingress-controller">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Why I used Jekyll-bootstrap instead of Octopress">
-<meta property="og:url" content="https://wanwenli.com/programming/2013/06/13/Why-I-Used-Jekyll-Instead-of-Octopress.html">
+<meta property="og:title" content="Too many redirects when forcing SSL redirection on an ingress">
+<meta property="og:url" content="https://wanwenli.com/kubernetes/2019/05/29/k8s-ingress-force-ssl-redirect.html">
 <meta property="og:site_name" content="Salmon Says">
-<meta property="og:description" content="My bad experience with Octopress">
+<meta property="og:description" content="Why does my web page keep redirecting when forcing SSL redirection on an ingress with nginx-ingress-controller?">
 <meta property="og:locale" content="en">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Why I used Jekyll-bootstrap instead of Octopress">
-<meta name="twitter:description" content="My bad experience with Octopress">
+<meta name="twitter:title" content="Too many redirects when forcing SSL redirection on an ingress">
+<meta name="twitter:description" content="Why does my web page keep redirecting when forcing SSL redirection on an ingress with nginx-ingress-controller?">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -154,7 +154,7 @@
 
 
 
-  <title>Why I used Jekyll-bootstrap instead of Octopress | Salmon Says</title>
+  <title>Too many redirects when forcing SSL redirection on an ingress | Salmon Says</title>
   
 
 
@@ -292,7 +292,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://wanwenli.com/programming/2013/06/13/Why-I-Used-Jekyll-Instead-of-Octopress.html">
+    <link itemprop="mainEntityOfPage" href="https://wanwenli.com/kubernetes/2019/05/29/k8s-ingress-force-ssl-redirect.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Wan Wenli">
@@ -312,7 +312,7 @@
           <h1 class="post-title" itemprop="name headline">
           
           
-            Why I used Jekyll-bootstrap instead of Octopress
+            Too many redirects when forcing SSL redirection on an ingress
           
         </h1>
         
@@ -326,8 +326,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2013-06-13T00:00:00+08:00">
-                2013-06-13
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-29T00:00:00+08:00">
+                2019-05-29
               </time>
             
 
@@ -350,8 +350,8 @@
               
                 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/category/#/programming" itemprop="url" rel="index">
-                    <span itemprop="name">programming</span>
+                  <a href="/category/#/kubernetes" itemprop="url" rel="index">
+                    <span itemprop="name">kubernetes</span>
                   </a>
                 </span>
 
@@ -375,7 +375,7 @@
           
             
                 <div class="post-description">
-                    My bad experience with Octopress
+                    Why does my web page keep redirecting when forcing SSL redirection on an ingress with nginx-ingress-controller?
                 </div>
             
           
@@ -390,61 +390,68 @@
       
 
       
-        <p>I was amazed by the beautiful blog made by my friend.
-He suggested me use <code class="language-plaintext highlighter-rouge">Octopress</code> or <code class="language-plaintext highlighter-rouge">Jekyll</code>.
-However I faced a lot of problems when I tried to install both of them.</p>
+        <p>In summary, these are the steps for SSL redirection to work properly and
+this method has been mentioned by
+<a href="https://stackoverflow.com/a/64224737/1397473">this answer on stackoverflow</a>.</p>
 
-<p>Below are some examples:</p>
+<ul>
+  <li>Add <code class="language-plaintext highlighter-rouge">use-forwarded-headers: "true"</code> into the ConfigMap of ingress controller</li>
+  <li>Do a rolling upgrade on the deployment of Nginx ingress controller,
+so that the new value in the ConfigMap would be picked up.</li>
+  <li>Add <code class="language-plaintext highlighter-rouge">nginx.ingress.kubernetes.io/force-ssl-redirect: "true"</code> into the annotations of an ingress</li>
+</ul>
 
-<h5 id="problem-1">Problem 1</h5>
+<p>I found this by reading the source code of
+<a href="https://github.com/kubernetes/ingress-nginx">ingress-nginx</a>.
+Here is a detailed explanation on how it works.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Building native extensions.  This could take a while...
-ERROR:  Error installing jekyll:
-ERROR: Failed to build gem native extension.
+<p>The <code class="language-plaintext highlighter-rouge">TOO_MANY_REDIRECTS</code> error happens because no matter HTTP or HTTPS is used,
+Nginx controller always return
+<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/308">308 REDIRECT</a>
+to clients.
+Next, the browser goes into an infinite loop of redirections.
+Why? In the following section it will be explained.</p>
 
-/usr/bin/ruby1.9.1 extconf.rb
-/usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require': cannot load such file -- mkmf (LoadError)
-from /usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require'
-from extconf.rb:1:in `&lt;main&gt;'
+<p>When <code class="language-plaintext highlighter-rouge">force-ssl-redirect</code> annotation is set to true on an ingress level,
+Nginx ingress controller adds/updates the following snippet into <code class="language-plaintext highlighter-rouge">nginx.conf</code>.</p>
+
+<figure class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="n">rewrite_by_lua_block</span> <span class="p">{</span>
+    <span class="n">lua_ingress</span><span class="p">.</span><span class="n">rewrite</span><span class="p">({</span>
+        <span class="n">force_ssl_redirect</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="n">use_port_in_redirects</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="p">})</span>
+    <span class="n">balancer</span><span class="p">.</span><span class="n">rewrite</span><span class="p">()</span>
+    <span class="n">plugins</span><span class="p">.</span><span class="n">run</span><span class="p">()</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Note: when SSL redirect is false in an ingress, the value of force_ssl_redirect is also false.</p>
+
+<p>These are the a few code snippets you will need to look into to understand how this fix works.</p>
+
+<ul>
+  <li>In the source code of ingress-nginx,
+<a href="https://github.com/kubernetes/ingress-nginx/blob/bf11e2ef636cd535b66ebb2ab638a941662da699/rootfs/etc/nginx/lua/lua_ingress.lua#L122">here</a>
+defines how the Lua block in nginx.conf works.</li>
+  <li>When force_ssl_redirect is true, function <code class="language-plaintext highlighter-rouge">redirect_to_https</code> alone determines whether the request should be redirected.</li>
+  <li>According to the implementation of
+<a href="https://github.com/kubernetes/ingress-nginx/blob/bf11e2ef636cd535b66ebb2ab638a941662da699/rootfs/etc/nginx/lua/lua_ingress.lua#L57">redirect_to_https</a>,
+its return value solely depends on <code class="language-plaintext highlighter-rouge">ngx.var.pass_access_scheme</code>,
+because <code class="language-plaintext highlighter-rouge">ngx.var.scheme</code> is either http or https. Later I will argue that it has always been http.</li>
+  <li>According
+<a href="https://github.com/kubernetes/ingress-nginx/blob/bf11e2ef636cd535b66ebb2ab638a941662da699/rootfs/etc/nginx/lua/lua_ingress.lua#L97">this chunk</a>,
+it takes the value of <code class="language-plaintext highlighter-rouge">http_x_forwarded_proto</code> if <code class="language-plaintext highlighter-rouge">use-forwarded-headers</code> is true and
+that’s why it is enabled in ingress controller.</li>
+</ul>
+
+<p>Since the following snippet works as a hacky way,
+<code class="language-plaintext highlighter-rouge">http_x_forwarded_proto</code> must reflect the true protocol of the request.</p>
+
+<div class="language-nginx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="s">(</span><span class="nv">$http_x_forwarded_proto</span> <span class="s">!=</span> <span class="s">'https')</span> <span class="p">{</span>
+  <span class="kn">return</span> <span class="mi">301</span> <span class="s">https://</span><span class="nv">$host$request_uri</span><span class="p">;</span>
+<span class="p">}</span>
 </code></pre></div></div>
 
-<h5 id="solution-1">Solution 1</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get install ruby1.9.1-dev
-</code></pre></div></div>
-
-<h5 id="problem-2">Problem 2</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Bundler::GemfileNotFound
-</code></pre></div></div>
-
-<h5 id="solution-2">Solution 2</h5>
-<p>find the Gemfile by command:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>locate Gemfile
-</code></pre></div></div>
-
-<p>cd into the directory</p>
-
-<h5 id="problem-3">Problem 3</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rake aborted!
-You have already activated rake 0.9.6, but your Gemfile requires rake 0.9.2.2.
-</code></pre></div></div>
-
-<h5 id="solution-3">Solution 3</h5>
-<p>run command</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ bundle exec rake install
-</code></pre></div></div>
-
-<p>Apply to all the incidents when rake is aborted.</p>
-
-<p>Finally the big boss came and I was unable to configure the rake such that it can
-point to my github local repo. Sad…</p>
-
-<p>Now I switch to <code class="language-plaintext highlighter-rouge">Jekyll Bootstrap</code>. Hopefully it is a better solution.
-Hopefully it was not because I was noob.</p>
+<p>Q.E.D.</p>
 
       
     </div>
@@ -475,13 +482,13 @@ Hopefully it was not because I was noob.</p>
         <div class="post-tags">
           
             
-            <a href="/tag/#/programming" rel="tag"># programming</a>
+            <a href="/tag/#/kubernetes" rel="tag"># kubernetes</a>
           
             
-            <a href="/tag/#/github" rel="tag"># github</a>
+            <a href="/tag/#/k8s" rel="tag"># k8s</a>
           
             
-            <a href="/tag/#/blogging" rel="tag"># blogging</a>
+            <a href="/tag/#/nginx-ingress-controller" rel="tag"># nginx-ingress-controller</a>
           
         </div>
       
@@ -497,8 +504,8 @@ Hopefully it was not because I was noob.</p>
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/programming/2013/06/19/Bootstrap-Everywhere.html" rel="next" title="Bootstrap, bootstrap everywhere">
-                <i class="fa fa-chevron-left"></i> Bootstrap, bootstrap everywhere
+              <a href="/kubernetes/2020/05/10/cka-exam-tips.html" rel="next" title="CKA exam tips">
+                <i class="fa fa-chevron-left"></i> CKA exam tips
               </a>
             
           </div>
@@ -506,6 +513,10 @@ Hopefully it was not because I was noob.</p>
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blockchain/2018/09/13/How-do-bitcoin-mining-pools-pay.html" rel="prev" title="How do Bitcoin mining pools pay their miners?">
+                How do Bitcoin mining pools pay their miners? <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -565,17 +576,8 @@ Hopefully it was not because I was noob.</p>
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/assets/images/avatar.gif"
@@ -681,31 +683,6 @@ Hopefully it was not because I was noob.</p>
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-
-
-
-
-            
-              <div class="post-toc-content">
-    <ol class=nav>
-      <li class="nav-item nav-level-5"> <a class="nav-link" href="#problem-1"> <span class="nav-number">1</span> <span class="nav-text">Problem 1</span> </a> <ol class="nav-child"> </li></ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#solution-1"> <span class="nav-number">2</span> <span class="nav-text">Solution 1</span> </a> <ol class="nav-child"> </li></ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#problem-2"> <span class="nav-number">3</span> <span class="nav-text">Problem 2</span> </a> <ol class="nav-child"> </li></ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#solution-2"> <span class="nav-number">4</span> <span class="nav-text">Solution 2</span> </a> <ol class="nav-child"> </li></ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#problem-3"> <span class="nav-number">5</span> <span class="nav-text">Problem 3</span> </a> <ol class="nav-child"> </li></ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#solution-3"> <span class="nav-number">6</span> <span class="nav-text">Solution 3</span> </a> <ol class="nav-child">
-    </ol>
-  </div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -866,9 +843,9 @@ Hopefully it was not because I was noob.</p>
       
       <script type="text/javascript">
           var disqus_config = function () {
-              this.page.url = 'https://wanwenli.com/programming/2013/06/13/Why-I-Used-Jekyll-Instead-of-Octopress.html';
-              this.page.identifier = '/programming/2013/06/13/Why-I-Used-Jekyll-Instead-of-Octopress.html';
-              this.page.title = 'Why I used Jekyll-bootstrap instead of Octopress';
+              this.page.url = 'https://wanwenli.com/kubernetes/2019/05/29/k8s-ingress-force-ssl-redirect.html';
+              this.page.identifier = '/kubernetes/2019/05/29/k8s-ingress-force-ssl-redirect.html';
+              this.page.title = 'Too many redirects when forcing SSL redirection on an ingress';
           };
           var d = document, s = d.createElement('script');
           s.src = 'https://wanwenli.disqus.com/embed.js';

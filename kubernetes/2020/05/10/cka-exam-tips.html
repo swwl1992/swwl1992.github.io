@@ -83,7 +83,7 @@
 <link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="programming,github,blogging," />
+  <meta name="keywords" content="CKA,k8s," />
 
 
 
@@ -111,17 +111,17 @@
 
 
 
-<meta name="description" content="My bad experience with Octopress">
-<meta name="keywords" content="programming, github, blogging">
+<meta name="description" content="A guide to help you pass the Certified Kubernetes Administrator (CKA) Exam">
+<meta name="keywords" content="CKA, k8s">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Why I used Jekyll-bootstrap instead of Octopress">
-<meta property="og:url" content="https://wanwenli.com/programming/2013/06/13/Why-I-Used-Jekyll-Instead-of-Octopress.html">
+<meta property="og:title" content="CKA exam tips">
+<meta property="og:url" content="https://wanwenli.com/kubernetes/2020/05/10/cka-exam-tips.html">
 <meta property="og:site_name" content="Salmon Says">
-<meta property="og:description" content="My bad experience with Octopress">
+<meta property="og:description" content="A guide to help you pass the Certified Kubernetes Administrator (CKA) Exam">
 <meta property="og:locale" content="en">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Why I used Jekyll-bootstrap instead of Octopress">
-<meta name="twitter:description" content="My bad experience with Octopress">
+<meta name="twitter:title" content="CKA exam tips">
+<meta name="twitter:description" content="A guide to help you pass the Certified Kubernetes Administrator (CKA) Exam">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -154,7 +154,7 @@
 
 
 
-  <title>Why I used Jekyll-bootstrap instead of Octopress | Salmon Says</title>
+  <title>CKA exam tips | Salmon Says</title>
   
 
 
@@ -292,7 +292,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://wanwenli.com/programming/2013/06/13/Why-I-Used-Jekyll-Instead-of-Octopress.html">
+    <link itemprop="mainEntityOfPage" href="https://wanwenli.com/kubernetes/2020/05/10/cka-exam-tips.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Wan Wenli">
@@ -312,7 +312,7 @@
           <h1 class="post-title" itemprop="name headline">
           
           
-            Why I used Jekyll-bootstrap instead of Octopress
+            CKA exam tips
           
         </h1>
         
@@ -326,8 +326,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2013-06-13T00:00:00+08:00">
-                2013-06-13
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-05-10T00:00:00+08:00">
+                2020-05-10
               </time>
             
 
@@ -350,8 +350,8 @@
               
                 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/category/#/programming" itemprop="url" rel="index">
-                    <span itemprop="name">programming</span>
+                  <a href="/category/#/kubernetes" itemprop="url" rel="index">
+                    <span itemprop="name">kubernetes</span>
                   </a>
                 </span>
 
@@ -375,7 +375,7 @@
           
             
                 <div class="post-description">
-                    My bad experience with Octopress
+                    A guide to help you pass the Certified Kubernetes Administrator (CKA) Exam
                 </div>
             
           
@@ -390,61 +390,22 @@
       
 
       
-        <p>I was amazed by the beautiful blog made by my friend.
-He suggested me use <code class="language-plaintext highlighter-rouge">Octopress</code> or <code class="language-plaintext highlighter-rouge">Jekyll</code>.
-However I faced a lot of problems when I tried to install both of them.</p>
+        <p>It’s simple.
+Just make sure that you have taken the course on Udemy and another practice.</p>
 
-<p>Below are some examples:</p>
+<ul>
+  <li><a href="https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/">Certified Kubernetes Administrator (CKA) with Practice Tests</a></li>
+  <li><a href="https://killer.sh/">Killer Shell - Kubernetes Exam Simulator</a></li>
+</ul>
 
-<h5 id="problem-1">Problem 1</h5>
+<p>Please complete all practice tests in the Udemy course.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Building native extensions.  This could take a while...
-ERROR:  Error installing jekyll:
-ERROR: Failed to build gem native extension.
+<p>I feel that the difficulty of those practices in Killer Shell is higher than that of the actual exam,
+so do <em>not</em> panic if you cannot finish them on time.
+Another good thing about Killer Shell is that
+it gives you some really helpful tips on how to set up your exam environment.</p>
 
-/usr/bin/ruby1.9.1 extconf.rb
-/usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require': cannot load such file -- mkmf (LoadError)
-from /usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require'
-from extconf.rb:1:in `&lt;main&gt;'
-</code></pre></div></div>
-
-<h5 id="solution-1">Solution 1</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get install ruby1.9.1-dev
-</code></pre></div></div>
-
-<h5 id="problem-2">Problem 2</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Bundler::GemfileNotFound
-</code></pre></div></div>
-
-<h5 id="solution-2">Solution 2</h5>
-<p>find the Gemfile by command:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>locate Gemfile
-</code></pre></div></div>
-
-<p>cd into the directory</p>
-
-<h5 id="problem-3">Problem 3</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rake aborted!
-You have already activated rake 0.9.6, but your Gemfile requires rake 0.9.2.2.
-</code></pre></div></div>
-
-<h5 id="solution-3">Solution 3</h5>
-<p>run command</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ bundle exec rake install
-</code></pre></div></div>
-
-<p>Apply to all the incidents when rake is aborted.</p>
-
-<p>Finally the big boss came and I was unable to configure the rake such that it can
-point to my github local repo. Sad…</p>
-
-<p>Now I switch to <code class="language-plaintext highlighter-rouge">Jekyll Bootstrap</code>. Hopefully it is a better solution.
-Hopefully it was not because I was noob.</p>
+<p>glhf</p>
 
       
     </div>
@@ -475,13 +436,10 @@ Hopefully it was not because I was noob.</p>
         <div class="post-tags">
           
             
-            <a href="/tag/#/programming" rel="tag"># programming</a>
+            <a href="/tag/#/CKA" rel="tag"># CKA</a>
           
             
-            <a href="/tag/#/github" rel="tag"># github</a>
-          
-            
-            <a href="/tag/#/blogging" rel="tag"># blogging</a>
+            <a href="/tag/#/k8s" rel="tag"># k8s</a>
           
         </div>
       
@@ -497,8 +455,8 @@ Hopefully it was not because I was noob.</p>
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/programming/2013/06/19/Bootstrap-Everywhere.html" rel="next" title="Bootstrap, bootstrap everywhere">
-                <i class="fa fa-chevron-left"></i> Bootstrap, bootstrap everywhere
+              <a href="/life/2020/10/01/open-source-contributions.html" rel="next" title="My open-source contributions">
+                <i class="fa fa-chevron-left"></i> My open-source contributions
               </a>
             
           </div>
@@ -506,6 +464,10 @@ Hopefully it was not because I was noob.</p>
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/kubernetes/2019/05/29/k8s-ingress-force-ssl-redirect.html" rel="prev" title="Too many redirects when forcing SSL redirection on an ingress">
+                Too many redirects when forcing SSL redirection on an ingress <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -565,17 +527,8 @@ Hopefully it was not because I was noob.</p>
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/assets/images/avatar.gif"
@@ -681,31 +634,6 @@ Hopefully it was not because I was noob.</p>
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-
-
-
-
-            
-              <div class="post-toc-content">
-    <ol class=nav>
-      <li class="nav-item nav-level-5"> <a class="nav-link" href="#problem-1"> <span class="nav-number">1</span> <span class="nav-text">Problem 1</span> </a> <ol class="nav-child"> </li></ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#solution-1"> <span class="nav-number">2</span> <span class="nav-text">Solution 1</span> </a> <ol class="nav-child"> </li></ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#problem-2"> <span class="nav-number">3</span> <span class="nav-text">Problem 2</span> </a> <ol class="nav-child"> </li></ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#solution-2"> <span class="nav-number">4</span> <span class="nav-text">Solution 2</span> </a> <ol class="nav-child"> </li></ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#problem-3"> <span class="nav-number">5</span> <span class="nav-text">Problem 3</span> </a> <ol class="nav-child"> </li></ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#solution-3"> <span class="nav-number">6</span> <span class="nav-text">Solution 3</span> </a> <ol class="nav-child">
-    </ol>
-  </div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -866,9 +794,9 @@ Hopefully it was not because I was noob.</p>
       
       <script type="text/javascript">
           var disqus_config = function () {
-              this.page.url = 'https://wanwenli.com/programming/2013/06/13/Why-I-Used-Jekyll-Instead-of-Octopress.html';
-              this.page.identifier = '/programming/2013/06/13/Why-I-Used-Jekyll-Instead-of-Octopress.html';
-              this.page.title = 'Why I used Jekyll-bootstrap instead of Octopress';
+              this.page.url = 'https://wanwenli.com/kubernetes/2020/05/10/cka-exam-tips.html';
+              this.page.identifier = '/kubernetes/2020/05/10/cka-exam-tips.html';
+              this.page.title = 'CKA exam tips';
           };
           var d = document, s = d.createElement('script');
           s.src = 'https://wanwenli.disqus.com/embed.js';

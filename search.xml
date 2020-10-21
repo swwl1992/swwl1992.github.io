@@ -2,6 +2,160 @@
 <search>
   
     <entry>
+      <title>My open-source contributions</title>
+      <url>/life/2020/10/01/open-source-contributions.html</url>
+      <content type="text">Source code
+
+
+  python-bitcoinlib
+  996.ICU
+  aws-node-termination-handler
+
+
+Issues
+
+
+  ingress-nginx
+
+</content>
+      <categories>
+        
+          <category> life </category>
+        
+      </categories>
+      <tags>
+        
+          <tag> open-source </tag>
+        
+          <tag> github </tag>
+        
+          <tag> technology </tag>
+        
+          <tag> programming </tag>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title>CKA exam tips</title>
+      <url>/kubernetes/2020/05/10/cka-exam-tips.html</url>
+      <content type="text">It’s simple.
+Just make sure that you have taken the course on Udemy and another practice.
+
+
+  Certified Kubernetes Administrator (CKA) with Practice Tests
+  Killer Shell - Kubernetes Exam Simulator
+
+
+Please complete all practice tests in the Udemy course.
+
+I feel that the difficulty of those practices in Killer Shell is higher than that of the actual exam,
+so do not panic if you cannot finish them on time.
+Another good thing about Killer Shell is that
+it gives you some really helpful tips on how to set up your exam environment.
+
+glhf
+</content>
+      <categories>
+        
+          <category> kubernetes </category>
+        
+      </categories>
+      <tags>
+        
+          <tag> CKA </tag>
+        
+          <tag> k8s </tag>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title>Too many redirects when forcing SSL redirection on an ingress</title>
+      <url>/kubernetes/2019/05/29/k8s-ingress-force-ssl-redirect.html</url>
+      <content type="text">In summary, these are the steps for SSL redirection to work properly and
+this method has been mentioned by
+this answer on stackoverflow.
+
+
+  Add use-forwarded-headers: &quot;true&quot; into the ConfigMap of ingress controller
+  Do a rolling upgrade on the deployment of Nginx ingress controller,
+so that the new value in the ConfigMap would be picked up.
+  Add nginx.ingress.kubernetes.io/force-ssl-redirect: &quot;true&quot; into the annotations of an ingress
+
+
+I found this by reading the source code of
+ingress-nginx.
+Here is a detailed explanation on how it works.
+
+The TOO_MANY_REDIRECTS error happens because no matter HTTP or HTTPS is used,
+Nginx controller always return
+308 REDIRECT
+to clients.
+Next, the browser goes into an infinite loop of redirections.
+Why? In the following section it will be explained.
+
+When force-ssl-redirect annotation is set to true on an ingress level,
+Nginx ingress controller adds/updates the following snippet into nginx.conf.
+
+rewrite_by_lua_block {
+    lua_ingress.rewrite({
+        force_ssl_redirect = true,
+        use_port_in_redirects = false,
+    })
+    balancer.rewrite()
+    plugins.run()
+}
+
+Note: when SSL redirect is false in an ingress, the value of force_ssl_redirect is also false.
+
+These are the a few code snippets you will need to look into to understand how this fix works.
+
+
+  In the source code of ingress-nginx,
+here
+defines how the Lua block in nginx.conf works.
+  When force_ssl_redirect is true, function redirect_to_https alone determines whether the request should be redirected.
+  According to the implementation of
+redirect_to_https,
+its return value solely depends on ngx.var.pass_access_scheme,
+because ngx.var.scheme is either http or https. Later I will argue that it has always been http.
+  According
+this chunk,
+it takes the value of http_x_forwarded_proto if use-forwarded-headers is true and
+that’s why it is enabled in ingress controller.
+
+
+Since the following snippet works as a hacky way,
+http_x_forwarded_proto must reflect the true protocol of the request.
+
+if ($http_x_forwarded_proto != 'https') {
+  return 301 https://$host$request_uri;
+}
+
+
+Q.E.D.
+</content>
+      <categories>
+        
+          <category> kubernetes </category>
+        
+      </categories>
+      <tags>
+        
+          <tag> kubernetes </tag>
+        
+          <tag> k8s </tag>
+        
+          <tag> nginx-ingress-controller </tag>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
       <title>How do Bitcoin mining pools pay their miners?</title>
       <url>/blockchain/2018/09/13/How-do-bitcoin-mining-pools-pay.html</url>
       <content type="text">Since the price of Bitcoin surged in the 2017 Q4,
@@ -92,6 +246,10 @@ uncertainties in the time when its miners receive Bitcoins.
         
       </categories>
       <tags>
+        
+          <tag> blockchain </tag>
+        
+          <tag> bitcoin </tag>
         
       </tags>
       <tags></tags>
@@ -352,6 +510,10 @@ Long live blockchain.
       </categories>
       <tags>
         
+          <tag> blockchain </tag>
+        
+          <tag> bitcoin </tag>
+        
       </tags>
       <tags></tags>
     </entry>
@@ -520,6 +682,8 @@ whose size is among the top-tier in Singapore as well as SEA region, hopefully.
       </categories>
       <tags>
         
+          <tag> spark </tag>
+        
       </tags>
       <tags></tags>
     </entry>
@@ -629,6 +793,10 @@ which is a well known problem in a distributed system.
         
       </categories>
       <tags>
+        
+          <tag> kafka </tag>
+        
+          <tag> consumer-group </tag>
         
       </tags>
       <tags></tags>
@@ -781,6 +949,10 @@ please take notice of active consumers as well.
         
       </categories>
       <tags>
+        
+          <tag> kafka </tag>
+        
+          <tag> consumer-group </tag>
         
       </tags>
       <tags></tags>
@@ -988,6 +1160,12 @@ I wish you all the best.
       </categories>
       <tags>
         
+          <tag> programming </tag>
+        
+          <tag> life </tag>
+        
+          <tag> career </tag>
+        
       </tags>
       <tags></tags>
     </entry>
@@ -995,7 +1173,7 @@ I wish you all the best.
     <entry>
       <title>It has been two years</title>
       <url>/life/2014/02/03/TwoYears.html</url>
-      <content type="text">It has been two years since I joined github.
+      <content type="text">It has been two years since I joined GitHub.
 
 
 
@@ -1008,6 +1186,10 @@ BC (Before Coding).
         
       </categories>
       <tags>
+        
+          <tag> life </tag>
+        
+          <tag> github </tag>
         
       </tags>
       <tags></tags>
@@ -1287,6 +1469,10 @@ Some other examples
       </categories>
       <tags>
         
+          <tag> programming </tag>
+        
+          <tag> ocaml </tag>
+        
       </tags>
       <tags></tags>
     </entry>
@@ -1514,6 +1700,10 @@ Still Java is one of the dominant and most popular programming languages.
       </categories>
       <tags>
         
+          <tag> programming </tag>
+        
+          <tag> ocaml </tag>
+        
       </tags>
       <tags></tags>
     </entry>
@@ -1541,6 +1731,10 @@ Check out the Jekyll docs for more info on how to get the most out of Jekyll. Fi
         
       </categories>
       <tags>
+        
+          <tag> programming </tag>
+        
+          <tag> blogging </tag>
         
       </tags>
       <tags></tags>
@@ -1574,6 +1768,10 @@ the CSS of this website has given up bootstrap framework.
         
       </categories>
       <tags>
+        
+          <tag> programming </tag>
+        
+          <tag> bootstrap </tag>
         
       </tags>
       <tags></tags>
@@ -1644,6 +1842,12 @@ Hopefully it was not because I was noob.
         
       </categories>
       <tags>
+        
+          <tag> programming </tag>
+        
+          <tag> github </tag>
+        
+          <tag> blogging </tag>
         
       </tags>
       <tags></tags>

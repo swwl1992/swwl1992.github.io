@@ -83,7 +83,7 @@
 <link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="programming,github,blogging," />
+  <meta name="keywords" content="open-source,github,technology,programming," />
 
 
 
@@ -111,17 +111,17 @@
 
 
 
-<meta name="description" content="My bad experience with Octopress">
-<meta name="keywords" content="programming, github, blogging">
+<meta name="description" content="Some footprints left by me in the past 2 years">
+<meta name="keywords" content="open-source, github, technology, programming">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Why I used Jekyll-bootstrap instead of Octopress">
-<meta property="og:url" content="https://wanwenli.com/programming/2013/06/13/Why-I-Used-Jekyll-Instead-of-Octopress.html">
+<meta property="og:title" content="My open-source contributions">
+<meta property="og:url" content="https://wanwenli.com/life/2020/10/01/open-source-contributions.html">
 <meta property="og:site_name" content="Salmon Says">
-<meta property="og:description" content="My bad experience with Octopress">
+<meta property="og:description" content="Some footprints left by me in the past 2 years">
 <meta property="og:locale" content="en">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Why I used Jekyll-bootstrap instead of Octopress">
-<meta name="twitter:description" content="My bad experience with Octopress">
+<meta name="twitter:title" content="My open-source contributions">
+<meta name="twitter:description" content="Some footprints left by me in the past 2 years">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -154,7 +154,7 @@
 
 
 
-  <title>Why I used Jekyll-bootstrap instead of Octopress | Salmon Says</title>
+  <title>My open-source contributions | Salmon Says</title>
   
 
 
@@ -292,7 +292,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://wanwenli.com/programming/2013/06/13/Why-I-Used-Jekyll-Instead-of-Octopress.html">
+    <link itemprop="mainEntityOfPage" href="https://wanwenli.com/life/2020/10/01/open-source-contributions.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Wan Wenli">
@@ -312,7 +312,7 @@
           <h1 class="post-title" itemprop="name headline">
           
           
-            Why I used Jekyll-bootstrap instead of Octopress
+            My open-source contributions
           
         </h1>
         
@@ -326,8 +326,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2013-06-13T00:00:00+08:00">
-                2013-06-13
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-10-01T00:00:00+08:00">
+                2020-10-01
               </time>
             
 
@@ -350,8 +350,8 @@
               
                 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/category/#/programming" itemprop="url" rel="index">
-                    <span itemprop="name">programming</span>
+                  <a href="/category/#/life" itemprop="url" rel="index">
+                    <span itemprop="name">life</span>
                   </a>
                 </span>
 
@@ -375,7 +375,7 @@
           
             
                 <div class="post-description">
-                    My bad experience with Octopress
+                    Some footprints left by me in the past 2 years
                 </div>
             
           
@@ -390,61 +390,19 @@
       
 
       
-        <p>I was amazed by the beautiful blog made by my friend.
-He suggested me use <code class="language-plaintext highlighter-rouge">Octopress</code> or <code class="language-plaintext highlighter-rouge">Jekyll</code>.
-However I faced a lot of problems when I tried to install both of them.</p>
+        <h1 id="source-code">Source code</h1>
 
-<p>Below are some examples:</p>
+<ul>
+  <li><a href="https://github.com/petertodd/python-bitcoinlib/pull/177">python-bitcoinlib</a></li>
+  <li><a href="https://github.com/996icu/996.ICU/pull/25416">996.ICU</a></li>
+  <li><a href="https://github.com/aws/aws-node-termination-handler/pull/259">aws-node-termination-handler</a></li>
+</ul>
 
-<h5 id="problem-1">Problem 1</h5>
+<h1 id="issues">Issues</h1>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Building native extensions.  This could take a while...
-ERROR:  Error installing jekyll:
-ERROR: Failed to build gem native extension.
-
-/usr/bin/ruby1.9.1 extconf.rb
-/usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require': cannot load such file -- mkmf (LoadError)
-from /usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require'
-from extconf.rb:1:in `&lt;main&gt;'
-</code></pre></div></div>
-
-<h5 id="solution-1">Solution 1</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get install ruby1.9.1-dev
-</code></pre></div></div>
-
-<h5 id="problem-2">Problem 2</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Bundler::GemfileNotFound
-</code></pre></div></div>
-
-<h5 id="solution-2">Solution 2</h5>
-<p>find the Gemfile by command:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>locate Gemfile
-</code></pre></div></div>
-
-<p>cd into the directory</p>
-
-<h5 id="problem-3">Problem 3</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rake aborted!
-You have already activated rake 0.9.6, but your Gemfile requires rake 0.9.2.2.
-</code></pre></div></div>
-
-<h5 id="solution-3">Solution 3</h5>
-<p>run command</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ bundle exec rake install
-</code></pre></div></div>
-
-<p>Apply to all the incidents when rake is aborted.</p>
-
-<p>Finally the big boss came and I was unable to configure the rake such that it can
-point to my github local repo. Sad…</p>
-
-<p>Now I switch to <code class="language-plaintext highlighter-rouge">Jekyll Bootstrap</code>. Hopefully it is a better solution.
-Hopefully it was not because I was noob.</p>
+<ul>
+  <li><a href="https://github.com/kubernetes/ingress-nginx/issues/856#issuecomment-663989442">ingress-nginx</a></li>
+</ul>
 
       
     </div>
@@ -475,13 +433,16 @@ Hopefully it was not because I was noob.</p>
         <div class="post-tags">
           
             
-            <a href="/tag/#/programming" rel="tag"># programming</a>
+            <a href="/tag/#/open-source" rel="tag"># open-source</a>
           
             
             <a href="/tag/#/github" rel="tag"># github</a>
           
             
-            <a href="/tag/#/blogging" rel="tag"># blogging</a>
+            <a href="/tag/#/technology" rel="tag"># technology</a>
+          
+            
+            <a href="/tag/#/programming" rel="tag"># programming</a>
           
         </div>
       
@@ -497,15 +458,15 @@ Hopefully it was not because I was noob.</p>
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/programming/2013/06/19/Bootstrap-Everywhere.html" rel="next" title="Bootstrap, bootstrap everywhere">
-                <i class="fa fa-chevron-left"></i> Bootstrap, bootstrap everywhere
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/kubernetes/2020/05/10/cka-exam-tips.html" rel="prev" title="CKA exam tips">
+                CKA exam tips <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -698,7 +659,7 @@ Hopefully it was not because I was noob.</p>
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-5"> <a class="nav-link" href="#problem-1"> <span class="nav-number">1</span> <span class="nav-text">Problem 1</span> </a> <ol class="nav-child"> </li></ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#solution-1"> <span class="nav-number">2</span> <span class="nav-text">Solution 1</span> </a> <ol class="nav-child"> </li></ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#problem-2"> <span class="nav-number">3</span> <span class="nav-text">Problem 2</span> </a> <ol class="nav-child"> </li></ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#solution-2"> <span class="nav-number">4</span> <span class="nav-text">Solution 2</span> </a> <ol class="nav-child"> </li></ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#problem-3"> <span class="nav-number">5</span> <span class="nav-text">Problem 3</span> </a> <ol class="nav-child"> </li></ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#solution-3"> <span class="nav-number">6</span> <span class="nav-text">Solution 3</span> </a> <ol class="nav-child">
+      <li class="nav-item nav-level-1"> <a class="nav-link" href="#source-code"> <span class="nav-number">1</span> <span class="nav-text">Source code</span> </a> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> </li></ol> </li></ol> </li></ol> </li></ol> </li></ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#issues"> <span class="nav-number">2</span> <span class="nav-text">Issues</span> </a> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child">
     </ol>
   </div>
             
@@ -866,9 +827,9 @@ Hopefully it was not because I was noob.</p>
       
       <script type="text/javascript">
           var disqus_config = function () {
-              this.page.url = 'https://wanwenli.com/programming/2013/06/13/Why-I-Used-Jekyll-Instead-of-Octopress.html';
-              this.page.identifier = '/programming/2013/06/13/Why-I-Used-Jekyll-Instead-of-Octopress.html';
-              this.page.title = 'Why I used Jekyll-bootstrap instead of Octopress';
+              this.page.url = 'https://wanwenli.com/life/2020/10/01/open-source-contributions.html';
+              this.page.identifier = '/life/2020/10/01/open-source-contributions.html';
+              this.page.title = 'My open-source contributions';
           };
           var d = document, s = d.createElement('script');
           s.src = 'https://wanwenli.disqus.com/embed.js';
