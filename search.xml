@@ -3,7 +3,7 @@
   
     <entry>
       <title>My open-source contributions</title>
-      <url>/life/2020/10/21/open-source-contributions.html</url>
+      <url>/life/2020/10/21/open-source-contributions-by-2020.html</url>
       <content type="text">Source code
 
 
@@ -73,6 +73,366 @@ glhf
           <tag> CKA </tag>
         
           <tag> k8s </tag>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title>Delete a k8s namespace that is stuck in &quot;Terminating&quot; state</title>
+      <url>/kubernetes/2019/12/28/forcibly-delete-a-k8s-namespace.html</url>
+      <content type="text">When you try to delete a namespace in k8s,
+it might get stuck in Terminating state.
+One of the most likely reasons is that
+there are finalizers that are unable to complete thus block the clean-up of a namespace.
+
+Helm cannot release anything to a terminating namespace.
+Therefore a terminating namespace is effectively unusable.
+The idea of the solution is to forcibly remove its finalizers.
+The solution attached below is able to work even
+when command kubectl edit namespace does not.
+
+NAMESPACE=$1
+echo &quot;force deleting namespace $NAMESPACE&quot;
+kubectl proxy &amp;amp;
+kubectl get namespace $NAMESPACE -o json | jq '.spec = {&quot;finalizers&quot;:[]}' &amp;gt; temp.json
+curl -k -H &quot;Content-Type: application/json&quot; -X PUT --data-binary @temp.json 127.0.0.1:8001/api/v1/namespaces/$NAMESPACE/finalize
+
+
+It uses kubectl proxy to proxy the kube-api,
+so that it is reachable from localhost.
+Last but not the least, check whether all the cloud resources,
+such as storage associated with PersistentVolumeClaim and load balancers,
+are really terminated after executing the command.
+The command fastens the termination of a namespace and some cloud resources might not be cleaned up very properly.
+</content>
+      <categories>
+        
+          <category> kubernetes </category>
+        
+      </categories>
+      <tags>
+        
+          <tag> k8s </tag>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title>A pod IP is released after the pod is deleted</title>
+      <url>/kubernetes/2019/10/15/calico-cni-release-pod-ip.html</url>
+      <content type="text">Prerequisite
+
+Calico CNI is installed in your k8s cluster.
+
+IP assigned by k8s
+
+In the experiment I have performed,
+the pod IP is 100.112.209.159.
+
+Go into an etcd pod
+
+Try kubectl exec into an etcd pod.
+
+kubectl exec -it -n kube-system &amp;lt;etcd_pod_name&amp;gt; sh
+
+
+List all CIDR blocks
+
+etcdctl ls /calico/ipam/v2/assignment/ipv4/block/
+
+
+Find out that the aforementioned IP falls under CIDR 100.112.209.128/26
+
+Get the block info/metadata
+
+etcdctl get /calico/ipam/v2/assignment/ipv4/block/100.112.209.128-26
+
+
+Test it by Go
+
+The code below is inspired by https://github.com/projectcalico/libcalico-go/blob/master/lib/backend/model/block.go
+
+Copy the JSON you have pasted from the section above,
+and paste into the first line of function TestCalicoBlock below.
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+func TestCalicoBlock(t *testing.T) {
+	bytes := []byte(`{&quot;cidr&quot;:&quot;100.112.209.128/26&quot;,&quot;affinity&quot;:&quot;host:ip-10-200-205-203&quot;,&quot;strictAffinity&quot;:false,&quot;allocations&quot;:[0,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,3,null,null,null,null,null,7,null,null,null,null,null,null,null,null,null,null,5,null,null,null,null,null,null,null,2,null,null,null,null,8,null,null,null,null,null,null,null,null,4,null,null,null,null,null,null,6,null],&quot;unallocated&quot;:[45,32,47,12,3,48,40,14,31,60,26,10,29,18,30,17,63,5,57,11,39,36,34,1,15,56,7,42,37,9,53,44,21,38,58,49,35,23,54,59,25,51,24,28,61,50,13,19,4,27,43,52,8,20,6],&quot;attributes&quot;:[{&quot;handle_id&quot;:null,&quot;secondary&quot;:null},{&quot;handle_id&quot;:&quot;k8s-pod-network.884e11ced699fe17a493ffd59f18c97fd090fd8150411a11643a280a8250c510&quot;,&quot;secondary&quot;:null},{&quot;handle_id&quot;:&quot;k8s-pod-network.3abca72fb5d92129ce16d631fcff2a024b422a48389107600d3ab02e997b484a&quot;,&quot;secondary&quot;:null},{&quot;handle_id&quot;:&quot;k8s-pod-network.ba885aa5bb2e7f4124867d23f8975c5c3f42bd9d29632d535d90ebe516341c66&quot;,&quot;secondary&quot;:null},{&quot;handle_id&quot;:&quot;k8s-pod-network.2c02fa9db03c347bc005c225331bea5422c86fd70b4c194462dbb56ffe8b253a&quot;,&quot;secondary&quot;:null},{&quot;handle_id&quot;:&quot;k8s-pod-network.2caf1c8381761431c694771227eec339c5c0bb0ed3f11a6f2067883d5f405b69&quot;,&quot;secondary&quot;:null},{&quot;handle_id&quot;:&quot;k8s-pod-network.84a415903469eb4d965002b7ad8d377e36c93746e0a53944d915695903f7d416&quot;,&quot;secondary&quot;:null},{&quot;handle_id&quot;:&quot;k8s-pod-network.820a2747f282dc6cce92d5d544ea8e778a7fa787e219cc1c9757a58aa7a08455&quot;,&quot;secondary&quot;:null},{&quot;handle_id&quot;:&quot;k8s-pod-network.1ba612190e9a571ea1253e52834cba4d746ffd75b303ec0706c4ffe8845fe655&quot;,&quot;secondary&quot;:null}]}`)
+	var allocations model.AllocationBlock
+	_ = json.Unmarshal(bytes, &amp;amp;allocations)
+	for ord, attrIdx := range allocations.Allocations {
+		if attrIdx == nil {
+			continue
+		}
+		fmt.Println(OrdinalToIP(ord, &amp;amp;allocations))
+	}
+}
+
+type IP struct {
+	net.IP
+}
+
+func OrdinalToIP(ord int, b *model.AllocationBlock) IP {
+	sum := big.NewInt(0).Add(IPToBigInt(IP{IP: b.CIDR.IP}), big.NewInt(int64(ord)))
+	return BigIntToIP(sum)
+}
+
+func IPToBigInt(ip IP) *big.Int {
+	if ip.To4() != nil {
+		return big.NewInt(0).SetBytes(ip.To4())
+	} else {
+		return big.NewInt(0).SetBytes(ip.To16())
+	}
+}
+
+func BigIntToIP(ipInt *big.Int) IP {
+	ip := IP{net.IP(ipInt.Bytes())}
+	return ip
+}
+
+
+Output
+
+Before running kubectl delete command to delete the pod,
+100.112.209.159 was in the list.
+
+However, after the pod has been removed,
+the output becomes as follows.
+
+100.112.209.128
+100.112.209.130
+100.112.209.144
+100.112.209.150
+100.112.209.161
+100.112.209.169
+100.112.209.174
+100.112.209.183
+100.112.209.190
+
+
+Conclusion
+
+100.112.209.159 is gone, because it has been released.
+</content>
+      <categories>
+        
+          <category> kubernetes </category>
+        
+      </categories>
+      <tags>
+        
+          <tag> k8s </tag>
+        
+          <tag> calico </tag>
+        
+          <tag> CNI </tag>
+        
+          <tag> networking </tag>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title>Why a cluster role binding is needed in k8s-vault integration</title>
+      <url>/kubernetes/2019/08/28/k8s-tokenreview-api-vault.html</url>
+      <content type="text">TL; DR
+The system:auth-delegator ClusterRole allows a client to use a service account token to query the
+TokenReview API.
+If a token is not bound to this ClusterRole,
+the token cannot be reviewed by the k8s.
+
+Background
+
+In the
+official Kubernetes Auth Method
+of
+Vault
+and other online sources,
+it is found that a ClusterRoleBinding is always there.
+You may wonder why a service account needs such a cluster-level permission
+in order to authenticate with Vault.
+This article attempts to dive into k8s API to explain the mechanism.
+
+More can be found in
+this link.
+
+What is ClusterRole system:auth-delegator all about
+
+kubectl get clusterrole system:auth-delegator -o yaml
+
+
+From the output yaml you will be able to see that it allows creating token reviews with k8s API.
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    rbac.authorization.kubernetes.io/autoupdate: &quot;true&quot;
+  creationTimestamp: &quot;2018-01-01T00:00:00Z&quot;
+  labels:
+    kubernetes.io/bootstrapping: rbac-defaults
+  name: system:auth-delegator
+  resourceVersion: &quot;99&quot;
+  selfLink: /apis/rbac.authorization.k8s.io/v1/clusterroles/system%3Aauth-delegator
+  uid: da0c44d5-1111-1111-1111-063ccccda29e
+rules:
+- apiGroups:
+  - authentication.k8s.io
+  resources:
+  - tokenreviews
+  verbs:
+  - create
+- apiGroups:
+  - authorization.k8s.io
+  resources:
+  - subjectaccessreviews
+  verbs:
+  - create
+
+
+Play with TokenReview API
+
+Simply put,
+this API tells whether a token is from a legit user of the cluster.
+
+Switch to a k8s
+
+kubectl config use-context &amp;lt;target_k8s_cluster&amp;gt;
+
+
+Get the service account token of an application. Alternatively, get the service account secret and parse the JSON.
+
+kubectl exec -it &amp;lt;pod_name&amp;gt; cat /var/run/secrets/kubernetes.io/serviceaccount/token
+
+
+Copy the token and go into a tmp directory.
+
+cd /tmp
+
+
+Write a file with the following content,
+fill in the token and
+name the file as token-review.json.
+
+{
+  &quot;apiVersion&quot;: &quot;authentication.k8s.io/v1&quot;,
+  &quot;kind&quot;: &quot;TokenReview&quot;,
+  &quot;spec&quot;: {
+    &quot;token&quot;: &quot;&amp;lt;YOUR_SERVICE_ACCOUNT_TOKEN&amp;gt;&quot;
+  }
+}
+
+
+Save the file and run the commands below.
+
+export TOKEN=&quot;&amp;lt;YOUR_SERVICE_ACCOUNT_TOKEN&amp;gt;&quot;
+curl -k -v \
+ -X POST \
+ -d @token-review.json \
+ -H &quot;Authorization: Bearer $TOKEN&quot; \
+ -H 'Accept: application/json' \
+ -H 'Content-Type: application/json' \
+ https://&amp;lt;kubernetes_api_host_and_port&amp;gt;/apis/authentication.k8s.io/v1/tokenreviews
+
+
+Discussion
+
+If the service account has a ClusterRoleBinding with system:auth-delegator,
+the API would return code 200,
+with system:serviceaccount:&amp;lt;service_account_namespace&amp;gt;:&amp;lt;service_account_name&amp;gt;
+in the user field of the response JSON as below.
+
+{
+  &quot;kind&quot;: &quot;TokenReview&quot;,
+  &quot;apiVersion&quot;: &quot;authentication.k8s.io/v1&quot;,
+  &quot;metadata&quot;: {
+    &quot;creationTimestamp&quot;: null
+  },
+  &quot;spec&quot;: {
+    &quot;token&quot;: &quot;&amp;lt;YOUR_SERVICE_ACCOUNT_TOKEN&amp;gt;&quot;
+  },
+  &quot;status&quot;: {
+    &quot;authenticated&quot;: true,
+    &quot;user&quot;: {
+      &quot;username&quot;: &quot;system:serviceaccount:&amp;lt;service_account_namespace&amp;gt;:&amp;lt;service_account_name&amp;gt;&quot;,
+      &quot;uid&quot;: &quot;3a366063-9999-9999-9999-0659048d2f3e&quot;,
+      &quot;groups&quot;: [
+        &quot;system:serviceaccounts&quot;,
+        &quot;system:authenticated&quot;
+      ]
+    }
+  }
+}
+
+
+From it we also know that when we configure the Vault role for authenticating a k8s service account,
+service_account_name and service_account_namespace must be configured correctly.
+Because the response from k8s API includes the service account name and its namespace.
+
+If there is no such a binding, the response code would be 403 and the response JSON as below.
+
+{
+  &quot;kind&quot;: &quot;Status&quot;,
+  &quot;apiVersion&quot;: &quot;v1&quot;,
+  &quot;metadata&quot;: {
+
+  },
+  &quot;status&quot;: &quot;Failure&quot;,
+  &quot;message&quot;: &quot;tokenreviews.authentication.k8s.io is forbidden: User \&quot;system:serviceaccount:&amp;lt;service_account_namespace&amp;gt;:&amp;lt;service_account_name&amp;gt;\&quot; cannot create tokenreviews.authentication.k8s.io at the cluster scope&quot;,
+  &quot;reason&quot;: &quot;Forbidden&quot;,
+  &quot;details&quot;: {
+    &quot;group&quot;: &quot;authentication.k8s.io&quot;,
+    &quot;kind&quot;: &quot;tokenreviews&quot;
+  },
+  &quot;code&quot;: 403
+}
+
+</content>
+      <categories>
+        
+          <category> kubernetes </category>
+        
+      </categories>
+      <tags>
+        
+          <tag> k8s </tag>
+        
+          <tag> vault </tag>
         
       </tags>
       <tags></tags>

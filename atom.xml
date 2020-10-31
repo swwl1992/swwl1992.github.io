@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://wanwenli.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://wanwenli.com/" rel="alternate" type="text/html" /><updated>2020-10-22T09:36:53+08:00</updated><id>https://wanwenli.com/atom.xml</id><title type="html">Salmon Says</title><subtitle>Stay curious and keep asking questions</subtitle><author><name>Wan Wenli</name></author><entry><title type="html">My open-source contributions</title><link href="https://wanwenli.com/life/2020/10/21/open-source-contributions.html" rel="alternate" type="text/html" title="My open-source contributions" /><published>2020-10-21T00:00:00+08:00</published><updated>2020-10-21T00:00:00+08:00</updated><id>https://wanwenli.com/life/2020/10/21/open-source-contributions</id><content type="html" xml:base="https://wanwenli.com/life/2020/10/21/open-source-contributions.html">&lt;h1 id=&quot;source-code&quot;&gt;Source code&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://wanwenli.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://wanwenli.com/" rel="alternate" type="text/html" /><updated>2020-10-31T11:51:12+08:00</updated><id>https://wanwenli.com/atom.xml</id><title type="html">Salmon Says</title><subtitle>Stay curious and keep asking questions</subtitle><author><name>Wan Wenli</name></author><entry><title type="html">My open-source contributions</title><link href="https://wanwenli.com/life/2020/10/21/open-source-contributions-by-2020.html" rel="alternate" type="text/html" title="My open-source contributions" /><published>2020-10-21T00:00:00+08:00</published><updated>2020-10-21T00:00:00+08:00</updated><id>https://wanwenli.com/life/2020/10/21/open-source-contributions-by-2020</id><content type="html" xml:base="https://wanwenli.com/life/2020/10/21/open-source-contributions-by-2020.html">&lt;h1 id=&quot;source-code&quot;&gt;Source code&lt;/h1&gt;
 
 &lt;ul&gt;
   &lt;li&gt;&lt;a href=&quot;https://github.com/ohmyzsh/ohmyzsh/pull/9344&quot;&gt;ohmyzsh&lt;/a&gt;&lt;/li&gt;
@@ -31,7 +31,305 @@ Another 2 good things about Killer Shell:&lt;/p&gt;
 e.g. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vimrc&lt;/code&gt; configs.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;glhf&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="CKA" /><category term="k8s" /><summary type="html">It’s simple. Just make sure that you have taken the course on Udemy and another practice. Certified Kubernetes Administrator (CKA) with Practice Tests Killer Shell - Kubernetes Exam Simulator Please complete all practice tests in the Udemy course. I feel that the difficulty of those practices in Killer Shell is higher than that of the actual exam, so do not panic if you cannot finish them on time. Another 2 good things about Killer Shell: Its UI looks similar to the actual exam. It gives you some really helpful tips on how to set up your exam environment, e.g. vimrc configs. glhf</summary></entry><entry><title type="html">Too many redirects when forcing SSL redirection on an ingress</title><link href="https://wanwenli.com/kubernetes/2019/05/29/k8s-ingress-force-ssl-redirect.html" rel="alternate" type="text/html" title="Too many redirects when forcing SSL redirection on an ingress" /><published>2019-05-29T00:00:00+08:00</published><updated>2019-05-29T00:00:00+08:00</updated><id>https://wanwenli.com/kubernetes/2019/05/29/k8s-ingress-force-ssl-redirect</id><content type="html" xml:base="https://wanwenli.com/kubernetes/2019/05/29/k8s-ingress-force-ssl-redirect.html">&lt;p&gt;In summary, these are the steps for SSL redirection to work properly and
+&lt;p&gt;glhf&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="CKA" /><category term="k8s" /><summary type="html">It’s simple. Just make sure that you have taken the course on Udemy and another practice. Certified Kubernetes Administrator (CKA) with Practice Tests Killer Shell - Kubernetes Exam Simulator Please complete all practice tests in the Udemy course. I feel that the difficulty of those practices in Killer Shell is higher than that of the actual exam, so do not panic if you cannot finish them on time. Another 2 good things about Killer Shell: Its UI looks similar to the actual exam. It gives you some really helpful tips on how to set up your exam environment, e.g. vimrc configs. glhf</summary></entry><entry><title type="html">Delete a k8s namespace that is stuck in “Terminating” state</title><link href="https://wanwenli.com/kubernetes/2019/12/28/forcibly-delete-a-k8s-namespace.html" rel="alternate" type="text/html" title="Delete a k8s namespace that is stuck in &quot;Terminating&quot; state" /><published>2019-12-28T00:00:00+08:00</published><updated>2019-12-28T00:00:00+08:00</updated><id>https://wanwenli.com/kubernetes/2019/12/28/forcibly-delete-a-k8s-namespace</id><content type="html" xml:base="https://wanwenli.com/kubernetes/2019/12/28/forcibly-delete-a-k8s-namespace.html">&lt;p&gt;When you try to delete a namespace in k8s,
+it might get stuck in Terminating state.
+One of the most likely reasons is that
+there are &lt;em&gt;finalizers&lt;/em&gt; that are unable to complete thus block the clean-up of a namespace.&lt;/p&gt;
+
+&lt;p&gt;Helm cannot release anything to a terminating namespace.
+Therefore a terminating namespace is effectively unusable.
+The idea of the solution is to forcibly remove its finalizers.
+The solution attached below is able to work even
+when command &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kubectl edit namespace&lt;/code&gt; does not.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;NAMESPACE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;force deleting namespace &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$NAMESPACE&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+kubectl proxy &amp;amp;
+kubectl get namespace &lt;span class=&quot;nv&quot;&gt;$NAMESPACE&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; json | jq &lt;span class=&quot;s1&quot;&gt;'.spec = {&quot;finalizers&quot;:[]}'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; temp.json
+curl &lt;span class=&quot;nt&quot;&gt;-k&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-H&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Content-Type: application/json&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-X&lt;/span&gt; PUT &lt;span class=&quot;nt&quot;&gt;--data-binary&lt;/span&gt; @temp.json 127.0.0.1:8001/api/v1/namespaces/&lt;span class=&quot;nv&quot;&gt;$NAMESPACE&lt;/span&gt;/finalize
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;It uses &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kubectl proxy&lt;/code&gt; to proxy the kube-api,
+so that it is reachable from localhost.
+Last but not the least, check whether all the cloud resources,
+such as storage associated with PersistentVolumeClaim and load balancers,
+are really terminated after executing the command.
+The command fastens the termination of a namespace and some cloud resources might not be cleaned up very properly.&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="k8s" /><summary type="html">When you try to delete a namespace in k8s, it might get stuck in Terminating state. One of the most likely reasons is that there are finalizers that are unable to complete thus block the clean-up of a namespace. Helm cannot release anything to a terminating namespace. Therefore a terminating namespace is effectively unusable. The idea of the solution is to forcibly remove its finalizers. The solution attached below is able to work even when command kubectl edit namespace does not. NAMESPACE=$1 echo &quot;force deleting namespace $NAMESPACE&quot; kubectl proxy &amp;amp; kubectl get namespace $NAMESPACE -o json | jq '.spec = {&quot;finalizers&quot;:[]}' &amp;gt; temp.json curl -k -H &quot;Content-Type: application/json&quot; -X PUT --data-binary @temp.json 127.0.0.1:8001/api/v1/namespaces/$NAMESPACE/finalize It uses kubectl proxy to proxy the kube-api, so that it is reachable from localhost. Last but not the least, check whether all the cloud resources, such as storage associated with PersistentVolumeClaim and load balancers, are really terminated after executing the command. The command fastens the termination of a namespace and some cloud resources might not be cleaned up very properly.</summary></entry><entry><title type="html">A pod IP is released after the pod is deleted</title><link href="https://wanwenli.com/kubernetes/2019/10/15/calico-cni-release-pod-ip.html" rel="alternate" type="text/html" title="A pod IP is released after the pod is deleted" /><published>2019-10-15T00:00:00+08:00</published><updated>2019-10-15T00:00:00+08:00</updated><id>https://wanwenli.com/kubernetes/2019/10/15/calico-cni-release-pod-ip</id><content type="html" xml:base="https://wanwenli.com/kubernetes/2019/10/15/calico-cni-release-pod-ip.html">&lt;h1 id=&quot;prerequisite&quot;&gt;Prerequisite&lt;/h1&gt;
+
+&lt;p&gt;Calico CNI is installed in your k8s cluster.&lt;/p&gt;
+
+&lt;h1 id=&quot;ip-assigned-by-k8s&quot;&gt;IP assigned by k8s&lt;/h1&gt;
+
+&lt;p&gt;In the experiment I have performed,
+the pod IP is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;100.112.209.159&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h1 id=&quot;go-into-an-etcd-pod&quot;&gt;Go into an etcd pod&lt;/h1&gt;
+
+&lt;p&gt;Try &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kubectl exec&lt;/code&gt; into an etcd pod.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl exec -it -n kube-system &amp;lt;etcd_pod_name&amp;gt; sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;list-all-cidr-blocks&quot;&gt;List all CIDR blocks&lt;/h1&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;etcdctl ls /calico/ipam/v2/assignment/ipv4/block/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Find out that the aforementioned IP falls under CIDR 100.112.209.128/26&lt;/p&gt;
+
+&lt;h1 id=&quot;get-the-block-infometadata&quot;&gt;Get the block info/metadata&lt;/h1&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;etcdctl get /calico/ipam/v2/assignment/ipv4/block/100.112.209.128-26
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;test-it-by-go&quot;&gt;Test it by Go&lt;/h1&gt;
+
+&lt;p&gt;The code below is inspired by https://github.com/projectcalico/libcalico-go/blob/master/lib/backend/model/block.go&lt;/p&gt;
+
+&lt;p&gt;Copy the JSON you have pasted from the section above,
+and paste into the first line of function &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TestCalicoBlock&lt;/code&gt; below.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-go&quot; data-lang=&quot;go&quot;&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TestCalicoBlock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;testing&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;bytes&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;byte&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;`{&quot;cidr&quot;:&quot;100.112.209.128/26&quot;,&quot;affinity&quot;:&quot;host:ip-10-200-205-203&quot;,&quot;strictAffinity&quot;:false,&quot;allocations&quot;:[0,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,3,null,null,null,null,null,7,null,null,null,null,null,null,null,null,null,null,5,null,null,null,null,null,null,null,2,null,null,null,null,8,null,null,null,null,null,null,null,null,4,null,null,null,null,null,null,6,null],&quot;unallocated&quot;:[45,32,47,12,3,48,40,14,31,60,26,10,29,18,30,17,63,5,57,11,39,36,34,1,15,56,7,42,37,9,53,44,21,38,58,49,35,23,54,59,25,51,24,28,61,50,13,19,4,27,43,52,8,20,6],&quot;attributes&quot;:[{&quot;handle_id&quot;:null,&quot;secondary&quot;:null},{&quot;handle_id&quot;:&quot;k8s-pod-network.884e11ced699fe17a493ffd59f18c97fd090fd8150411a11643a280a8250c510&quot;,&quot;secondary&quot;:null},{&quot;handle_id&quot;:&quot;k8s-pod-network.3abca72fb5d92129ce16d631fcff2a024b422a48389107600d3ab02e997b484a&quot;,&quot;secondary&quot;:null},{&quot;handle_id&quot;:&quot;k8s-pod-network.ba885aa5bb2e7f4124867d23f8975c5c3f42bd9d29632d535d90ebe516341c66&quot;,&quot;secondary&quot;:null},{&quot;handle_id&quot;:&quot;k8s-pod-network.2c02fa9db03c347bc005c225331bea5422c86fd70b4c194462dbb56ffe8b253a&quot;,&quot;secondary&quot;:null},{&quot;handle_id&quot;:&quot;k8s-pod-network.2caf1c8381761431c694771227eec339c5c0bb0ed3f11a6f2067883d5f405b69&quot;,&quot;secondary&quot;:null},{&quot;handle_id&quot;:&quot;k8s-pod-network.84a415903469eb4d965002b7ad8d377e36c93746e0a53944d915695903f7d416&quot;,&quot;secondary&quot;:null},{&quot;handle_id&quot;:&quot;k8s-pod-network.820a2747f282dc6cce92d5d544ea8e778a7fa787e219cc1c9757a58aa7a08455&quot;,&quot;secondary&quot;:null},{&quot;handle_id&quot;:&quot;k8s-pod-network.1ba612190e9a571ea1253e52834cba4d746ffd75b303ec0706c4ffe8845fe655&quot;,&quot;secondary&quot;:null}]}`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;allocations&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AllocationBlock&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;json&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Unmarshal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;allocations&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ord&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;attrIdx&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;range&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;allocations&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Allocations&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;attrIdx&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;nil&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+			&lt;span class=&quot;k&quot;&gt;continue&lt;/span&gt;
+		&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;fmt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Println&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OrdinalToIP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ord&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;allocations&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IP&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;net&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IP&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OrdinalToIP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ord&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AllocationBlock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IP&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;sum&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;big&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NewInt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IPToBigInt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IP&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CIDR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;big&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NewInt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ord&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BigIntToIP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IPToBigInt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ip&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;big&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ip&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;To4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;nil&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;big&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NewInt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SetBytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ip&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;To4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;big&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NewInt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SetBytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ip&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;To16&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BigIntToIP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ipInt&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;big&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IP&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;ip&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;net&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ipInt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Bytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())}&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ip&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h1 id=&quot;output&quot;&gt;Output&lt;/h1&gt;
+
+&lt;p&gt;Before running &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kubectl delete&lt;/code&gt; command to delete the pod,
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;100.112.209.159&lt;/code&gt; was in the list.&lt;/p&gt;
+
+&lt;p&gt;However, &lt;em&gt;after&lt;/em&gt; the pod has been removed,
+the output becomes as follows.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;100.112.209.128
+100.112.209.130
+100.112.209.144
+100.112.209.150
+100.112.209.161
+100.112.209.169
+100.112.209.174
+100.112.209.183
+100.112.209.190
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h1&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;100.112.209.159&lt;/code&gt; is gone, because it has been released.&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="k8s" /><category term="calico" /><category term="CNI" /><category term="networking" /><summary type="html">Prerequisite Calico CNI is installed in your k8s cluster. IP assigned by k8s In the experiment I have performed, the pod IP is 100.112.209.159. Go into an etcd pod Try kubectl exec into an etcd pod. kubectl exec -it -n kube-system &amp;lt;etcd_pod_name&amp;gt; sh List all CIDR blocks etcdctl ls /calico/ipam/v2/assignment/ipv4/block/ Find out that the aforementioned IP falls under CIDR 100.112.209.128/26 Get the block info/metadata etcdctl get /calico/ipam/v2/assignment/ipv4/block/100.112.209.128-26 Test it by Go The code below is inspired by https://github.com/projectcalico/libcalico-go/blob/master/lib/backend/model/block.go Copy the JSON you have pasted from the section above, and paste into the first line of function TestCalicoBlock below. 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 func TestCalicoBlock(t *testing.T) { bytes := []byte(`{&quot;cidr&quot;:&quot;100.112.209.128/26&quot;,&quot;affinity&quot;:&quot;host:ip-10-200-205-203&quot;,&quot;strictAffinity&quot;:false,&quot;allocations&quot;:[0,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,3,null,null,null,null,null,7,null,null,null,null,null,null,null,null,null,null,5,null,null,null,null,null,null,null,2,null,null,null,null,8,null,null,null,null,null,null,null,null,4,null,null,null,null,null,null,6,null],&quot;unallocated&quot;:[45,32,47,12,3,48,40,14,31,60,26,10,29,18,30,17,63,5,57,11,39,36,34,1,15,56,7,42,37,9,53,44,21,38,58,49,35,23,54,59,25,51,24,28,61,50,13,19,4,27,43,52,8,20,6],&quot;attributes&quot;:[{&quot;handle_id&quot;:null,&quot;secondary&quot;:null},{&quot;handle_id&quot;:&quot;k8s-pod-network.884e11ced699fe17a493ffd59f18c97fd090fd8150411a11643a280a8250c510&quot;,&quot;secondary&quot;:null},{&quot;handle_id&quot;:&quot;k8s-pod-network.3abca72fb5d92129ce16d631fcff2a024b422a48389107600d3ab02e997b484a&quot;,&quot;secondary&quot;:null},{&quot;handle_id&quot;:&quot;k8s-pod-network.ba885aa5bb2e7f4124867d23f8975c5c3f42bd9d29632d535d90ebe516341c66&quot;,&quot;secondary&quot;:null},{&quot;handle_id&quot;:&quot;k8s-pod-network.2c02fa9db03c347bc005c225331bea5422c86fd70b4c194462dbb56ffe8b253a&quot;,&quot;secondary&quot;:null},{&quot;handle_id&quot;:&quot;k8s-pod-network.2caf1c8381761431c694771227eec339c5c0bb0ed3f11a6f2067883d5f405b69&quot;,&quot;secondary&quot;:null},{&quot;handle_id&quot;:&quot;k8s-pod-network.84a415903469eb4d965002b7ad8d377e36c93746e0a53944d915695903f7d416&quot;,&quot;secondary&quot;:null},{&quot;handle_id&quot;:&quot;k8s-pod-network.820a2747f282dc6cce92d5d544ea8e778a7fa787e219cc1c9757a58aa7a08455&quot;,&quot;secondary&quot;:null},{&quot;handle_id&quot;:&quot;k8s-pod-network.1ba612190e9a571ea1253e52834cba4d746ffd75b303ec0706c4ffe8845fe655&quot;,&quot;secondary&quot;:null}]}`) var allocations model.AllocationBlock _ = json.Unmarshal(bytes, &amp;amp;allocations) for ord, attrIdx := range allocations.Allocations { if attrIdx == nil { continue } fmt.Println(OrdinalToIP(ord, &amp;amp;allocations)) } } type IP struct { net.IP } func OrdinalToIP(ord int, b *model.AllocationBlock) IP { sum := big.NewInt(0).Add(IPToBigInt(IP{IP: b.CIDR.IP}), big.NewInt(int64(ord))) return BigIntToIP(sum) } func IPToBigInt(ip IP) *big.Int { if ip.To4() != nil { return big.NewInt(0).SetBytes(ip.To4()) } else { return big.NewInt(0).SetBytes(ip.To16()) } } func BigIntToIP(ipInt *big.Int) IP { ip := IP{net.IP(ipInt.Bytes())} return ip } Output Before running kubectl delete command to delete the pod, 100.112.209.159 was in the list. However, after the pod has been removed, the output becomes as follows. 100.112.209.128 100.112.209.130 100.112.209.144 100.112.209.150 100.112.209.161 100.112.209.169 100.112.209.174 100.112.209.183 100.112.209.190 Conclusion 100.112.209.159 is gone, because it has been released.</summary></entry><entry><title type="html">Why a cluster role binding is needed in k8s-vault integration</title><link href="https://wanwenli.com/kubernetes/2019/08/28/k8s-tokenreview-api-vault.html" rel="alternate" type="text/html" title="Why a cluster role binding is needed in k8s-vault integration" /><published>2019-08-28T00:00:00+08:00</published><updated>2019-08-28T00:00:00+08:00</updated><id>https://wanwenli.com/kubernetes/2019/08/28/k8s-tokenreview-api-vault</id><content type="html" xml:base="https://wanwenli.com/kubernetes/2019/08/28/k8s-tokenreview-api-vault.html">&lt;h1 id=&quot;tl-dr&quot;&gt;TL; DR&lt;/h1&gt;
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;system:auth-delegator&lt;/code&gt; ClusterRole allows a client to use a service account token to query the
+&lt;a href=&quot;https://docs.openshift.com/container-platform/4.4/rest_api/authorization_apis/tokenreview-authentication-k8s-io-v1.html&quot;&gt;TokenReview API&lt;/a&gt;.
+If a token is not bound to this ClusterRole,
+the token cannot be reviewed by the k8s.&lt;/p&gt;
+
+&lt;h1 id=&quot;background&quot;&gt;Background&lt;/h1&gt;
+
+&lt;p&gt;In the
+&lt;a href=&quot;https://www.vaultproject.io/docs/auth/kubernetes.html&quot;&gt;official Kubernetes Auth Method&lt;/a&gt;
+of
+&lt;a href=&quot;https://www.vaultproject.io/&quot;&gt;Vault&lt;/a&gt;
+and other online sources,
+it is found that a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ClusterRoleBinding&lt;/code&gt; is always there.
+You may wonder why a service account needs such a cluster-level permission
+in order to authenticate with Vault.
+This article attempts to dive into k8s API to explain the mechanism.&lt;/p&gt;
+
+&lt;p&gt;More can be found in
+&lt;a href=&quot;https://kubernetes.io/docs/reference/access-authn-authz/authentication/#webhook-token-authentication&quot;&gt;this link&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h1 id=&quot;what-is-clusterrole-systemauth-delegator-all-about&quot;&gt;What is ClusterRole system:auth-delegator all about&lt;/h1&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl get clusterrole system:auth-delegator -o yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;From the output yaml you will be able to see that it allows creating token reviews with k8s API.&lt;/p&gt;
+
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;apiVersion&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;rbac.authorization.k8s.io/v1&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ClusterRole&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;annotations&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;rbac.authorization.kubernetes.io/autoupdate&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;true&quot;&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;creationTimestamp&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;2018-01-01T00:00:00Z&quot;&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;labels&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;kubernetes.io/bootstrapping&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;rbac-defaults&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;system:auth-delegator&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;resourceVersion&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;99&quot;&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;selfLink&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;/apis/rbac.authorization.k8s.io/v1/clusterroles/system%3Aauth-delegator&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;uid&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;da0c44d5-1111-1111-1111-063ccccda29e&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;rules&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;apiGroups&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;authentication.k8s.io&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;resources&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;tokenreviews&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;verbs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;create&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;apiGroups&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;authorization.k8s.io&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;resources&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;subjectaccessreviews&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;verbs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;create&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;play-with-tokenreview-api&quot;&gt;Play with TokenReview API&lt;/h1&gt;
+
+&lt;p&gt;Simply put,
+this API tells whether a token is from a legit user of the cluster.&lt;/p&gt;
+
+&lt;p&gt;Switch to a k8s&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl config use-context &amp;lt;target_k8s_cluster&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Get the service account token of an application. Alternatively, get the service account secret and parse the JSON.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl exec -it &amp;lt;pod_name&amp;gt; cat /var/run/secrets/kubernetes.io/serviceaccount/token
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Copy the token and go into a tmp directory.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd /tmp
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Write a file with the following content,
+fill in the token and
+name the file as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;token-review.json&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;apiVersion&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;authentication.k8s.io/v1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;kind&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;TokenReview&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;spec&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;YOUR_SERVICE_ACCOUNT_TOKEN&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Save the file and run the commands below.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;TOKEN&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;YOUR_SERVICE_ACCOUNT_TOKEN&amp;gt;&quot;&lt;/span&gt;
+curl &lt;span class=&quot;nt&quot;&gt;-k&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+ &lt;span class=&quot;nt&quot;&gt;-X&lt;/span&gt; POST &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+ &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; @token-review.json &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+ &lt;span class=&quot;nt&quot;&gt;-H&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Authorization: Bearer &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$TOKEN&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+ &lt;span class=&quot;nt&quot;&gt;-H&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Accept: application/json'&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+ &lt;span class=&quot;nt&quot;&gt;-H&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Content-Type: application/json'&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+ https://&amp;lt;kubernetes_api_host_and_port&amp;gt;/apis/authentication.k8s.io/v1/tokenreviews
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;discussion&quot;&gt;Discussion&lt;/h1&gt;
+
+&lt;p&gt;If the service account has a ClusterRoleBinding with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;system:auth-delegator&lt;/code&gt;,
+the API would return code 200,
+with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;system:serviceaccount:&amp;lt;service_account_namespace&amp;gt;:&amp;lt;service_account_name&amp;gt;&lt;/code&gt;
+in the user field of the response JSON as below.&lt;/p&gt;
+
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;kind&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;TokenReview&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;apiVersion&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;authentication.k8s.io/v1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;metadata&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;creationTimestamp&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;spec&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;YOUR_SERVICE_ACCOUNT_TOKEN&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;status&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;authenticated&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;user&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;username&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;system:serviceaccount:&amp;lt;service_account_namespace&amp;gt;:&amp;lt;service_account_name&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;uid&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;3a366063-9999-9999-9999-0659048d2f3e&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;groups&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;system:serviceaccounts&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;system:authenticated&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;From it we also know that when we configure the Vault role for authenticating a k8s service account,
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;service_account_name&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;service_account_namespace&lt;/code&gt; must be configured correctly.
+Because the response from k8s API includes the service account name and its namespace.&lt;/p&gt;
+
+&lt;p&gt;If there is no such a binding, the response code would be 403 and the response JSON as below.&lt;/p&gt;
+
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;kind&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Status&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;apiVersion&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;v1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;metadata&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;status&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Failure&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;message&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;tokenreviews.authentication.k8s.io is forbidden: User &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;system:serviceaccount:&amp;lt;service_account_namespace&amp;gt;:&amp;lt;service_account_name&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; cannot create tokenreviews.authentication.k8s.io at the cluster scope&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;reason&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Forbidden&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;details&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;group&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;authentication.k8s.io&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;kind&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;tokenreviews&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;code&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;403&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Wan Wenli</name></author><category term="k8s" /><category term="vault" /><summary type="html">TL; DR The system:auth-delegator ClusterRole allows a client to use a service account token to query the TokenReview API. If a token is not bound to this ClusterRole, the token cannot be reviewed by the k8s. Background In the official Kubernetes Auth Method of Vault and other online sources, it is found that a ClusterRoleBinding is always there. You may wonder why a service account needs such a cluster-level permission in order to authenticate with Vault. This article attempts to dive into k8s API to explain the mechanism. More can be found in this link. What is ClusterRole system:auth-delegator all about kubectl get clusterrole system:auth-delegator -o yaml From the output yaml you will be able to see that it allows creating token reviews with k8s API. apiVersion: rbac.authorization.k8s.io/v1 kind: ClusterRole metadata: annotations: rbac.authorization.kubernetes.io/autoupdate: &quot;true&quot; creationTimestamp: &quot;2018-01-01T00:00:00Z&quot; labels: kubernetes.io/bootstrapping: rbac-defaults name: system:auth-delegator resourceVersion: &quot;99&quot; selfLink: /apis/rbac.authorization.k8s.io/v1/clusterroles/system%3Aauth-delegator uid: da0c44d5-1111-1111-1111-063ccccda29e rules: - apiGroups: - authentication.k8s.io resources: - tokenreviews verbs: - create - apiGroups: - authorization.k8s.io resources: - subjectaccessreviews verbs: - create Play with TokenReview API Simply put, this API tells whether a token is from a legit user of the cluster. Switch to a k8s kubectl config use-context &amp;lt;target_k8s_cluster&amp;gt; Get the service account token of an application. Alternatively, get the service account secret and parse the JSON. kubectl exec -it &amp;lt;pod_name&amp;gt; cat /var/run/secrets/kubernetes.io/serviceaccount/token Copy the token and go into a tmp directory. cd /tmp Write a file with the following content, fill in the token and name the file as token-review.json. { &quot;apiVersion&quot;: &quot;authentication.k8s.io/v1&quot;, &quot;kind&quot;: &quot;TokenReview&quot;, &quot;spec&quot;: { &quot;token&quot;: &quot;&amp;lt;YOUR_SERVICE_ACCOUNT_TOKEN&amp;gt;&quot; } } Save the file and run the commands below. export TOKEN=&quot;&amp;lt;YOUR_SERVICE_ACCOUNT_TOKEN&amp;gt;&quot; curl -k -v \ -X POST \ -d @token-review.json \ -H &quot;Authorization: Bearer $TOKEN&quot; \ -H 'Accept: application/json' \ -H 'Content-Type: application/json' \ https://&amp;lt;kubernetes_api_host_and_port&amp;gt;/apis/authentication.k8s.io/v1/tokenreviews Discussion If the service account has a ClusterRoleBinding with system:auth-delegator, the API would return code 200, with system:serviceaccount:&amp;lt;service_account_namespace&amp;gt;:&amp;lt;service_account_name&amp;gt; in the user field of the response JSON as below. { &quot;kind&quot;: &quot;TokenReview&quot;, &quot;apiVersion&quot;: &quot;authentication.k8s.io/v1&quot;, &quot;metadata&quot;: { &quot;creationTimestamp&quot;: null }, &quot;spec&quot;: { &quot;token&quot;: &quot;&amp;lt;YOUR_SERVICE_ACCOUNT_TOKEN&amp;gt;&quot; }, &quot;status&quot;: { &quot;authenticated&quot;: true, &quot;user&quot;: { &quot;username&quot;: &quot;system:serviceaccount:&amp;lt;service_account_namespace&amp;gt;:&amp;lt;service_account_name&amp;gt;&quot;, &quot;uid&quot;: &quot;3a366063-9999-9999-9999-0659048d2f3e&quot;, &quot;groups&quot;: [ &quot;system:serviceaccounts&quot;, &quot;system:authenticated&quot; ] } } } From it we also know that when we configure the Vault role for authenticating a k8s service account, service_account_name and service_account_namespace must be configured correctly. Because the response from k8s API includes the service account name and its namespace. If there is no such a binding, the response code would be 403 and the response JSON as below. { &quot;kind&quot;: &quot;Status&quot;, &quot;apiVersion&quot;: &quot;v1&quot;, &quot;metadata&quot;: { }, &quot;status&quot;: &quot;Failure&quot;, &quot;message&quot;: &quot;tokenreviews.authentication.k8s.io is forbidden: User \&quot;system:serviceaccount:&amp;lt;service_account_namespace&amp;gt;:&amp;lt;service_account_name&amp;gt;\&quot; cannot create tokenreviews.authentication.k8s.io at the cluster scope&quot;, &quot;reason&quot;: &quot;Forbidden&quot;, &quot;details&quot;: { &quot;group&quot;: &quot;authentication.k8s.io&quot;, &quot;kind&quot;: &quot;tokenreviews&quot; }, &quot;code&quot;: 403 }</summary></entry><entry><title type="html">Too many redirects when forcing SSL redirection on an ingress</title><link href="https://wanwenli.com/kubernetes/2019/05/29/k8s-ingress-force-ssl-redirect.html" rel="alternate" type="text/html" title="Too many redirects when forcing SSL redirection on an ingress" /><published>2019-05-29T00:00:00+08:00</published><updated>2019-05-29T00:00:00+08:00</updated><id>https://wanwenli.com/kubernetes/2019/05/29/k8s-ingress-force-ssl-redirect</id><content type="html" xml:base="https://wanwenli.com/kubernetes/2019/05/29/k8s-ingress-force-ssl-redirect.html">&lt;p&gt;In summary, these are the steps for SSL redirection to work properly and
 this method has been mentioned by
 &lt;a href=&quot;https://stackoverflow.com/a/64224737/1397473&quot;&gt;this answer on stackoverflow&lt;/a&gt;.&lt;/p&gt;
 
@@ -661,335 +959,4 @@ Correct me if I ever miss something or make any mistake.&lt;/p&gt;
 &lt;p&gt;The introduction of coordinator, according to the
 &lt;a href=&quot;https://cwiki.apache.org/confluence/display/KAFKA/Kafka+Detailed+Consumer+Coordinator+Design&quot;&gt;official wiki of Kafka&lt;/a&gt;,
 is to solve the &lt;em&gt;split brain&lt;/em&gt; problem
-which is a well known problem in a distributed system.&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="kafka" /><category term="consumer-group" /><summary type="html">This article is to discuss two subjects that are not frequently or clearly covered by official document or online sources. Offset topic (the __consumer_offsets topic) It is the only mysterious topic in Kafka log and it cannot be deleted by using TopicCommand. Unfortunately there is no dedicated official documentation to explain this internal topic. The closest source I can find is this set of slides. I strongly recommend reading it if you wish to understand how this internal topic works. In short, __consumer_offsets is used to store offsets of consumers which was previously stored only in ZooKeeper before version 0.8.1.1. At the latest version of 0.8.X serious, i.e. 0.8.2.2, the storage location of offsets can be configured by offsets.storage whose value can be either kafka or zookeeper. If it is kafka, consumers are still able to commit offsets to ZooKeeper by enabling dual.commit.enabled. However since version 0.9, consumer offsets have been designed to be stored on brokers only. The partition key of the messages in __consumer_offsets was handled in OffsetManager at version 0.8.X and has been named as OffsetKey in GroupMetadataManager since version 0.9.0. It contains three pieces of information: groupId, topic and partition number, and the key is serialized/de-serialized according to a schema called OFFSET_COMMIT_KEY_SCHEMA. The usage of schema is primarily for backward compatibility. Unlike the behavior of DefaultPartitioner, the partition number inside __consumer_offsets is not determined by the hash value of partition key but only determined by the hash value of consumer group, which is as simple as Utils.abs(groupId.hashCode) % numPartitions Here the numPartitions is configured by the value of offsets.topic.num.partitions in broker configs and is 50 by default. This algorithm will be re-introduced later in the part of consumer group coordination. The values of offset messages which is named OffsetMetadata have two versions. At version 0.8.X, the value contains offset, metadata (often empty) and a timestamp while the timestamp had been split into commit and expire timestamps since version 0.9.0. Console consumers are able to consume messages from internal topics and print them out nicely. A sample command has been shown below: ./kafka-simple-consumer-shell.sh --topic __consumer_offsets \ --partition 49 \ --broker-list localhost:9092 \ --formatter &quot;kafka.server.OffsetManager\$OffsetsMessageFormatter&quot; By the way, absolute(&quot;testGroup&quot;.hashCode() % 50) = 49 which is the reason why partition 49 was specified. It prints out: [testGroup,testTopic-development,0]::OffsetAndMetadata[11,NO_METADATA,1478243992053] [testGroup,testTopic-development,0]::OffsetAndMetadata[12,NO_METADATA,1478243992086] [testGroup,testTopic-development,0]::OffsetAndMetadata[13,NO_METADATA,1478243992096] [testGroup,testTopic-development,0]::OffsetAndMetadata[14,NO_METADATA,1478243992110] However this is not the end of story, because __consumer_offsets is also used by group coordinator to store group metadata! The following section discusses another new feature introduced since version 0.9.0. Group coordinator (coordinated rebalance) This section is my humble and shallow understanding about broker coordinator of consumer groups. Correct me if I ever miss something or make any mistake. The introduction of coordinator, according to the official wiki of Kafka, is to solve the split brain problem which is a well known problem in a distributed system.</summary></entry><entry><title type="html">Thoughts on Consumer Group of Apache Kafka</title><link href="https://wanwenli.com/kafka/2016/10/25/Kafka-Consumer-Group.html" rel="alternate" type="text/html" title="Thoughts on Consumer Group of Apache Kafka" /><published>2016-10-25T00:00:00+08:00</published><updated>2016-10-25T00:00:00+08:00</updated><id>https://wanwenli.com/kafka/2016/10/25/Kafka-Consumer-Group</id><content type="html" xml:base="https://wanwenli.com/kafka/2016/10/25/Kafka-Consumer-Group.html">&lt;h4 id=&quot;introduction&quot;&gt;Introduction&lt;/h4&gt;
-
-&lt;p&gt;The concept of consumer group is intriguring.
-According to the
-&lt;a href=&quot;http://kafka.apache.org/documentation.html#introduction&quot;&gt;official documentation of Kafka&lt;/a&gt;,
-one of its main objectives is to achieve message multicast and broadcast.
-Often it is not an easy concept to grasp at the very beginning.
-This article will share a few issues and discoveries about consumer group.&lt;/p&gt;
-
-&lt;p&gt;A good way to start understanding consumer group is
-looking at its data structure within ZooKeeper,
-which is illustrated below.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/consumer-group-zk.png&quot; alt=&quot;Your browser does not support img&quot; class=&quot;responsive-img&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;You may see each consumer group as a separated world in terms of message consumption.
-Each consuemr group maintains its own consumer ID’s,
-partition owners and offsets.&lt;/p&gt;
-
-&lt;h4 id=&quot;rebalance&quot;&gt;Rebalance&lt;/h4&gt;
-
-&lt;p&gt;Consumer rebalance happens when consumers join or leave a consumer group or
-when the topics within a consumer group have new partitions.&lt;/p&gt;
-
-&lt;p&gt;Consumer ID uniquely identitfies a consumer.
-It is generated automatically when a consumer is launched.
-The source code of its generation is defined in &lt;a href=&quot;https://github.com/apache/kafka/blob/trunk/core/src/main/scala/kafka/consumer/ZookeeperConsumerConnector.scala&quot;&gt;ZookeeperConsumerConnector&lt;/a&gt;
-and shown below.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-scala&quot; data-lang=&quot;scala&quot;&gt;&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;consumerUuid&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;consumerId&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;match&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Some&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;consumerId&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// for testing only&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;consumerUuid&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;consumerId&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;None&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// generate unique consumerId automatically&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;uuid&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;UUID&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;randomUUID&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;consumerUuid&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;%s-%d-%s&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;nv&quot;&gt;InetAddress&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;getLocalHost&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;getHostName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;currentTimeMillis&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nv&quot;&gt;uuid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;getMostSignificantBits&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toHexString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;substring&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;groupId&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;_&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;consumerUuid&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;If you go into &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/owners&lt;/code&gt; directory and check the owner of a partition,
-you should find a very similar value to consumer ID.
-The owner of a topic-partition is defined in the form of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;[consumerId]-[threadId]&lt;/code&gt; in which &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;threadId&lt;/code&gt; is used
-because one partition is meant to be consumed by exactly one thread.
-In many cases, the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;threadId&lt;/code&gt; is equal to the partition number which
-the consumer thread owns.&lt;/p&gt;
-
-&lt;p&gt;A consumer group is &lt;em&gt;well balanced&lt;/em&gt;
-if each partition inside it is owned by exactly one consumer thread.
-You may use the instructions from &lt;a href=&quot;https://cwiki.apache.org/confluence/display/KAFKA/System+Tools#SystemTools-VerifyConsumerRebalance&quot;&gt;this link&lt;/a&gt;
-to verify the result of consumer rebalance.
-This tool should work well because I have fixed a bug in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;VerifyConsumerRebalance.scala&lt;/code&gt; in &lt;a href=&quot;https://github.com/apache/kafka/pull/1612&quot;&gt;this pull request&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Since version 0.9.0,
-Kafka has used &lt;em&gt;brokers&lt;/em&gt; to coordinate the rebalance process of consumers.
-I also have thought about it and then wrote this blog.&lt;/p&gt;
-
-&lt;h4 id=&quot;broadcast&quot;&gt;Broadcast&lt;/h4&gt;
-
-&lt;p&gt;Broadcast by Kafka is relatively cheap:
-you just need to put each consumer in different consumer groups,
-such that the offset of each consumer is different.&lt;/p&gt;
-
-&lt;p&gt;Once I read some articles online which suggest use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UUID&lt;/code&gt; within
-a consumer group, for example &lt;a href=&quot;http://stackoverflow.com/questions/30647544/kafka-multiple-consumers-for-a-partition&quot;&gt;this question&lt;/a&gt; from stackoverflow and
-it has received more than 5 upvotes.
-Unfortunately I &lt;strong&gt;strongly discourage&lt;/strong&gt; such usage.&lt;/p&gt;
-
-&lt;p&gt;Firstly and most importantly, consumer groups are stored as persistent nodes in ZooKeeper.
-Often consumers need to be shutdown and started,
-which may not be frequent in commercial environments
-but is expected to be quite frequent in develop, test and staging phases.
-As time goes by a huge number of consumer groups nodes
-shall be accumulated in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/consumers&lt;/code&gt; node and
-most of them are not in use.
-A direct result is
-it is almost impossible to list out all the consumer groups.
-ZooKeeper client throws runtime exception because the buffer overflows due to
-the overwhelming amount of child nodes.
-The error message is something like:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;IOException Packet &amp;lt;len12343123123&amp;gt; is out of range
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Even you configure the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jute.maxbuffer&lt;/code&gt; parameter as some blogs suggest,
-the chance of receiving a response
-before your patience runs out is extremely low.
-I have encountered a situation where &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/consumers&lt;/code&gt; has more than 90,000
-child nodes and was unable to list up consumer groups ever since.
-Another direct result is that some features of &lt;a href=&quot;https://github.com/apache/kafka/blob/trunk/core/src/main/scala/kafka/admin/ConsumerGroupCommand.scala&quot;&gt;ConsumerGroupCommand&lt;/a&gt;
-(used in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kafka-consumer-groups.sh&lt;/code&gt;)
-will fail because internally it lists out all consumer groups.&lt;/p&gt;
-
-&lt;p&gt;However, the huge number of consumer groups should &lt;em&gt;not&lt;/em&gt; be a problem
-for the normal operation of Kafka,
-because the brokers do not need to know all the groups.
-Even though from version 0.9 onward,
-consumer rebalance is coordinated by brokers,
-brokers do not scan groups when deciding which broker coordinates
-which subset of them.
-They only manage those consumer which join or leave them.
-As far as what I have read from &lt;a href=&quot;https://github.com/apache/kafka/blob/trunk/core/src/main/scala/kafka/coordinator/GroupCoordinator.scala&quot;&gt;GroupCoordinator&lt;/a&gt;,
-brokers do not scan all consumer groups.&lt;/p&gt;
-
-&lt;p&gt;Next, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UUID&lt;/code&gt; is hardly queryable.
-Its value is generated at runtime and unpredictable.
-If you wish to describe a consumer group or check its offsets,
-you will face problems on finding the exact value of it.
-A workaround is to &lt;em&gt;log&lt;/em&gt; its value somewhere.&lt;/p&gt;
-
-&lt;p&gt;Last but not the least,
-group names with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UUID&lt;/code&gt; in them is brand new every time.
-Upon the creation of a new consumer group,
-the value of offsets is determined by offset reset,
-in other words the setting of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;auto.offset.reset&lt;/code&gt;.
-No matter the value is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;smallest&lt;/code&gt; or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;largest&lt;/code&gt;,
-the consumer either consumes many messages repeatedly or
-skip some messages.&lt;/p&gt;
-
-&lt;h4 id=&quot;delete-a-group&quot;&gt;Delete a group&lt;/h4&gt;
-
-&lt;p&gt;Deleting a consumer group from ZooKeeper is
-as easy as one single instruction.
-However, it implies that the offset information
-will be permantly deleted from ZooKeeper.
-Do it only when you are 100% sure that
-the target group will never be reused.&lt;/p&gt;
-
-&lt;p&gt;From version 0.9.0 onward,
-&lt;a href=&quot;https://github.com/apache/kafka/blob/trunk/core/src/main/scala/kafka/admin/ConsumerGroupCommand.scala&quot;&gt;ConsumerGroupCommand&lt;/a&gt;
-introduces a feature to remove consumer groups.
-Nevertheless, it prohibits the removal of &lt;em&gt;active&lt;/em&gt; consumer group by
-checking the number of children under consuemr registry dicrectory
-(i.e., &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/consumers/[group_name]/ids&lt;/code&gt;).
-When you wish to remove a consumer group by a ZooKeeper client,
-please take notice of active consumers as well.&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="kafka" /><category term="consumer-group" /><summary type="html">Introduction The concept of consumer group is intriguring. According to the official documentation of Kafka, one of its main objectives is to achieve message multicast and broadcast. Often it is not an easy concept to grasp at the very beginning. This article will share a few issues and discoveries about consumer group. A good way to start understanding consumer group is looking at its data structure within ZooKeeper, which is illustrated below. You may see each consumer group as a separated world in terms of message consumption. Each consuemr group maintains its own consumer ID’s, partition owners and offsets. Rebalance Consumer rebalance happens when consumers join or leave a consumer group or when the topics within a consumer group have new partitions. Consumer ID uniquely identitfies a consumer. It is generated automatically when a consumer is launched. The source code of its generation is defined in ZookeeperConsumerConnector and shown below. var consumerUuid : String = null config.consumerId match { case Some(consumerId) // for testing only =&amp;gt; consumerUuid = consumerId case None // generate unique consumerId automatically =&amp;gt; val uuid = UUID.randomUUID() consumerUuid = &quot;%s-%d-%s&quot;.format( InetAddress.getLocalHost.getHostName, System.currentTimeMillis, uuid.getMostSignificantBits().toHexString.substring(0,8)) } config.groupId + &quot;_&quot; + consumerUuid If you go into /owners directory and check the owner of a partition, you should find a very similar value to consumer ID. The owner of a topic-partition is defined in the form of [consumerId]-[threadId] in which threadId is used because one partition is meant to be consumed by exactly one thread. In many cases, the threadId is equal to the partition number which the consumer thread owns. A consumer group is well balanced if each partition inside it is owned by exactly one consumer thread. You may use the instructions from this link to verify the result of consumer rebalance. This tool should work well because I have fixed a bug in VerifyConsumerRebalance.scala in this pull request. Since version 0.9.0, Kafka has used brokers to coordinate the rebalance process of consumers. I also have thought about it and then wrote this blog. Broadcast Broadcast by Kafka is relatively cheap: you just need to put each consumer in different consumer groups, such that the offset of each consumer is different. Once I read some articles online which suggest use UUID within a consumer group, for example this question from stackoverflow and it has received more than 5 upvotes. Unfortunately I strongly discourage such usage. Firstly and most importantly, consumer groups are stored as persistent nodes in ZooKeeper. Often consumers need to be shutdown and started, which may not be frequent in commercial environments but is expected to be quite frequent in develop, test and staging phases. As time goes by a huge number of consumer groups nodes shall be accumulated in /consumers node and most of them are not in use. A direct result is it is almost impossible to list out all the consumer groups. ZooKeeper client throws runtime exception because the buffer overflows due to the overwhelming amount of child nodes. The error message is something like: IOException Packet &amp;lt;len12343123123&amp;gt; is out of range Even you configure the jute.maxbuffer parameter as some blogs suggest, the chance of receiving a response before your patience runs out is extremely low. I have encountered a situation where /consumers has more than 90,000 child nodes and was unable to list up consumer groups ever since. Another direct result is that some features of ConsumerGroupCommand (used in kafka-consumer-groups.sh) will fail because internally it lists out all consumer groups. However, the huge number of consumer groups should not be a problem for the normal operation of Kafka, because the brokers do not need to know all the groups. Even though from version 0.9 onward, consumer rebalance is coordinated by brokers, brokers do not scan groups when deciding which broker coordinates which subset of them. They only manage those consumer which join or leave them. As far as what I have read from GroupCoordinator, brokers do not scan all consumer groups. Next, UUID is hardly queryable. Its value is generated at runtime and unpredictable. If you wish to describe a consumer group or check its offsets, you will face problems on finding the exact value of it. A workaround is to log its value somewhere. Last but not the least, group names with UUID in them is brand new every time. Upon the creation of a new consumer group, the value of offsets is determined by offset reset, in other words the setting of auto.offset.reset. No matter the value is smallest or largest, the consumer either consumes many messages repeatedly or skip some messages. Delete a group Deleting a consumer group from ZooKeeper is as easy as one single instruction. However, it implies that the offset information will be permantly deleted from ZooKeeper. Do it only when you are 100% sure that the target group will never be reused. From version 0.9.0 onward, ConsumerGroupCommand introduces a feature to remove consumer groups. Nevertheless, it prohibits the removal of active consumer group by checking the number of children under consuemr registry dicrectory (i.e., /consumers/[group_name]/ids). When you wish to remove a consumer group by a ZooKeeper client, please take notice of active consumers as well.</summary></entry><entry><title type="html">Advice for STM R&amp;amp;D Assignments</title><link href="https://wanwenli.com/programming/2014/12/28/STM-RD-Advice.html" rel="alternate" type="text/html" title="Advice for STM R&amp;D Assignments" /><published>2014-12-28T00:00:00+08:00</published><updated>2014-12-28T00:00:00+08:00</updated><id>https://wanwenli.com/programming/2014/12/28/STM-RD-Advice</id><content type="html" xml:base="https://wanwenli.com/programming/2014/12/28/STM-RD-Advice.html">&lt;h5 id=&quot;introduction--disclaimer&quot;&gt;Introduction &amp;amp; Disclaimer&lt;/h5&gt;
-
-&lt;p&gt;STM (Starter Mission) is the training program for
-new employees of
-&lt;a href=&quot;http://www.worksap.com/&quot;&gt;Works Applications Co., Ltd.&lt;/a&gt;
-Each employee is  required to implement
-several information systems.
-Here are some practical guidelines for you
-to program and deliver your systems more effectively.&lt;/p&gt;
-
-&lt;p&gt;Here we use a simple leave-application system as an illustration.
-It has some basic requirements as below:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;There are two roles in the system: manager and employees.&lt;/li&gt;
-  &lt;li&gt;Managers should see applications of leaves from employees.&lt;/li&gt;
-  &lt;li&gt;Managers is able to approve or reject an application.&lt;/li&gt;
-  &lt;li&gt;The system may have other features such as departments.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;But the main feature is the application of leaves.&lt;/p&gt;
-
-&lt;p&gt;Disclaimer:
-this article does not provide solutions to any assignment in STM.
-It never guarantees your success in STM.
-The author is not responsible for any failure
-because of taking the advice in this article.&lt;/p&gt;
-
-&lt;h5 id=&quot;maintain-a-good-quality-of-source-code&quot;&gt;Maintain a good quality of source code&lt;/h5&gt;
-&lt;p&gt;Perhaps you have not programmed for months before STM and
-you want to pass STM as soon as possible.
-However these are not excuses to sacrifice your
-code quality for faster development.
-Believe me that you will probably spend more time
-due to poor code quality.&lt;/p&gt;
-
-&lt;h5 id=&quot;think-about-the-five-principles&quot;&gt;Think about the five principles&lt;/h5&gt;
-
-&lt;p&gt;You may have heard of the SOLID principles,
-which are&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;http://en.wikipedia.org/wiki/Single_responsibility_principle&quot;&gt;Single responsibility&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://en.wikipedia.org/wiki/Open/closed_principle&quot;&gt;Open/closed&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://en.wikipedia.org/wiki/Liskov_substitution_principle&quot;&gt;Liskov substitution&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://en.wikipedia.org/wiki/Interface_segregation_principle&quot;&gt;Interface segregation&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://en.wikipedia.org/wiki/Dependency_inversion_principle&quot;&gt;Dependency inversion&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;The first two principles helped me a lot
-during the design of my own system.
-Ask yourself when writing a class or method:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Does it perform a single task for one responsibility?&lt;/li&gt;
-  &lt;li&gt;Is it closed for modification and open for extension?&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;For example,
-combining adding and updating methods into one method called
-&lt;em&gt;apply()&lt;/em&gt; is not a good idea.
-They had better be separated.
-Another example is to implement public method cautiously.&lt;/p&gt;
-
-&lt;p&gt;Remember: if you strictly follow single responsibility principle,
-open/closed principle would be natural for you as well.&lt;/p&gt;
-
-&lt;h5 id=&quot;controller---the-key-part-between-view-and-model&quot;&gt;Controller - the key part between view and model&lt;/h5&gt;
-
-&lt;p&gt;Each controller should be responsible for only one feature.
-It should not be defined by roles in the system.
-One controller should be responsible for CRUD
-(create, read, update and delete)
-of exactly one feature, e.g., &lt;em&gt;UserController&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;In addition,
-input validation and page redirection methods
-should be separated from controllers as well.
-Some people believe that the input validation logic should be bounded to each entity,
-such that the data inside an entity is consistent wherever it is used.&lt;/p&gt;
-
-&lt;h5 id=&quot;build-up-ui-from-components&quot;&gt;Build up UI from components&lt;/h5&gt;
-
-&lt;p&gt;Break down one page into different components and reuse them.
-It saves you lots of time and greatly improves the maintainability of your UI.
-&lt;a href=&quot;http://www.tutorialspoint.com/jsf/jsf_facelets_tags.htm&quot;&gt;This&lt;/a&gt;
-simple tutorial will help you decompose your UI.&lt;/p&gt;
-
-&lt;h5 id=&quot;sql-builder-optional&quot;&gt;SQL builder (optional)&lt;/h5&gt;
-
-&lt;p&gt;Write a SQL builder (wrapper) to generate SQL strings.
-It does not save you lots of time,
-but it improves maintainability of your SQL.&lt;/p&gt;
-
-&lt;h5 id=&quot;dictionary-generator-optional&quot;&gt;Dictionary generator (optional)&lt;/h5&gt;
-
-&lt;p&gt;If you need to implement a dictionary feature,
-consider writing a program to automatically generate dictionary insertion SQL.&lt;/p&gt;
-
-&lt;h5 id=&quot;what-is-a-merit&quot;&gt;What is a merit?&lt;/h5&gt;
-
-&lt;p&gt;You need to be very clear on this principle since the beginning of STM:&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Not every feature is a merit.&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Some features are necessary for daily business operation.
-Merits are always related to benefits.
-They are those features that generate revenue,
-improve efficiency,
-enhance security,
-ensure the stability of the system and operations.&lt;/p&gt;
-
-&lt;p&gt;Therefore when you write a catalog or implement a feature,
-always ask yourself these questions:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;What merits does it bring to the user?&lt;/li&gt;
-  &lt;li&gt;What are the benefits of using my system compared to using just paper and pen?&lt;/li&gt;
-  &lt;li&gt;What makes my client want to buy my system?&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Take the leave-application system for example:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Does it really help the manager to maintain the leaves of his employees?&lt;/li&gt;
-  &lt;li&gt;Does it ease the process of applying and maintaining leaves?&lt;/li&gt;
-  &lt;li&gt;What is the advantage of my system over writing leaves on paper?&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&quot;is-the-ui-intuitive-to-use&quot;&gt;Is the UI intuitive to use?&lt;/h5&gt;
-
-&lt;p&gt;Since you have stared at your system for a very long time,
-you should be very familiar with it.
-But the customer who use your system may not be.
-Ask yourself these questions on each page (view):&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Is the user able to see the information presented in a clear and organized manner?&lt;/li&gt;
-  &lt;li&gt;Does the user know what he is doing and what to do next from the UI?&lt;/li&gt;
-  &lt;li&gt;Does the design and flow of my system effectively reduces clicks and page navigations?&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;If your answer is negative or not sure,
-consider improving your UI.
-The user should be able to use your system by
-reading as few instructions as possible.&lt;/p&gt;
-
-&lt;p&gt;For example, consider using a
-&lt;a href=&quot;http://www.primefaces.org/showcase/ui/panel/wizard.xhtml&quot;&gt;wizard&lt;/a&gt;
-if there is a flow.
-Give warning or confirmation before irrecoverable operations,
-such as deletion and payment.
-Do not purposefully choose fanciful (and complicated) UI component
-just because it looks nice.
-Simplicity has its value.&lt;/p&gt;
-
-&lt;h5 id=&quot;robust-testing-using-test-cases&quot;&gt;Robust testing using test cases&lt;/h5&gt;
-
-&lt;p&gt;Your system is expected to be bug free
-because nobody wants to buy a buggy product.&lt;/p&gt;
-
-&lt;p&gt;Write down test cases to systematically test your system.
-Do not just randomly click around on the screen and
-wish bugs will pop out by themselves.&lt;/p&gt;
-
-&lt;p&gt;If possible, automate the test, for example:
-run unit test for Util classes.&lt;/p&gt;
-
-&lt;p&gt;Learn to use debug mode instead of printing messages into console.&lt;/p&gt;
-
-&lt;h5 id=&quot;clear-catalog-show-how-your-system-flows&quot;&gt;Clear catalog: show how your system flows&lt;/h5&gt;
-
-&lt;p&gt;My personal suggestion for your catalog is to
-write use cases to demonstrate at least one complete flow of your system.&lt;/p&gt;
-
-&lt;p&gt;For example, your catalog should present the following work flow:
-manager creates an employee profile -&amp;gt;
-employee applies for a leave -&amp;gt;
-manager approves that application -&amp;gt;
-employee takes the leave -&amp;gt;
-employee returns to work later than expected -&amp;gt;
-manager updates the employee`s leave record&lt;/p&gt;
-
-&lt;h5 id=&quot;summary&quot;&gt;Summary&lt;/h5&gt;
-
-&lt;p&gt;STM is not meant to fail you.
-It is designed to equip you with
-essential knowledge and skills for future work.
-Please fully use the time and resources during STM and
-it will surely benefit you in the days to come.
-I wish you all the best.&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="programming" /><category term="life" /><category term="career" /><summary type="html">Introduction &amp;amp; Disclaimer STM (Starter Mission) is the training program for new employees of Works Applications Co., Ltd. Each employee is required to implement several information systems. Here are some practical guidelines for you to program and deliver your systems more effectively. Here we use a simple leave-application system as an illustration. It has some basic requirements as below: There are two roles in the system: manager and employees. Managers should see applications of leaves from employees. Managers is able to approve or reject an application. The system may have other features such as departments. But the main feature is the application of leaves. Disclaimer: this article does not provide solutions to any assignment in STM. It never guarantees your success in STM. The author is not responsible for any failure because of taking the advice in this article. Maintain a good quality of source code Perhaps you have not programmed for months before STM and you want to pass STM as soon as possible. However these are not excuses to sacrifice your code quality for faster development. Believe me that you will probably spend more time due to poor code quality. Think about the five principles You may have heard of the SOLID principles, which are Single responsibility Open/closed Liskov substitution Interface segregation Dependency inversion The first two principles helped me a lot during the design of my own system. Ask yourself when writing a class or method: Does it perform a single task for one responsibility? Is it closed for modification and open for extension? For example, combining adding and updating methods into one method called apply() is not a good idea. They had better be separated. Another example is to implement public method cautiously. Remember: if you strictly follow single responsibility principle, open/closed principle would be natural for you as well. Controller - the key part between view and model Each controller should be responsible for only one feature. It should not be defined by roles in the system. One controller should be responsible for CRUD (create, read, update and delete) of exactly one feature, e.g., UserController. In addition, input validation and page redirection methods should be separated from controllers as well. Some people believe that the input validation logic should be bounded to each entity, such that the data inside an entity is consistent wherever it is used. Build up UI from components Break down one page into different components and reuse them. It saves you lots of time and greatly improves the maintainability of your UI. This simple tutorial will help you decompose your UI. SQL builder (optional) Write a SQL builder (wrapper) to generate SQL strings. It does not save you lots of time, but it improves maintainability of your SQL. Dictionary generator (optional) If you need to implement a dictionary feature, consider writing a program to automatically generate dictionary insertion SQL. What is a merit? You need to be very clear on this principle since the beginning of STM: Not every feature is a merit. Some features are necessary for daily business operation. Merits are always related to benefits. They are those features that generate revenue, improve efficiency, enhance security, ensure the stability of the system and operations. Therefore when you write a catalog or implement a feature, always ask yourself these questions: What merits does it bring to the user? What are the benefits of using my system compared to using just paper and pen? What makes my client want to buy my system? Take the leave-application system for example: Does it really help the manager to maintain the leaves of his employees? Does it ease the process of applying and maintaining leaves? What is the advantage of my system over writing leaves on paper? Is the UI intuitive to use? Since you have stared at your system for a very long time, you should be very familiar with it. But the customer who use your system may not be. Ask yourself these questions on each page (view): Is the user able to see the information presented in a clear and organized manner? Does the user know what he is doing and what to do next from the UI? Does the design and flow of my system effectively reduces clicks and page navigations? If your answer is negative or not sure, consider improving your UI. The user should be able to use your system by reading as few instructions as possible. For example, consider using a wizard if there is a flow. Give warning or confirmation before irrecoverable operations, such as deletion and payment. Do not purposefully choose fanciful (and complicated) UI component just because it looks nice. Simplicity has its value. Robust testing using test cases Your system is expected to be bug free because nobody wants to buy a buggy product. Write down test cases to systematically test your system. Do not just randomly click around on the screen and wish bugs will pop out by themselves. If possible, automate the test, for example: run unit test for Util classes. Learn to use debug mode instead of printing messages into console. Clear catalog: show how your system flows My personal suggestion for your catalog is to write use cases to demonstrate at least one complete flow of your system. For example, your catalog should present the following work flow: manager creates an employee profile -&amp;gt; employee applies for a leave -&amp;gt; manager approves that application -&amp;gt; employee takes the leave -&amp;gt; employee returns to work later than expected -&amp;gt; manager updates the employee`s leave record Summary STM is not meant to fail you. It is designed to equip you with essential knowledge and skills for future work. Please fully use the time and resources during STM and it will surely benefit you in the days to come. I wish you all the best.</summary></entry><entry><title type="html">It has been two years</title><link href="https://wanwenli.com/life/2014/02/03/TwoYears.html" rel="alternate" type="text/html" title="It has been two years" /><published>2014-02-03T00:00:00+08:00</published><updated>2014-02-03T00:00:00+08:00</updated><id>https://wanwenli.com/life/2014/02/03/TwoYears</id><content type="html" xml:base="https://wanwenli.com/life/2014/02/03/TwoYears.html">&lt;p&gt;It has been two years since I joined &lt;a href=&quot;https://github.com&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/github-reg.png&quot; alt=&quot;Your browser does not support img&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Since then my life has stepped into AD (After Development) from
-BC (Before Coding).&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="life" /><category term="github" /><summary type="html">It has been two years since I joined GitHub. Since then my life has stepped into AD (After Development) from BC (Before Coding).</summary></entry></feed>
+which is a well known problem in a distributed system.&lt;/p&gt;</content><author><name>Wan Wenli</name></author><category term="kafka" /><category term="consumer-group" /><summary type="html">This article is to discuss two subjects that are not frequently or clearly covered by official document or online sources. Offset topic (the __consumer_offsets topic) It is the only mysterious topic in Kafka log and it cannot be deleted by using TopicCommand. Unfortunately there is no dedicated official documentation to explain this internal topic. The closest source I can find is this set of slides. I strongly recommend reading it if you wish to understand how this internal topic works. In short, __consumer_offsets is used to store offsets of consumers which was previously stored only in ZooKeeper before version 0.8.1.1. At the latest version of 0.8.X serious, i.e. 0.8.2.2, the storage location of offsets can be configured by offsets.storage whose value can be either kafka or zookeeper. If it is kafka, consumers are still able to commit offsets to ZooKeeper by enabling dual.commit.enabled. However since version 0.9, consumer offsets have been designed to be stored on brokers only. The partition key of the messages in __consumer_offsets was handled in OffsetManager at version 0.8.X and has been named as OffsetKey in GroupMetadataManager since version 0.9.0. It contains three pieces of information: groupId, topic and partition number, and the key is serialized/de-serialized according to a schema called OFFSET_COMMIT_KEY_SCHEMA. The usage of schema is primarily for backward compatibility. Unlike the behavior of DefaultPartitioner, the partition number inside __consumer_offsets is not determined by the hash value of partition key but only determined by the hash value of consumer group, which is as simple as Utils.abs(groupId.hashCode) % numPartitions Here the numPartitions is configured by the value of offsets.topic.num.partitions in broker configs and is 50 by default. This algorithm will be re-introduced later in the part of consumer group coordination. The values of offset messages which is named OffsetMetadata have two versions. At version 0.8.X, the value contains offset, metadata (often empty) and a timestamp while the timestamp had been split into commit and expire timestamps since version 0.9.0. Console consumers are able to consume messages from internal topics and print them out nicely. A sample command has been shown below: ./kafka-simple-consumer-shell.sh --topic __consumer_offsets \ --partition 49 \ --broker-list localhost:9092 \ --formatter &quot;kafka.server.OffsetManager\$OffsetsMessageFormatter&quot; By the way, absolute(&quot;testGroup&quot;.hashCode() % 50) = 49 which is the reason why partition 49 was specified. It prints out: [testGroup,testTopic-development,0]::OffsetAndMetadata[11,NO_METADATA,1478243992053] [testGroup,testTopic-development,0]::OffsetAndMetadata[12,NO_METADATA,1478243992086] [testGroup,testTopic-development,0]::OffsetAndMetadata[13,NO_METADATA,1478243992096] [testGroup,testTopic-development,0]::OffsetAndMetadata[14,NO_METADATA,1478243992110] However this is not the end of story, because __consumer_offsets is also used by group coordinator to store group metadata! The following section discusses another new feature introduced since version 0.9.0. Group coordinator (coordinated rebalance) This section is my humble and shallow understanding about broker coordinator of consumer groups. Correct me if I ever miss something or make any mistake. The introduction of coordinator, according to the official wiki of Kafka, is to solve the split brain problem which is a well known problem in a distributed system.</summary></entry></feed>

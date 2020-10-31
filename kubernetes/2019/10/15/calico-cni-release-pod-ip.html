@@ -1,0 +1,1015 @@
+
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/assets/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/assets/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="k8s,calico,CNI,networking," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Salmon Says" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="An experiment on Calico CNI and etcd, inspired by the source code of Calico">
+<meta name="keywords" content="k8s, calico, CNI, networking">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A pod IP is released after the pod is deleted">
+<meta property="og:url" content="https://wanwenli.com/kubernetes/2019/10/15/calico-cni-release-pod-ip.html">
+<meta property="og:site_name" content="Salmon Says">
+<meta property="og:description" content="An experiment on Calico CNI and etcd, inspired by the source code of Calico">
+<meta property="og:locale" content="en">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="A pod IP is released after the pod is deleted">
+<meta name="twitter:description" content="An experiment on Calico CNI and etcd, inspired by the source code of Calico">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://wanwenli.com/"/>
+
+
+
+
+
+  <title>A pod IP is released after the pod is deleted | Salmon Says</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Salmon Says</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+<div id="posts" class="posts-expand">
+  
+  
+
+  
+
+  
+  
+  
+
+  <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://wanwenli.com/kubernetes/2019/10/15/calico-cni-release-pod-ip.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wan Wenli">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="assets/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Salmon Says">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+          
+          
+            A pod IP is released after the pod is deleted
+          
+        </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-15T00:00:00+08:00">
+                2019-10-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/kubernetes" itemprop="url" rel="index">
+                    <span itemprop="name">kubernetes</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+            
+                <div class="post-description">
+                    An experiment on Calico CNI and etcd, inspired by the source code of Calico
+                </div>
+            
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="prerequisite">Prerequisite</h1>
+
+<p>Calico CNI is installed in your k8s cluster.</p>
+
+<h1 id="ip-assigned-by-k8s">IP assigned by k8s</h1>
+
+<p>In the experiment I have performed,
+the pod IP is <code class="language-plaintext highlighter-rouge">100.112.209.159</code>.</p>
+
+<h1 id="go-into-an-etcd-pod">Go into an etcd pod</h1>
+
+<p>Try <code class="language-plaintext highlighter-rouge">kubectl exec</code> into an etcd pod.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl exec -it -n kube-system &lt;etcd_pod_name&gt; sh
+</code></pre></div></div>
+
+<h1 id="list-all-cidr-blocks">List all CIDR blocks</h1>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>etcdctl ls /calico/ipam/v2/assignment/ipv4/block/
+</code></pre></div></div>
+
+<p>Find out that the aforementioned IP falls under CIDR 100.112.209.128/26</p>
+
+<h1 id="get-the-block-infometadata">Get the block info/metadata</h1>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>etcdctl get /calico/ipam/v2/assignment/ipv4/block/100.112.209.128-26
+</code></pre></div></div>
+
+<h1 id="test-it-by-go">Test it by Go</h1>
+
+<p>The code below is inspired by https://github.com/projectcalico/libcalico-go/blob/master/lib/backend/model/block.go</p>
+
+<p>Copy the JSON you have pasted from the section above,
+and paste into the first line of function <code class="language-plaintext highlighter-rouge">TestCalicoBlock</code> below.</p>
+
+<figure class="highlight"><pre><code class="language-go" data-lang="go"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+</pre></td><td class="code"><pre><span class="k">func</span> <span class="n">TestCalicoBlock</span><span class="p">(</span><span class="n">t</span> <span class="o">*</span><span class="n">testing</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">bytes</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">(</span><span class="s">`{"cidr":"100.112.209.128/26","affinity":"host:ip-10-200-205-203","strictAffinity":false,"allocations":[0,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,3,null,null,null,null,null,7,null,null,null,null,null,null,null,null,null,null,5,null,null,null,null,null,null,null,2,null,null,null,null,8,null,null,null,null,null,null,null,null,4,null,null,null,null,null,null,6,null],"unallocated":[45,32,47,12,3,48,40,14,31,60,26,10,29,18,30,17,63,5,57,11,39,36,34,1,15,56,7,42,37,9,53,44,21,38,58,49,35,23,54,59,25,51,24,28,61,50,13,19,4,27,43,52,8,20,6],"attributes":[{"handle_id":null,"secondary":null},{"handle_id":"k8s-pod-network.884e11ced699fe17a493ffd59f18c97fd090fd8150411a11643a280a8250c510","secondary":null},{"handle_id":"k8s-pod-network.3abca72fb5d92129ce16d631fcff2a024b422a48389107600d3ab02e997b484a","secondary":null},{"handle_id":"k8s-pod-network.ba885aa5bb2e7f4124867d23f8975c5c3f42bd9d29632d535d90ebe516341c66","secondary":null},{"handle_id":"k8s-pod-network.2c02fa9db03c347bc005c225331bea5422c86fd70b4c194462dbb56ffe8b253a","secondary":null},{"handle_id":"k8s-pod-network.2caf1c8381761431c694771227eec339c5c0bb0ed3f11a6f2067883d5f405b69","secondary":null},{"handle_id":"k8s-pod-network.84a415903469eb4d965002b7ad8d377e36c93746e0a53944d915695903f7d416","secondary":null},{"handle_id":"k8s-pod-network.820a2747f282dc6cce92d5d544ea8e778a7fa787e219cc1c9757a58aa7a08455","secondary":null},{"handle_id":"k8s-pod-network.1ba612190e9a571ea1253e52834cba4d746ffd75b303ec0706c4ffe8845fe655","secondary":null}]}`</span><span class="p">)</span>
+	<span class="k">var</span> <span class="n">allocations</span> <span class="n">model</span><span class="o">.</span><span class="n">AllocationBlock</span>
+	<span class="n">_</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">Unmarshal</span><span class="p">(</span><span class="n">bytes</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">allocations</span><span class="p">)</span>
+	<span class="k">for</span> <span class="n">ord</span><span class="p">,</span> <span class="n">attrIdx</span> <span class="o">:=</span> <span class="k">range</span> <span class="n">allocations</span><span class="o">.</span><span class="n">Allocations</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="n">attrIdx</span> <span class="o">==</span> <span class="no">nil</span> <span class="p">{</span>
+			<span class="k">continue</span>
+		<span class="p">}</span>
+		<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">OrdinalToIP</span><span class="p">(</span><span class="n">ord</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">allocations</span><span class="p">))</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">type</span> <span class="n">IP</span> <span class="k">struct</span> <span class="p">{</span>
+	<span class="n">net</span><span class="o">.</span><span class="n">IP</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">OrdinalToIP</span><span class="p">(</span><span class="n">ord</span> <span class="kt">int</span><span class="p">,</span> <span class="n">b</span> <span class="o">*</span><span class="n">model</span><span class="o">.</span><span class="n">AllocationBlock</span><span class="p">)</span> <span class="n">IP</span> <span class="p">{</span>
+	<span class="n">sum</span> <span class="o">:=</span> <span class="n">big</span><span class="o">.</span><span class="n">NewInt</span><span class="p">(</span><span class="m">0</span><span class="p">)</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">IPToBigInt</span><span class="p">(</span><span class="n">IP</span><span class="p">{</span><span class="n">IP</span><span class="o">:</span> <span class="n">b</span><span class="o">.</span><span class="n">CIDR</span><span class="o">.</span><span class="n">IP</span><span class="p">}),</span> <span class="n">big</span><span class="o">.</span><span class="n">NewInt</span><span class="p">(</span><span class="kt">int64</span><span class="p">(</span><span class="n">ord</span><span class="p">)))</span>
+	<span class="k">return</span> <span class="n">BigIntToIP</span><span class="p">(</span><span class="n">sum</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">IPToBigInt</span><span class="p">(</span><span class="n">ip</span> <span class="n">IP</span><span class="p">)</span> <span class="o">*</span><span class="n">big</span><span class="o">.</span><span class="n">Int</span> <span class="p">{</span>
+	<span class="k">if</span> <span class="n">ip</span><span class="o">.</span><span class="n">To4</span><span class="p">()</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="n">big</span><span class="o">.</span><span class="n">NewInt</span><span class="p">(</span><span class="m">0</span><span class="p">)</span><span class="o">.</span><span class="n">SetBytes</span><span class="p">(</span><span class="n">ip</span><span class="o">.</span><span class="n">To4</span><span class="p">())</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="n">big</span><span class="o">.</span><span class="n">NewInt</span><span class="p">(</span><span class="m">0</span><span class="p">)</span><span class="o">.</span><span class="n">SetBytes</span><span class="p">(</span><span class="n">ip</span><span class="o">.</span><span class="n">To16</span><span class="p">())</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">BigIntToIP</span><span class="p">(</span><span class="n">ipInt</span> <span class="o">*</span><span class="n">big</span><span class="o">.</span><span class="n">Int</span><span class="p">)</span> <span class="n">IP</span> <span class="p">{</span>
+	<span class="n">ip</span> <span class="o">:=</span> <span class="n">IP</span><span class="p">{</span><span class="n">net</span><span class="o">.</span><span class="n">IP</span><span class="p">(</span><span class="n">ipInt</span><span class="o">.</span><span class="n">Bytes</span><span class="p">())}</span>
+	<span class="k">return</span> <span class="n">ip</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></figure>
+
+<h1 id="output">Output</h1>
+
+<p>Before running <code class="language-plaintext highlighter-rouge">kubectl delete</code> command to delete the pod,
+<code class="language-plaintext highlighter-rouge">100.112.209.159</code> was in the list.</p>
+
+<p>However, <em>after</em> the pod has been removed,
+the output becomes as follows.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>100.112.209.128
+100.112.209.130
+100.112.209.144
+100.112.209.150
+100.112.209.161
+100.112.209.169
+100.112.209.174
+100.112.209.183
+100.112.209.190
+</code></pre></div></div>
+
+<h1 id="conclusion">Conclusion</h1>
+
+<p><code class="language-plaintext highlighter-rouge">100.112.209.159</code> is gone, because it has been released.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            
+            <a href="/tag/#/k8s" rel="tag"># k8s</a>
+          
+            
+            <a href="/tag/#/calico" rel="tag"># calico</a>
+          
+            
+            <a href="/tag/#/CNI" rel="tag"># CNI</a>
+          
+            
+            <a href="/tag/#/networking" rel="tag"># networking</a>
+          
+        </div>
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        <div class="post-nav" id="post-nav-id">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/kubernetes/2019/12/28/forcibly-delete-a-k8s-namespace.html" rel="next" title="Delete a k8s namespace that is stuck in "Terminating" state">
+                <i class="fa fa-chevron-left"></i> Delete a k8s namespace that is stuck in "Terminating" state
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/kubernetes/2019/08/28/k8s-tokenreview-api-vault.html" rel="prev" title="Why a cluster role binding is needed in k8s-vault integration">
+                Why a cluster role binding is needed in k8s-vault integration <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+      
+
+      
+    </footer>
+  </article>
+
+  <div class="post-spread">
+    
+  </div>
+</div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        
+        
+        
+
+
+
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/assets/images/avatar.gif"
+               alt="Wan Wenli" />
+          <p class="site-author-name" itemprop="name">Wan Wenli</p>
+           
+              <p class="site-description motion-element" itemprop="description">Stay curious and keep asking questions</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+        
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://github.com/wanwenli" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/wanwenli/" target="_blank" title="LinkedIn">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  LinkedIn
+                </a>
+              </span>
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/wenli_wan" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+
+
+
+
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-1"> <a class="nav-link" href="#prerequisite"> <span class="nav-number">1</span> <span class="nav-text">Prerequisite</span> </a> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> </li></ol> </li></ol> </li></ol> </li></ol> </li></ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#ip-assigned-by-k8s"> <span class="nav-number">2</span> <span class="nav-text">IP assigned by k8s</span> </a> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> </li></ol> </li></ol> </li></ol> </li></ol> </li></ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#go-into-an-etcd-pod"> <span class="nav-number">3</span> <span class="nav-text">Go into an etcd pod</span> </a> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> </li></ol> </li></ol> </li></ol> </li></ol> </li></ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#list-all-cidr-blocks"> <span class="nav-number">4</span> <span class="nav-text">List all CIDR blocks</span> </a> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> </li></ol> </li></ol> </li></ol> </li></ol> </li></ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#get-the-block-infometadata"> <span class="nav-number">5</span> <span class="nav-text">Get the block info/metadata</span> </a> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> </li></ol> </li></ol> </li></ol> </li></ol> </li></ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#test-it-by-go"> <span class="nav-number">6</span> <span class="nav-text">Test it by Go</span> </a> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> </li></ol> </li></ol> </li></ol> </li></ol> </li></ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#output"> <span class="nav-number">7</span> <span class="nav-text">Output</span> </a> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> </li></ol> </li></ol> </li></ol> </li></ol> </li></ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#conclusion"> <span class="nav-number">8</span> <span class="nav-text">Conclusion</span> </a> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child"> <ol class="nav-child">
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wan Wenli</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://jekyllrb.com">Jekyll</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/simpleyyt/jekyll-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/assets/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/assets/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/assets/js/src/post-details.js?v=5.1.1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+
+    
+      
+      <script type="text/javascript">
+          var disqus_config = function () {
+              this.page.url = 'https://wanwenli.com/kubernetes/2019/10/15/calico-cni-release-pod-ip.html';
+              this.page.identifier = '/kubernetes/2019/10/15/calico-cni-release-pod-ip.html';
+              this.page.title = 'A pod IP is released after the pod is deleted';
+          };
+          var d = document, s = d.createElement('script');
+          s.src = 'https://wanwenli.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', '' + +new Date());
+          (d.head || d.body).appendChild(s);
+      </script>
+      
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
+

@@ -83,7 +83,7 @@
 <link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="kubernetes,k8s,nginx-ingress-controller," />
+  <meta name="keywords" content="k8s," />
 
 
 
@@ -111,17 +111,17 @@
 
 
 
-<meta name="description" content="Why does my web page keep redirecting when forcing SSL redirection on an ingress with nginx-ingress-controller?">
-<meta name="keywords" content="kubernetes, k8s, nginx-ingress-controller">
+<meta name="description" content="A simple bash script to clean it up">
+<meta name="keywords" content="k8s">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Too many redirects when forcing SSL redirection on an ingress">
-<meta property="og:url" content="https://wanwenli.com/kubernetes/2019/05/29/k8s-ingress-force-ssl-redirect.html">
+<meta property="og:title" content="Delete a k8s namespace that is stuck in &quot;Terminating&quot; state">
+<meta property="og:url" content="https://wanwenli.com/kubernetes/2019/12/28/forcibly-delete-a-k8s-namespace.html">
 <meta property="og:site_name" content="Salmon Says">
-<meta property="og:description" content="Why does my web page keep redirecting when forcing SSL redirection on an ingress with nginx-ingress-controller?">
+<meta property="og:description" content="A simple bash script to clean it up">
 <meta property="og:locale" content="en">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Too many redirects when forcing SSL redirection on an ingress">
-<meta name="twitter:description" content="Why does my web page keep redirecting when forcing SSL redirection on an ingress with nginx-ingress-controller?">
+<meta name="twitter:title" content="Delete a k8s namespace that is stuck in &quot;Terminating&quot; state">
+<meta name="twitter:description" content="A simple bash script to clean it up">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -154,7 +154,7 @@
 
 
 
-  <title>Too many redirects when forcing SSL redirection on an ingress | Salmon Says</title>
+  <title>Delete a k8s namespace that is stuck in "Terminating" state | Salmon Says</title>
   
 
 
@@ -292,7 +292,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://wanwenli.com/kubernetes/2019/05/29/k8s-ingress-force-ssl-redirect.html">
+    <link itemprop="mainEntityOfPage" href="https://wanwenli.com/kubernetes/2019/12/28/forcibly-delete-a-k8s-namespace.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Wan Wenli">
@@ -312,7 +312,7 @@
           <h1 class="post-title" itemprop="name headline">
           
           
-            Too many redirects when forcing SSL redirection on an ingress
+            Delete a k8s namespace that is stuck in "Terminating" state
           
         </h1>
         
@@ -326,8 +326,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-29T00:00:00+08:00">
-                2019-05-29
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-28T00:00:00+08:00">
+                2019-12-28
               </time>
             
 
@@ -375,7 +375,7 @@
           
             
                 <div class="post-description">
-                    Why does my web page keep redirecting when forcing SSL redirection on an ingress with nginx-ingress-controller?
+                    A simple bash script to clean it up
                 </div>
             
           
@@ -390,68 +390,30 @@
       
 
       
-        <p>In summary, these are the steps for SSL redirection to work properly and
-this method has been mentioned by
-<a href="https://stackoverflow.com/a/64224737/1397473">this answer on stackoverflow</a>.</p>
+        <p>When you try to delete a namespace in k8s,
+it might get stuck in Terminating state.
+One of the most likely reasons is that
+there are <em>finalizers</em> that are unable to complete thus block the clean-up of a namespace.</p>
 
-<ul>
-  <li>Add <code class="language-plaintext highlighter-rouge">use-forwarded-headers: "true"</code> into the ConfigMap of ingress controller</li>
-  <li>Do a rolling upgrade on the deployment of Nginx ingress controller,
-so that the new value in the ConfigMap would be picked up.</li>
-  <li>Add <code class="language-plaintext highlighter-rouge">nginx.ingress.kubernetes.io/force-ssl-redirect: "true"</code> into the annotations of an ingress</li>
-</ul>
+<p>Helm cannot release anything to a terminating namespace.
+Therefore a terminating namespace is effectively unusable.
+The idea of the solution is to forcibly remove its finalizers.
+The solution attached below is able to work even
+when command <code class="language-plaintext highlighter-rouge">kubectl edit namespace</code> does not.</p>
 
-<p>I found this by reading the source code of
-<a href="https://github.com/kubernetes/ingress-nginx">ingress-nginx</a>.
-Here is a detailed explanation on how it works.</p>
-
-<p>The <code class="language-plaintext highlighter-rouge">TOO_MANY_REDIRECTS</code> error happens because no matter HTTP or HTTPS is used,
-Nginx controller always return
-<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/308">308 REDIRECT</a>
-to clients.
-Next, the browser goes into an infinite loop of redirections.
-Why? In the following section it will be explained.</p>
-
-<p>When <code class="language-plaintext highlighter-rouge">force-ssl-redirect</code> annotation is set to true on an ingress level,
-Nginx ingress controller adds/updates the following snippet into <code class="language-plaintext highlighter-rouge">nginx.conf</code>.</p>
-
-<figure class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="n">rewrite_by_lua_block</span> <span class="p">{</span>
-    <span class="n">lua_ingress</span><span class="p">.</span><span class="n">rewrite</span><span class="p">({</span>
-        <span class="n">force_ssl_redirect</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
-        <span class="n">use_port_in_redirects</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="p">})</span>
-    <span class="n">balancer</span><span class="p">.</span><span class="n">rewrite</span><span class="p">()</span>
-    <span class="n">plugins</span><span class="p">.</span><span class="n">run</span><span class="p">()</span>
-<span class="p">}</span></code></pre></figure>
-
-<p>Note: when SSL redirect is false in an ingress, the value of force_ssl_redirect is also false.</p>
-
-<p>These are the a few code snippets you will need to look into to understand how this fix works.</p>
-
-<ul>
-  <li>In the source code of ingress-nginx,
-<a href="https://github.com/kubernetes/ingress-nginx/blob/bf11e2ef636cd535b66ebb2ab638a941662da699/rootfs/etc/nginx/lua/lua_ingress.lua#L122">here</a>
-defines how the Lua block in nginx.conf works.</li>
-  <li>When force_ssl_redirect is true, function <code class="language-plaintext highlighter-rouge">redirect_to_https</code> alone determines whether the request should be redirected.</li>
-  <li>According to the implementation of
-<a href="https://github.com/kubernetes/ingress-nginx/blob/bf11e2ef636cd535b66ebb2ab638a941662da699/rootfs/etc/nginx/lua/lua_ingress.lua#L57">redirect_to_https</a>,
-its return value solely depends on <code class="language-plaintext highlighter-rouge">ngx.var.pass_access_scheme</code>,
-because <code class="language-plaintext highlighter-rouge">ngx.var.scheme</code> is either http or https. Later I will argue that it has always been http.</li>
-  <li>According
-<a href="https://github.com/kubernetes/ingress-nginx/blob/bf11e2ef636cd535b66ebb2ab638a941662da699/rootfs/etc/nginx/lua/lua_ingress.lua#L97">this chunk</a>,
-it takes the value of <code class="language-plaintext highlighter-rouge">http_x_forwarded_proto</code> if <code class="language-plaintext highlighter-rouge">use-forwarded-headers</code> is true and
-that’s why it is enabled in ingress controller.</li>
-</ul>
-
-<p>Since the following snippet works as a hacky way,
-<code class="language-plaintext highlighter-rouge">http_x_forwarded_proto</code> must reflect the true protocol of the request.</p>
-
-<div class="language-nginx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="s">(</span><span class="nv">$http_x_forwarded_proto</span> <span class="s">!=</span> <span class="s">'https')</span> <span class="p">{</span>
-  <span class="kn">return</span> <span class="mi">301</span> <span class="s">https://</span><span class="nv">$host$request_uri</span><span class="p">;</span>
-<span class="p">}</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">NAMESPACE</span><span class="o">=</span><span class="nv">$1</span>
+<span class="nb">echo</span> <span class="s2">"force deleting namespace </span><span class="nv">$NAMESPACE</span><span class="s2">"</span>
+kubectl proxy &amp;
+kubectl get namespace <span class="nv">$NAMESPACE</span> <span class="nt">-o</span> json | jq <span class="s1">'.spec = {"finalizers":[]}'</span> <span class="o">&gt;</span> temp.json
+curl <span class="nt">-k</span> <span class="nt">-H</span> <span class="s2">"Content-Type: application/json"</span> <span class="nt">-X</span> PUT <span class="nt">--data-binary</span> @temp.json 127.0.0.1:8001/api/v1/namespaces/<span class="nv">$NAMESPACE</span>/finalize
 </code></pre></div></div>
 
-<p>Q.E.D.</p>
+<p>It uses <code class="language-plaintext highlighter-rouge">kubectl proxy</code> to proxy the kube-api,
+so that it is reachable from localhost.
+Last but not the least, check whether all the cloud resources,
+such as storage associated with PersistentVolumeClaim and load balancers,
+are really terminated after executing the command.
+The command fastens the termination of a namespace and some cloud resources might not be cleaned up very properly.</p>
 
       
     </div>
@@ -482,13 +444,7 @@ that’s why it is enabled in ingress controller.</li>
         <div class="post-tags">
           
             
-            <a href="/tag/#/kubernetes" rel="tag"># kubernetes</a>
-          
-            
             <a href="/tag/#/k8s" rel="tag"># k8s</a>
-          
-            
-            <a href="/tag/#/nginx-ingress-controller" rel="tag"># nginx-ingress-controller</a>
           
         </div>
       
@@ -504,8 +460,8 @@ that’s why it is enabled in ingress controller.</li>
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/kubernetes/2019/08/28/k8s-tokenreview-api-vault.html" rel="next" title="Why a cluster role binding is needed in k8s-vault integration">
-                <i class="fa fa-chevron-left"></i> Why a cluster role binding is needed in k8s-vault integration
+              <a href="/kubernetes/2020/05/10/cka-exam-tips.html" rel="next" title="CKA exam tips">
+                <i class="fa fa-chevron-left"></i> CKA exam tips
               </a>
             
           </div>
@@ -514,8 +470,8 @@ that’s why it is enabled in ingress controller.</li>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/blockchain/2018/09/13/How-do-bitcoin-mining-pools-pay.html" rel="prev" title="How do Bitcoin mining pools pay their miners?">
-                How do Bitcoin mining pools pay their miners? <i class="fa fa-chevron-right"></i>
+              <a href="/kubernetes/2019/10/15/calico-cni-release-pod-ip.html" rel="prev" title="A pod IP is released after the pod is deleted">
+                A pod IP is released after the pod is deleted <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -843,9 +799,9 @@ that’s why it is enabled in ingress controller.</li>
       
       <script type="text/javascript">
           var disqus_config = function () {
-              this.page.url = 'https://wanwenli.com/kubernetes/2019/05/29/k8s-ingress-force-ssl-redirect.html';
-              this.page.identifier = '/kubernetes/2019/05/29/k8s-ingress-force-ssl-redirect.html';
-              this.page.title = 'Too many redirects when forcing SSL redirection on an ingress';
+              this.page.url = 'https://wanwenli.com/kubernetes/2019/12/28/forcibly-delete-a-k8s-namespace.html';
+              this.page.identifier = '/kubernetes/2019/12/28/forcibly-delete-a-k8s-namespace.html';
+              this.page.title = 'Delete a k8s namespace that is stuck in "Terminating" state';
           };
           var d = document, s = d.createElement('script');
           s.src = 'https://wanwenli.disqus.com/embed.js';
